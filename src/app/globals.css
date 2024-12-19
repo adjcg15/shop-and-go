@@ -4,18 +4,68 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #1F2937;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  label {
+    font-size: 14px;
+    @apply font-semibold inline-block;
+  }
+
+  a {
+    font-size: 14px;
+    @apply font-semibold cursor-pointer underline p-1;
+  }
+
+  input {
+    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1;
+  }
+
+  input:focus {
+    @apply border-blue-600;
+  }
+
+  input, button, a {
+    outline: 0 solid transparent;
+    transition-property: outline-width;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    @apply transition-all;
+  }
+  
+  input:focus, button:focus, a:focus {
+    outline: 5px solid #2563EB50;
+  }
+}
+
+@layer components {
+  .form-group {
+    @apply mt-5;
+  }
+
+  .form-group > p.error {
+    font-size: 14px;
+    @apply text-red-600 hidden;
+  }
+
+  .form-group.invalid > p.error {
+    @apply flex justify-end mt-1;
+  }
+
+  .form-group.form-group.invalid > input {
+    @apply border-red-600;
+  }
 }
