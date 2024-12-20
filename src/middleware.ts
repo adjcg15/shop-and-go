@@ -1,0 +1,66 @@
+import { jwtVerify } from "jose";
+import { NextRequest, NextResponse } from "next/server";
+import { ADMIN_ROUTES, GUEST_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, SALES_EXECUTIVE_ROUTES } from "./utils/constants";
+import { CustomPayload } from "./types/types/api/jwt";
+import UserRoles from "./types/enums/user_roles";
+
+function getDefaultPage(userRole: UserRoles): string {
+  const DEFAULT_ROUTES_MAP = {
+    [UserRoles.ADMINISTRATOR]: "/empleados/productos",
+    [UserRoles.CLIENT]: "/",
+    [UserRoles.SALES_EXECUTIVE]: "/empleados/pedidos",
+    [UserRoles.DELIVERY_MAN]: "/empleados/pedidos-asignados",
+    [UserRoles.GUEST]: "/"
+  }
+
+  return DEFAULT_ROUTES_MAP[userRole];
+}
+
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get("token")?.value ?? "";
+  const requestedPage = request.nextUrl.pathname;
+  let jwtPayload: CustomPayload | null = null;
+  
+  try {
+    const secretKeyBuffer = new TextEncoder().encode(process.env.JWT_SECRET)
+    const jwt = await jwtVerify(token, secretKeyBuffer);
+    jwtPayload = jwt.payload as CustomPayload;
+  } catch {}
+
+  const ROUTE_ROLE_MAP = {
+    [UserRoles.ADMINISTRATOR]: ADMIN_ROUTES,
+    [UserRoles.CLIENT]: CLIENT_ROUTES,
+    [UserRoles.SALES_EXECUTIVE]: SALES_EXECUTIVE_ROUTES,
+    [UserRoles.DELIVERY_MAN]: DELIVERY_MAN_ROUTES,
+    [UserRoles.GUEST]: GUEST_ROUTES
+  };
+  
+  const userRole = jwtPayload?.userRole || UserRoles.GUEST;
+  const allowedRoutes = ROUTE_ROLE_MAP[userRole] || [];
+  const isAllowedRoute = allowedRoutes.includes(requestedPage);
+  console.log("USER ROLE:", userRole);
+  if(!isAllowedRoute) {
+    console.log("El usuario no tiene permitido ver esta ruta");
+    if (userRole === UserRoles.GUEST) {
+      const login = new URL(`/iniciar-sesion?p=${requestedPage}`, request.url);
+      return NextResponse.redirect(login);
+    }
+
+    return NextResponse.redirect(new URL(getDefaultPage(userRole), request.url));
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    "/",
+    "/iniciar-sesion",
+    "/crear-cuenta",
+    "/recuperar-contrasenia",
+    "/administracion",
+    "/empleados/productos",
+    "/empleados/pedidos-asignados",
+    "/empleados/pedidos"
+  ]
+};
