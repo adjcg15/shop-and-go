@@ -1,6 +1,6 @@
 const EMAIL_PATTERN = new RegExp("^[a-zA-Z0-9._\-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
 
-const USERNAME_PATTERN = new RegExp("^[a-zA-Z0-9]$");
+const USERNAME_PATTERN = new RegExp("^[a-zA-Z0-9]+$");
 
 const PHONE_NUMBER_PATTERN = new RegExp("^[0-9]{10}$");
 
