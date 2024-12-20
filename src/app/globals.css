@@ -23,6 +23,10 @@ body {
   display: none;
 }
 
+.rotate {
+  animation: rotation 1s ease-in-out infinite;
+}
+
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
@@ -79,3 +83,12 @@ body {
     @apply border-red-600;
   }
 }
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
