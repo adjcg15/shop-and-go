@@ -1,22 +1,22 @@
-import { notificationTypes } from "@/types/enums/notifications";
+import { NotificationTypes } from "@/types/enums/notifications";
 import { NotificationInfo } from "@/types/types/notifications";
 import { FC } from "react";
 import { ToastContentProps } from "react-toastify";
 
 type BasicNotificationProps = NotificationInfo & ToastContentProps;
 
-export const BasicNotification:FC<BasicNotificationProps> = ({ title, message, type = notificationTypes.INFO }) => {
+export const BasicNotification:FC<BasicNotificationProps> = ({ title, message, type = NotificationTypes.INFO }) => {
   const textColors = {
-    [notificationTypes.INFO]: "text-gray-800",
-    [notificationTypes.WARNING]: "text-yellow-800",
-    [notificationTypes.ERROR]: "text-red-800",
-    [notificationTypes.SUCCESS]: "text-blue-800"
+    [NotificationTypes.INFO]: "text-gray-800",
+    [NotificationTypes.WARNING]: "text-yellow-800",
+    [NotificationTypes.ERROR]: "text-red-800",
+    [NotificationTypes.SUCCESS]: "text-blue-800"
   };
   const borderColors = {
-    [notificationTypes.INFO]: "border-gray-300",
-    [notificationTypes.WARNING]: "border-yellow-300",
-    [notificationTypes.ERROR]: "border-red-300",
-    [notificationTypes.SUCCESS]: "border-blue-300"
+    [NotificationTypes.INFO]: "border-gray-300",
+    [NotificationTypes.WARNING]: "border-yellow-300",
+    [NotificationTypes.ERROR]: "border-red-300",
+    [NotificationTypes.SUCCESS]: "border-blue-300"
   };
 
   return (

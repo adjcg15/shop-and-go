@@ -1,4 +1,4 @@
-enum notificationTypes {
+enum NotificationTypes {
   INFO = "alert",
   ERROR = "error",
   WARNING = "warning",
@@ -6,5 +6,5 @@ enum notificationTypes {
 };
 
 export {
-  notificationTypes
+  NotificationTypes
 };

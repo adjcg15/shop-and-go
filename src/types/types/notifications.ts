@@ -1,9 +1,9 @@
-import { notificationTypes } from "../enums/notifications";
+import { NotificationTypes } from "../enums/notifications";
 
 type NotificationInfo = {
   title: string;
   message?: string;
-  type?: notificationTypes;
+  type?: NotificationTypes;
 };
 
 export type {

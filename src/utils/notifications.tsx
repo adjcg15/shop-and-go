@@ -1,5 +1,5 @@
 import { BasicNotification } from "@/components/ui/BasicNotification";
-import { notificationTypes } from "@/types/enums/notifications";
+import { NotificationTypes } from "@/types/enums/notifications";
 import { NotificationInfo } from "@/types/types/notifications";
 import { toast } from "react-toastify";
 
@@ -8,7 +8,7 @@ export function notify(notificationInfo: NotificationInfo | string) {
     toast((props) => (
       <BasicNotification 
         title={notificationInfo}
-        type={notificationTypes.INFO} 
+        type={NotificationTypes.INFO} 
         {...props}
       />
     ));
@@ -19,7 +19,7 @@ export function notify(notificationInfo: NotificationInfo | string) {
       <BasicNotification 
         title={title}
         message={message}
-        type={type || notificationTypes.INFO} 
+        type={type || NotificationTypes.INFO} 
         {...props}
       />
     ));
