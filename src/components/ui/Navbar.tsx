@@ -14,8 +14,8 @@ export const Navbar:FC<NavbarProps> = ({ links }) => {
   const [isVisible, setIsVisible] = useState(false);
   const pathname = usePathname();
 
-  const baseLinkStyle = "w-full py-3 md:mr-5 inline-block text-base font-medium no-underline transition-colors md:hover:text-blue-900 mb-1 md:mb-0 rounded-lg md:rounded-none";
-  const activeLinkStyle = "px-3 md:px-0 w-full bg-blue-600 md:bg-transparent py-3 md:mr-5 inline-block text-base font-medium no-underline transition-colors text-white md:text-blue-600 mb-1 md:mb-0 rounded-lg md:rounded-none";
+  const baseLinkStyle = "w-full md:w-auto py-3 md:mr-5 inline-block text-base font-medium no-underline transition-colors md:hover:text-blue-900 mb-1 md:mb-0 rounded-lg md:rounded-none md:px-0";
+  const activeLinkStyle = "px-3 md:px-0 w-full md:w-auto bg-blue-600 md:bg-transparent py-3 md:mr-5 inline-block text-base font-medium no-underline transition-colors text-white md:text-blue-600 mb-1 md:mb-0 rounded-lg md:rounded-none";
 
   return (
     <nav>
