@@ -44,8 +44,10 @@ body {
     @apply font-semibold cursor-pointer underline p-1;
   }
 
-  input, select {
-    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1 placeholder:text-gray-400;
+  input:not([type="radio"], [type="checkbox"]), 
+  select, 
+  textarea {
+    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1 placeholder:text-gray-400 resize-none;
   }
   
   select {
@@ -57,15 +59,41 @@ body {
     background-size: 29px;
   }
 
-  input:focus, select:focus {
+  input[type="radio"], input[type="checkbox"] {
+    @apply size-5 cursor-pointer appearance-none border border-gray-300 bg-gray-100 transition-colors relative disabled:cursor-default;
+  }
+
+  input[type="radio"] { @apply rounded-full; }
+  input[type="checkbox"] { @apply rounded; }
+
+  input[type="radio"]:checked, 
+  input[type="checkbox"]:checked {
+    @apply bg-blue-600 border-blue-600;
+  }
+
+  input[type="radio"]:checked {
+    background-image: url("/radio-icon.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+  }
+
+  input[type="checkbox"]:checked {
+    background-image: url("/checkbox-icon.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px;
+  }
+
+  input:focus, select:focus, textarea:focus {
     @apply border-blue-600;
   }
 
-  input:disabled, select:disabled {
+  input:disabled, select:disabled, textarea:disabled {
     @apply bg-gray-200
   }
 
-  input, button, a {
+  input, button, a, textarea {
     outline: 0 solid transparent;
     transition-property: outline-width;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -73,7 +101,7 @@ body {
     @apply transition-all;
   }
   
-  input:focus, button:focus, a:focus, select:focus {
+  input:focus, button:focus, a:focus, select:focus, textarea:focus {
     outline: 5px solid #2563EB50;
   }
 
