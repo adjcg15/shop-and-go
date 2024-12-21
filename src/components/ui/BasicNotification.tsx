@@ -1,5 +1,5 @@
 import { NotificationTypes } from "@/types/enums/notifications";
-import { NotificationInfo } from "@/types/types/notifications";
+import { NotificationInfo } from "@/types/types/components/notifications";
 import { FC } from "react";
 import { ToastContentProps } from "react-toastify";
 

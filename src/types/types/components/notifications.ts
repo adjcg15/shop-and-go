@@ -1,4 +1,4 @@
-import { NotificationTypes } from "../enums/notifications";
+import { NotificationTypes } from "../../enums/notifications";
 
 type NotificationInfo = {
   title: string;

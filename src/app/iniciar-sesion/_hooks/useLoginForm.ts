@@ -1,7 +1,6 @@
 import { HttpStatusCodes } from "@/types/enums/http";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { LoginResponse } from "@/types/types/api/auth";
-import { NotificationInfo } from "@/types/types/notifications";
 import shopAndGoAPI from "@/utils/axios";
 import { isClientErrorHTTPCode } from "@/utils/http";
 import { notify } from "@/utils/notifications";
@@ -11,6 +10,7 @@ import { useContext, useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import AuthContext from "@/contexts/auth/context";
+import { NotificationInfo } from "@/types/types/components/notifications";
 
 type UserLoginForm = {
   credentials: string;
