@@ -41,13 +41,21 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Shared routes (client and guest)
     "/",
+    // Guest routes
     "/iniciar-sesion",
     "/crear-cuenta",
     "/recuperar-contrasenia",
-    "/administracion",
+    // Admin routes
     "/empleados/productos",
+    "/empleados/sucursales",
+    "/empleados/categorias",
+    "/empleados/personal",
+    "/empleados/incidencias",
+    // Delivery man routes
     "/empleados/pedidos-asignados",
+    // Sales executive routes
     "/empleados/pedidos"
   ]
 };
