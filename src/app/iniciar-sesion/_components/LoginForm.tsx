@@ -51,7 +51,9 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
       </div>
 
       <div className="mt-5 flex justify-end">
-        <PrimaryButton disabled={isLoadingLogin}>Ingresar</PrimaryButton>
+        <PrimaryButton disabled={isLoadingLogin}>
+          {isLoadingLogin ? "Cargando..." : "Ingresar"}
+        </PrimaryButton>
       </div>
     </form>
   );
