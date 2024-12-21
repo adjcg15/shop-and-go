@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
-interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type PrimaryButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ReactNode;
 };
 
-export const PrimaryButton: FC<IProps> = (props) => {
+export const PrimaryButton: FC<PrimaryButtonProps> = (props) => {
   return (
     <button
       {...props}
