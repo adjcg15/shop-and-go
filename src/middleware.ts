@@ -3,18 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ADMIN_ROUTES, GUEST_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, SALES_EXECUTIVE_ROUTES } from "./utils/constants";
 import { CustomPayload } from "./types/types/api/jwt";
 import UserRoles from "./types/enums/user_roles";
-
-function getDefaultPage(userRole: UserRoles): string {
-  const DEFAULT_ROUTES_MAP = {
-    [UserRoles.ADMINISTRATOR]: "/empleados/productos",
-    [UserRoles.CLIENT]: "/",
-    [UserRoles.SALES_EXECUTIVE]: "/empleados/pedidos",
-    [UserRoles.DELIVERY_MAN]: "/empleados/pedidos-asignados",
-    [UserRoles.GUEST]: "/"
-  }
-
-  return DEFAULT_ROUTES_MAP[userRole];
-}
+import { getDefaultPageForRole } from "./utils/routing";
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value ?? "";
@@ -38,15 +27,13 @@ export async function middleware(request: NextRequest) {
   const userRole = jwtPayload?.userRole || UserRoles.GUEST;
   const allowedRoutes = ROUTE_ROLE_MAP[userRole] || [];
   const isAllowedRoute = allowedRoutes.includes(requestedPage);
-  console.log("USER ROLE:", userRole);
   if(!isAllowedRoute) {
-    console.log("El usuario no tiene permitido ver esta ruta");
     if (userRole === UserRoles.GUEST) {
       const login = new URL(`/iniciar-sesion?p=${requestedPage}`, request.url);
       return NextResponse.redirect(login);
     }
 
-    return NextResponse.redirect(new URL(getDefaultPage(userRole), request.url));
+    return NextResponse.redirect(new URL(getDefaultPageForRole(userRole), request.url));
   }
   
   return NextResponse.next();
