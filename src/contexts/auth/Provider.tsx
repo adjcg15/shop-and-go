@@ -10,7 +10,7 @@ import { AuthActionTypes } from "@/types/types/contexts/actions";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import shopAndGoAPI from "@/utils/axios";
 import { GetProfileResponse } from "@/types/types/api/auth";
-import { ADMIN_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, GUEST_ROUTES, SALES_EXECUTIVE_ROUTES } from "@/utils/constants";
+import { ADMIN_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, SALES_EXECUTIVE_ROUTES } from "@/utils/constants";
 import { FullScreenLoader } from "@/components/ui/FullScreenLoader";
 import { getDefaultPageForRole } from "@/utils/routing";
 
@@ -74,7 +74,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       ADMIN_ROUTES.includes(pathname) || 
       SALES_EXECUTIVE_ROUTES.includes(pathname) ||
       DELIVERY_MAN_ROUTES.includes(pathname) ||
-      (CLIENT_ROUTES.includes(pathname) && ! GUEST_ROUTES.includes(pathname));
+      (CLIENT_ROUTES.includes(pathname) && Cookies.get("token"));
 
     if(
       isProtectedPage 
