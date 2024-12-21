@@ -7,9 +7,10 @@ import { isClientErrorHTTPCode } from "@/utils/http";
 import { notify } from "@/utils/notifications";
 import { PHONE_NUMBER_PATTERN } from "@/utils/regexp";
 import { isAxiosError } from "axios";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
+import AuthContext from "@/contexts/auth/context";
 
 type UserLoginForm = {
   credentials: string;
@@ -17,6 +18,7 @@ type UserLoginForm = {
 };
 
 export function useLoginForm() {
+  const { login } = useContext(AuthContext);
   const FORM_INITIAL_VALUES = useMemo(() => ({
     credentials: "",
     password: ""
@@ -43,11 +45,11 @@ export function useLoginForm() {
         requestBody.phoneNumber = credentials;
       }
 
-      const { data } = await shopAndGoAPI.post<LoginResponse>("/sessions", requestBody);
-      Cookies.set("token", data.token, { expires: 1 });
+      const { data: profile } = await shopAndGoAPI.post<LoginResponse>("/sessions", requestBody);
 
+      Cookies.set("token", profile.token, { expires: 1 });
+      login(profile);
     } catch (error) {
-      console.log(error)
       const notificationInfo: NotificationInfo = {
         title: "Servicio no disponible",
         message: "Por el momento el sistema no se encuentra disponible, por favor intente más tarde",
