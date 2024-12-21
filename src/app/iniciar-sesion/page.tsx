@@ -13,7 +13,7 @@ export default function Login() {
       <FormWrapper />
 
       <footer className="flex justify-center mt-8">
-        <p>¿Eres nuevo? <Link href="crear-cuenta">Regístrate aquí</Link></p>
+        <p>¿Eres nuevo? <Link href="/crear-cuenta">Regístrate aquí</Link></p>
       </footer>
     </div>
   );
