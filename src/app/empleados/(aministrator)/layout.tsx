@@ -9,8 +9,8 @@ export default function AdministrationPanelLayout({
   children: React.ReactNode;
 }>) {
   const links = useMemo<NavbarLink[]>(() => ([
-    { label: "Sucursales", route: "/empleados/sucursales" },
     { label: "Productos", route: "/empleados/productos" },
+    { label: "Sucursales", route: "/empleados/sucursales" },
     { label: "Categorías", route: "/empleados/categorias" },
     { label: "Trabajadores", route: "/empleados/personal" },
     { label: "Incidencias", route: "/empleados/incidencias" }
