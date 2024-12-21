@@ -9,7 +9,7 @@ type LoginFormProps = {
 };
 
 export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
-  const { handleSubmit, errors, register } = useLoginForm();
+  const { handleSubmit, errors, register, isLoadingLogin } = useLoginForm();
 
   return (
     <form onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
       </div>
 
       <div className="mt-5 flex justify-end">
-        <PrimaryButton>Ingresar</PrimaryButton>
+        <PrimaryButton disabled={isLoadingLogin}>Ingresar</PrimaryButton>
       </div>
     </form>
   );

@@ -6,7 +6,7 @@ import { isClientErrorHTTPCode } from "@/utils/http";
 import { notify } from "@/utils/notifications";
 import { PHONE_NUMBER_PATTERN } from "@/utils/regexp";
 import { isAxiosError } from "axios";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import AuthContext from "@/contexts/auth/context";
@@ -19,6 +19,7 @@ type UserLoginForm = {
 
 export function useLoginForm() {
   const { login } = useContext(AuthContext);
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const FORM_INITIAL_VALUES = useMemo(() => ({
     credentials: "",
     password: ""
@@ -33,6 +34,8 @@ export function useLoginForm() {
   });
 
   const onSubmit: SubmitHandler<UserLoginForm> = async ({credentials, password}) => {
+    setIsLoadingLogin(true);
+
     credentials = credentials.trim();
     password = password.trim();
 
@@ -67,6 +70,8 @@ export function useLoginForm() {
       }
 
       notify(notificationInfo);
+    } finally {
+      setIsLoadingLogin(false);
     }
   };
   const handleSubmit = submitWrapper(onSubmit);
@@ -74,6 +79,7 @@ export function useLoginForm() {
   return {
     register,
     errors,
-    handleSubmit
+    handleSubmit,
+    isLoadingLogin
   };
 }
