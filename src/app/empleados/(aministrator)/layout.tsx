@@ -1,3 +1,4 @@
+import { LogoutButton } from "@/components/buttons/LogoutButton";
 import { Navbar } from "@/components/ui/Navbar";
 import { NavbarLink } from "@/types/types/components/navbar";
 import { useMemo } from "react";
@@ -18,8 +19,9 @@ export default function AdministrationPanelLayout({
   return (
     <>
       <header className="border-b border-gray-300">
-        <div className="px-3 md:px-12 max-w-screen-2xl py-5 mx-auto">
+        <div className="px-3 md:px-12 max-w-screen-2xl py-5 mx-auto flex items-center justify-between">
           <Navbar links={links} />
+          <LogoutButton/>
         </div>
       </header>
       {children}
