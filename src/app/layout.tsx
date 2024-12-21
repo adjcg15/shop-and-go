@@ -10,7 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Shop & Go",
+  title: {
+    template: "Shop & Go | %s",
+    default: "Shop & Go"
+  },
   icons: {
     icon: "/favicon.ico"
   },
