@@ -45,7 +45,7 @@ body {
   }
 
   input {
-    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1;
+    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1 placeholder:text-gray-400;
   }
 
   input:focus {
@@ -81,7 +81,7 @@ body {
   }
 
   h3 {
-    @apply text-lg
+    @apply text-lg;
   }
 }
 
