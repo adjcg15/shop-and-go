@@ -43,10 +43,13 @@ export const config = {
   matcher: [
     // Shared routes (client and guest)
     "/",
+    "/catalogo",
     // Guest routes
     "/iniciar-sesion",
     "/crear-cuenta",
     "/recuperar-contrasenia",
+    //Client routes
+    "/clientes/pedidos",
     // Admin routes
     "/empleados/productos",
     "/empleados/sucursales",
