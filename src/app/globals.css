@@ -44,15 +44,24 @@ body {
     @apply font-semibold cursor-pointer underline p-1;
   }
 
-  input {
+  input, select {
     @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1 placeholder:text-gray-400;
   }
+  
+  select {
+    @apply pr-10 appearance-none;
+    background-image: url('/select-arrow.png');
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 6px);
+    background-position-y: 50%;
+    background-size: 29px;
+  }
 
-  input:focus {
+  input:focus, select:focus {
     @apply border-blue-600;
   }
 
-  input:disabled {
+  input:disabled, select:disabled {
     @apply bg-gray-200
   }
 
@@ -64,7 +73,7 @@ body {
     @apply transition-all;
   }
   
-  input:focus, button:focus, a:focus {
+  input:focus, button:focus, a:focus, select:focus {
     outline: 5px solid #2563EB50;
   }
 
