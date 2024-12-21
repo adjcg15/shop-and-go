@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [isEmployee, setIsEmployee] = useState(false);
 
   return (
-    <div className="my-20 mx-auto max-w-md px-5">
+    <div className="my-20 mx-auto max-w-md px-3">
       <header className="flex flex-col items-center">
         <Image src="logo-with-name.svg" alt="Logo de SHop&Go con nombre incluido" width={150} height={150}/>
         <UserTypeSelector isEmployee={isEmployee} setIsEmployee={setIsEmployee}/>
