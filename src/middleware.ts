@@ -44,6 +44,7 @@ export const config = {
     // Shared routes (client and guest)
     "/",
     "/catalogo",
+    "/carrito",
     // Guest routes
     "/iniciar-sesion",
     "/crear-cuenta",

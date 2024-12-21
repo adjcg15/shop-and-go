@@ -3,13 +3,15 @@ const GUEST_ROUTES: string[] = [
   "/iniciar-sesion",
   "/crear-cuenta",
   "/recuperar-contrasenia",
-  "/catalogo"
+  "/catalogo",
+  "/carrito"
 ];
 
 const CLIENT_ROUTES: string[] = [
   "/",
   "/clientes/pedidos",
-  "/catalogo"
+  "/catalogo",
+  "/carrito"
 ];
 
 const ADMIN_ROUTES: string[] = [
