@@ -1,10 +1,7 @@
-import Link from "next/link";
-
 export default function DeliveryAddressSelectionPage() {
   return (
-    <main>
+    <main className="px-3 md:px-12 max-w-screen-2xl mx-auto pt-8">
       <h1>Selección de dirección de entrega: Próximamente</h1>
-      <Link href="/iniciar-sesion">Iniciar sesión</Link>
     </main>
   );
 }

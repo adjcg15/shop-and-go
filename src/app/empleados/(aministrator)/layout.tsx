@@ -19,7 +19,7 @@ export default function AdministrationPanelLayout({
   return (
     <>
       <header className="border-b border-gray-300">
-        <div className="px-3 md:px-12 max-w-screen-2xl py-5 mx-auto flex items-center justify-between">
+        <div className="px-3 md:px-12 max-w-screen-2xl py-2 md:py-5 mx-auto flex items-center justify-between">
           <Navbar links={links} />
           <LogoutButton/>
         </div>
