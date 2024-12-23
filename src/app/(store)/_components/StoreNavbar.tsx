@@ -24,7 +24,7 @@ export const StoreNavbar = () => {
   ]), [guestLinks]);
 
   return (
-    <div className="px-3 md:px-12 max-w-screen-2xl py-5 mx-auto flex md:items-center justify-between">
+    <div className="px-3 md:px-12 max-w-screen-2xl py-2 md:py-5 mx-auto flex md:items-center justify-between">
       <Navbar links={role === UserRoles.CLIENT ? clientLinks : guestLinks } />
       <div>
         {
@@ -40,10 +40,10 @@ export const StoreNavbar = () => {
           )
           : (
             <div className="flex flex-wrap md:items-center">
-              <Link href="/iniciar-sesion">
+              <Link href="/iniciar-sesion" className="p-0">
                 <TernaryButton className="mr-3">Iniciar sesión</TernaryButton>
               </Link>
-              <Link href="/crear-cuenta" className="no-underline">
+              <Link href="/crear-cuenta" className="no-underline p-0">
                 <SecondaryButton className="hidden md:block mr-5">Crear cuenta</SecondaryButton>
               </Link>
               <ShoppingCartButton/>
