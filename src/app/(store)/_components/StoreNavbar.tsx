@@ -15,12 +15,13 @@ import Link from "next/link";
 export const StoreNavbar = () => {
   const { role } = useContext(AuthContext);
   const guestLinks = useMemo<NavbarLink[]>(() => ([
+    { label: "Dirección de entrega", route: "/" },
     { label: "Productos", route: "/catalogo" }
   ]), []);
   const clientLinks = useMemo<NavbarLink[]>(() => ([
-    { label: "Productos", route: "/catalogo" },
+    ...guestLinks,
     { label: "Mis pedidos", route: "/clientes/pedidos" },
-  ]), []);
+  ]), [guestLinks]);
 
   return (
     <div className="px-3 md:px-12 max-w-screen-2xl py-5 mx-auto flex md:items-center justify-between">
