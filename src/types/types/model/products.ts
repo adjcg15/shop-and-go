@@ -6,7 +6,6 @@ type Product = {
   imageUrl: string;
   salePrice: number;
   maximumAmount: number;
-  isActive: boolean;
 };
 
 type CartItem = {
@@ -14,7 +13,13 @@ type CartItem = {
   totalProducts: number;
 };
 
+type ProductCategory = {
+  id: number;
+  name: string;
+};
+
 export type {
   Product,
-  CartItem
+  CartItem,
+  ProductCategory
 };
