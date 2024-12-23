@@ -1,3 +1,4 @@
+"use client";
 import { StoreState } from "@/types/types/contexts/states";
 import { FC, ReactNode, useCallback, useEffect, useReducer } from "react";
 import StoreContext from "./context";
