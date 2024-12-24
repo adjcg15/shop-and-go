@@ -16,6 +16,7 @@ type CartItem = {
 type ProductCategory = {
   id: number;
   name: string;
+  isActive?: boolean;
 };
 
 export type {
