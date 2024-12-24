@@ -9,6 +9,7 @@ const GUEST_ROUTES: string[] = [
 
 const CLIENT_ROUTES: string[] = [
   "/",
+  "/metodos-pago",
   "/clientes/pedidos",
   "/catalogo",
   "/carrito"

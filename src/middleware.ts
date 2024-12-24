@@ -51,6 +51,7 @@ export const config = {
     "/recuperar-contrasenia",
     //Client routes
     "/clientes/pedidos",
+    "/metodos-pago",
     // Admin routes
     "/empleados/productos",
     "/empleados/sucursales",
