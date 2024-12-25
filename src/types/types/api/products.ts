@@ -1,7 +1,10 @@
-import { ProductCategory } from "../model/products"
+import { ProductCategory, ProductWithInventory } from "../model/products"
 
 type ProductCategoriesListResponse = ProductCategory[];
 
+type ProductsInStoreResponse = ProductWithInventory[];
+
 export type {
-  ProductCategoriesListResponse
+  ProductCategoriesListResponse,
+  ProductsInStoreResponse
 };

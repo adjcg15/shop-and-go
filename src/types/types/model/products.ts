@@ -1,3 +1,5 @@
+import { Inventory } from "./stores";
+
 type Product = {
   id: number;
   barCode: string;
@@ -6,6 +8,10 @@ type Product = {
   imageUrl: string;
   salePrice: number;
   maximumAmount: number;
+};
+
+type ProductWithInventory = Product & {
+  inventory: Inventory;
 };
 
 type CartItem = {
@@ -21,6 +27,7 @@ type ProductCategory = {
 
 export type {
   Product,
+  ProductWithInventory,
   CartItem,
   ProductCategory
 };
