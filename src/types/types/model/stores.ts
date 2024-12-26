@@ -8,6 +8,13 @@ type Store = {
   longitude: number;
 };
 
+type Inventory = {
+  id: number;
+  stock: number;
+  expirationDate: string;
+};
+
 export type {
-  Store
+  Store,
+  Inventory
 };
