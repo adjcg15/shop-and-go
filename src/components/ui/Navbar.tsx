@@ -22,7 +22,7 @@ export const Navbar:FC<NavbarProps> = ({ links }) => {
       <IconButton onClick={() => setIsVisible((prevValue) => !prevValue)} className="bg-white hover:bg-gray-50 block md:hidden">
         <MdMenu className="text-gray-800"/>
       </IconButton>
-      <ul className={`absolute w-full p-3 bg-gray-50 md:bg-transparent -mx-3 mt-3 md:m-0 md:relative md:p-0 md:flex rounded-lg md:rounded-none ${isVisible ? "block" : "hidden"} md:block`}>
+      <ul className={`absolute w-full p-3 bg-gray-50 md:bg-transparent -mx-3 mt-3 md:m-0 md:relative md:p-0 md:flex rounded-lg md:rounded-none ${isVisible ? "block" : "hidden"} md:block border border-gray-300 md:border-none`}>
         {
           links.map(link => (
             <li key={link.route}>
