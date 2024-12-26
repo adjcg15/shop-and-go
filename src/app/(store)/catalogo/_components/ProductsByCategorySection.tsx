@@ -1,17 +1,19 @@
 import { ProductsInStoreResponse } from "@/types/types/api/products";
 import { ProductCategory } from "@/types/types/model/products";
 import shopAndGoAPI from "@/utils/axios";
-import { FC, useEffect } from "react";
+import { FC, useContext, useEffect } from "react";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ProductCard } from "./ProductCard";
 import { useProducts } from "../hooks/useProducts";
 import { FiAlertCircle } from "react-icons/fi";
+import StoreContext from "@/contexts/store/context";
 
 type ProductCategorySectionProps = {
   category: ProductCategory;
 };
 
 export const ProductsByCategorySection:FC<ProductCategorySectionProps> = ({ category }) => {
+  const { nearestStore } = useContext(StoreContext);
   const { 
     productsList,
     finishProductsLoading,
@@ -25,8 +27,7 @@ export const ProductsByCategorySection:FC<ProductCategorySectionProps> = ({ cate
     const loadProductsByCategory = async () => {
       startProductsLoading();
       try {
-        // TODO: stablish nearest store id dynamically
-        const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${11}/products`, {
+        const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${nearestStore.value!.id}/products`, {
           params: { limit: 3, categoryFilter: category.id }
         });
         if(!ignore) {
@@ -42,7 +43,7 @@ export const ProductsByCategorySection:FC<ProductCategorySectionProps> = ({ cate
     return () => {
       ignore = true;
     }
-  }, [category.id, finishProductsLoading, fireErrorLoadingProducts, startProductsLoading]);
+  }, [category.id, finishProductsLoading, fireErrorLoadingProducts, startProductsLoading, nearestStore.value]);
 
   return (
     <section key={category.id} className="mt-8">

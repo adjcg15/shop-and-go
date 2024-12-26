@@ -9,12 +9,15 @@ import { StoreActionTypes } from "@/types/types/contexts/actions";
 import { isAxiosError } from "axios";
 import { isClientErrorHTTPCode } from "@/utils/http";
 import shopAndGoAPI from "@/utils/axios";
+import { usePathname, useRouter } from "next/navigation";
+import { NEAREST_STORE_CHECK_ROUTES } from "@/utils/constants";
+import { FullScreenLoader } from "@/components/ui/FullScreenLoader";
 
 type StoreProviderProps = {
   children: ReactNode;
 };
 
-//TODO: clear plan delivery address
+//TODO: clear plain delivery address
 const STORE_BASE_STATE: StoreState = {
   deliveryAddress: {
     apartmentNumber: null,
@@ -39,6 +42,8 @@ const STORE_BASE_STATE: StoreState = {
 };
 
 export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
+  const pathname = usePathname();
+  const router = useRouter();
   const [state, dispatch] = useReducer(storeReducer, STORE_BASE_STATE);
 
   const setDeliveryAddress = useCallback((address: Address) => {
@@ -79,6 +84,12 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
     getNearestStore();
   }, [state.deliveryAddress, setNearestStore]);
 
+  useEffect(() => {
+    if(NEAREST_STORE_CHECK_ROUTES.includes(pathname) && state.nearestStore.error) {
+      router.replace("/?redirigidoDesde=/catalogo");
+    }
+  }, [pathname, router, state.nearestStore.error]);
+
   return (
     <StoreContext.Provider
       value={{
@@ -88,7 +99,11 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
         clearStore
       }}
     >
-      { children }
+      {
+        NEAREST_STORE_CHECK_ROUTES.includes(pathname) && state.nearestStore.isBeingCalculated
+        ? <FullScreenLoader/>
+        : children
+      }
     </StoreContext.Provider>
   );
 }

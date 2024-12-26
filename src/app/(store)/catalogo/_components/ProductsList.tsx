@@ -1,10 +1,11 @@
-import { FC, useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useContext, useEffect, useRef } from "react";
 import { useProducts } from "../hooks/useProducts";
 import shopAndGoAPI from "@/utils/axios";
 import { ProductsInStoreResponse } from "@/types/types/api/products";
 import { ProductCard } from "./ProductCard";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
+import StoreContext from "@/contexts/store/context";
 
 type ProductsListProps = {
   categoryIdFilter: string;
@@ -12,6 +13,7 @@ type ProductsListProps = {
 };
 
 export const ProductsList: FC<ProductsListProps> = ({ categoryIdFilter, searchQuery }) => {
+  const { nearestStore } = useContext(StoreContext);
   const { 
     productsList,
     finishProductsLoading,
@@ -31,14 +33,13 @@ export const ProductsList: FC<ProductsListProps> = ({ categoryIdFilter, searchQu
       if(categoryFilter) params.categoryFilter = categoryFilter;
       if(searchQuery) params.query = searchQuery;
 
-      // TODO: stablish nearest store id dynamically
-      const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${11}/products`, { params });
+      const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${nearestStore.value!.id}/products`, { params });
       const stillProductsToLoad = products.length >= productsBatchSize;
       finishProductsLoading(products, stillProductsToLoad);
     } catch {
       fireErrorLoadingProducts();
     }
-  }, [categoryIdFilter, searchQuery, startProductsLoading, finishProductsLoading, fireErrorLoadingProducts]);
+  }, [categoryIdFilter, searchQuery, startProductsLoading, finishProductsLoading, fireErrorLoadingProducts, nearestStore.value]);
 
   useEffect(() => {
     restartProductsList();

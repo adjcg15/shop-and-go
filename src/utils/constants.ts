@@ -32,6 +32,10 @@ const DELIVERY_MAN_ROUTES: string[] = [
   "/empleados/pedidos-asignados"
 ];
 
+const NEAREST_STORE_CHECK_ROUTES: string[] = [
+  "/catalogo"
+]
+
 const DEFAULT_PRODUCT_CATEGORY: ProductCategory = {
   id: 0,
   name: "Todos los productos"
@@ -43,5 +47,6 @@ export {
   ADMIN_ROUTES,
   SALES_EXECUTIVE_ROUTES,
   DELIVERY_MAN_ROUTES,
-  DEFAULT_PRODUCT_CATEGORY
+  DEFAULT_PRODUCT_CATEGORY,
+  NEAREST_STORE_CHECK_ROUTES
 }
