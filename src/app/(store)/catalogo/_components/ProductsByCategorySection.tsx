@@ -1,55 +1,76 @@
 import { ProductsInStoreResponse } from "@/types/types/api/products";
-import { ProductCategory, ProductWithInventory } from "@/types/types/model/products";
+import { ProductCategory } from "@/types/types/model/products";
 import shopAndGoAPI from "@/utils/axios";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ProductCard } from "./ProductCard";
+import { useProducts } from "../hooks/useProducts";
+import { FiAlertCircle } from "react-icons/fi";
 
 type ProductCategorySectionProps = {
   category: ProductCategory;
 };
 
 export const ProductsByCategorySection:FC<ProductCategorySectionProps> = ({ category }) => {
-  const [productsList, setProductsList] = useState<{ loading: boolean, value: ProductWithInventory[], error: null | string }>(
-    { loading: false, value: [], error: null }
-  );
+  const { 
+    productsList,
+    finishProductsLoading,
+    fireErrorLoadingProducts,
+    startProductsLoading
+  } = useProducts();
 
   useEffect(() => {
+    let ignore = false;
+
     const loadProductsByCategory = async () => {
-      setProductsList({ loading: true, value: [], error: null });
+      startProductsLoading();
       try {
-        const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${4}/products`, {
+        // TODO: stablish nearest store id dynamically
+        const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${11}/products`, {
           params: { limit: 3, categoryFilter: category.id }
         });
-        setProductsList({ 
-          loading: false,
-          value: products, 
-          error: null 
-        });
+        if(!ignore) {
+          finishProductsLoading(products);
+        }
       } catch {
-        setProductsList({ loading: false, value: [], error: "Ocurrió un error al cargar los productos, intente más tarde" });
+        fireErrorLoadingProducts();
       }
     }
 
     loadProductsByCategory();
-  }, [category.id]);
+
+    return () => {
+      ignore = true;
+    }
+  }, [category.id, finishProductsLoading, fireErrorLoadingProducts, startProductsLoading]);
 
   return (
     <section key={category.id} className="mt-8">
       <h2 className="mb-2">{category.name}</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {
-          productsList.loading 
-          ? (
-            Array.from({ length: 3}, (_, index) => (
-              <li key={index}>
-                <ProductCardSkeleton/>
-              </li>
-            ))
-          )
-          : productsList.value.map(product => <ProductCard key={product.id} product={product}/>)
-        }
-      </ul>
+      {
+        productsList.error
+        ? (
+          <div className="flex items-center">
+            <FiAlertCircle className="text-red-600" size={20}/>
+            <p className="ml-2">Estamos experimentando problemas para cargar los productos de esta categoría.</p>
+          </div>
+        )
+        : (
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {
+              productsList.loading 
+              ? (
+                Array.from({ length: 3}, (_, index) => (
+                  <li key={index}>
+                    <ProductCardSkeleton/>
+                  </li>
+                ))
+              )
+              : productsList.value.map(product => <ProductCard key={product.id} product={product}/>)
+            }
+          </ul>
+        )
+      }
     </section>
   );
 }
