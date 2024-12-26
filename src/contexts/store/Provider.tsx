@@ -8,13 +8,28 @@ import { Store } from "@/types/types/model/stores";
 import { StoreActionTypes } from "@/types/types/contexts/actions";
 import { isAxiosError } from "axios";
 import { isClientErrorHTTPCode } from "@/utils/http";
+import shopAndGoAPI from "@/utils/axios";
 
 type StoreProviderProps = {
   children: ReactNode;
 };
 
+//TODO: clear plan delivery address
 const STORE_BASE_STATE: StoreState = {
-  deliveryAddress: null,
+  deliveryAddress: {
+    apartmentNumber: null,
+    city: "Xalapa",
+    id: 1,
+    isActive: true,
+    latitude: 19.52953,
+    longitude: -96.92463,
+    municipality: "Xalapa",
+    neighborhood: "Zona centro",
+    postalCode: "91000",
+    state: "Veracruz",
+    street: "Francisco Javier Clavijero",
+    streetNumber: "17"
+  },
   nearestStore: {
     isBeingCalculated: false,
     value: null,
@@ -39,23 +54,30 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   }, []);
   
   useEffect(() => {
-    if(state.deliveryAddress !== null) {
-      dispatch({ type: StoreActionTypes.START_NEAREST_STORE_CALCULATION });
-      try {
-        //TODO: load and set nearest store when delivery address change is detected
-        // setNearestStore(nearestStore);
-      } catch (error) {
-        let errorMessage = "No fue posible completar la búsqueda de una sucursal cercana, intente más tarde";
-        if (
-          isAxiosError(error) 
-          && isClientErrorHTTPCode(Number(error.response?.status))
-        ) {
-          errorMessage = "No logramos encontrar una sucursal cerca de su dirección, intente con otra";
+    const getNearestStore = async() => {
+      if(state.deliveryAddress !== null) {
+        dispatch({ type: StoreActionTypes.START_NEAREST_STORE_CALCULATION });
+        try {
+          const { data: store } = await shopAndGoAPI.post<Store>("/stores/nearest-store", {
+            latitude: state.deliveryAddress.latitude,
+            longitude: state.deliveryAddress.longitude
+          });
+          setNearestStore(store);
+        } catch (error) {
+          let errorMessage = "No fue posible completar la búsqueda de una sucursal cercana, intente más tarde";
+          if (
+            isAxiosError(error) 
+            && isClientErrorHTTPCode(Number(error.response?.status))
+          ) {
+            errorMessage = "No logramos encontrar una sucursal cerca de su dirección, intente con otra";
+          }
+          dispatch({ type: StoreActionTypes.FIRE_ERROR_CALCULATING_NEAREST_STORE, payload: errorMessage });
         }
-        dispatch({ type: StoreActionTypes.FIRE_ERROR_CALCULATING_NEAREST_STORE, payload: errorMessage });
       }
     }
-  }, [state.deliveryAddress]);
+
+    getNearestStore();
+  }, [state.deliveryAddress, setNearestStore]);
 
   return (
     <StoreContext.Provider
