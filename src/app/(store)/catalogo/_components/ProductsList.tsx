@@ -49,7 +49,7 @@ export const ProductsList: FC<ProductsListProps> = ({ categoryIdFilter, searchQu
       const [bottomOfProductsList] = entries;
 
       if(
-        bottomOfProductsList.isIntersecting
+        (bottomOfProductsList.isIntersecting || productsList.value.length === 0)
         && !productsList.loading
         && productsList.stillProducsToLoad
       ) {
