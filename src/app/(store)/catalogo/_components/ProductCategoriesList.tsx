@@ -55,7 +55,7 @@ export const ProductCategoriesList:FC<ProductCategoriesListProps> = ({ productCa
         </span> 
         <span>Categorías</span>
       </legend>
-      <ul className={`absolute w-full p-3 bg-gray-50 md:bg-transparent -mx-3 md:relative md:p-0 rounded-lg md:rounded-none ${isVisible ? "block" : "hidden"} md:block z-10 border border-gray-300 md:border-none max-h-60 md:max-h-none overflow-y-auto`}>
+      <ul className={`absolute w-full p-3 bg-gray-50 md:bg-transparent -mx-3 md:relative md:p-0 rounded-lg md:rounded-none ${isVisible ? "block" : "hidden"} md:block z-10 border border-gray-300 md:border-none max-h-60 md:max-h-none overflow-y-auto md:overflow-visible`}>
         {
           productCategories.map(category => (
             <li key={category.id}>
