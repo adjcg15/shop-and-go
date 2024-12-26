@@ -4,6 +4,7 @@ import { FC } from "react";
 import { useParam } from "@/hooks/useParam";
 import { DEFAULT_PRODUCT_CATEGORY } from "@/utils/constants";
 import { ProductsByCategorySection } from "./ProductsByCategorySection";
+import { ProductsList } from "./ProductsList";
 
 type ProductsSectionProps = {
   productCategories: ProductCategory[];
@@ -11,14 +12,15 @@ type ProductsSectionProps = {
 
 export const ProductsSection: FC<ProductsSectionProps> = ({ productCategories }) => {
   const { paramValue: categoryfilter } = useParam("filtroDeCategoria", "");
+  const { paramValue: querySearch } = useParam("busqueda", "");
 
   return (
     <>
       {
-        !categoryfilter 
+        !categoryfilter && ! querySearch
         ? (
           <>
-            <h1>¡Revise nuestras listas de productos nuevos!</h1>
+            <h1>¡Revise nuestros productos más nuevos!</h1>
             {
               productCategories.map(category => category.id !== DEFAULT_PRODUCT_CATEGORY.id && (
                 <ProductsByCategorySection key={category.id} category={category}/>
@@ -26,7 +28,12 @@ export const ProductsSection: FC<ProductsSectionProps> = ({ productCategories })
             }
           </>
         )
-        : null
+        : (
+          <ProductsList
+            categoryIdFilter={categoryfilter}
+            searchQuery={querySearch}
+          />
+        )
       }
     </>
   );
