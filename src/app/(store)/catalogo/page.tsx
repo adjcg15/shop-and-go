@@ -15,7 +15,7 @@ export default async function ProductCatalogPage() {
   const productCategoriesWithDefault = [DEFAULT_PRODUCT_CATEGORY, ...productCategories];
   
   return (
-    <div className="px-3 md:px-12 max-w-screen-2xl mx-auto py-8 md:grid grid-cols-4 gap-5">
+    <div className="px-3 md:px-12 max-w-screen-2xl mx-auto pt-8 pb-16 md:grid grid-cols-4 gap-5">
       <aside>
         <DeliveryAddress />
         <ProductCategoriesList productCategories={productCategoriesWithDefault}/>
