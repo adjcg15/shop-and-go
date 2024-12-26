@@ -6,6 +6,7 @@ import { ProductCard } from "./ProductCard";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import StoreContext from "@/contexts/store/context";
+import { isAxiosError } from "axios";
 
 type ProductsListProps = {
   categoryIdFilter: string;
@@ -36,8 +37,14 @@ export const ProductsList: FC<ProductsListProps> = ({ categoryIdFilter, searchQu
       const { data: products } = await shopAndGoAPI.get<ProductsInStoreResponse>(`/stores/${nearestStore.value!.id}/products`, { params });
       const stillProductsToLoad = products.length >= productsBatchSize;
       finishProductsLoading(products, stillProductsToLoad);
-    } catch {
-      fireErrorLoadingProducts();
+    } catch(error) {
+      let message;
+
+      if(isAxiosError(error) && error.request) {
+        message = "No fue posible carga la lista de productos, por favor compruebe su conexión a Internet."
+      }
+
+      fireErrorLoadingProducts(message);
     }
   }, [categoryIdFilter, searchQuery, startProductsLoading, finishProductsLoading, fireErrorLoadingProducts, nearestStore.value]);
 
