@@ -18,13 +18,15 @@ export default function AdministrationPanelLayout({
 
   return (
     <>
-      <header className="border-b border-gray-300">
+      <header className="border-b border-gray-300 fixed top-0 w-full bg-white z-20">
         <div className="px-3 md:px-12 max-w-screen-2xl py-2 md:py-5 mx-auto flex items-center justify-between">
           <Navbar links={links} />
           <LogoutButton/>
         </div>
       </header>
-      {children}
+      <div className="mt-16 md:mt-24">
+        {children}
+      </div>
     </>
   );
 }
