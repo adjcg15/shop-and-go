@@ -42,7 +42,7 @@ export const ProductsSearchbar = () => {
         value={searchQuery}
         onChange={handleSearchQueryChange}
       />
-      <IconButton type="submit">
+      <IconButton type="submit" title="Buscar productos">
         <IoSearch />
       </IconButton>
     </form>
