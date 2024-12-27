@@ -3,17 +3,17 @@
 import { FC } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
-type PaymentMethodProps = {
+type PaymentMethodsProps = {
   paymentMethods: {
     id: number;
-    banco: string;
-    tarjeta: string;
-    titular: string;
+    bankIssuer: string;
+    endCardNumber: string;
+    cardholderName: string;
   }[];
   onDelete: (id: number) => void;
 };
 
-export const PaymentMethod: FC<PaymentMethodProps> = ({
+export const PaymentMethods: FC<PaymentMethodsProps> = ({
   paymentMethods,
   onDelete,
 }) => {
@@ -25,18 +25,18 @@ export const PaymentMethod: FC<PaymentMethodProps> = ({
           className="grid grid-cols-4 gap-8 bg-gray-50 p-4 border border-gray-300"
         >
           <li className="flex justify-center items-center">
-            <p className="text-lg font-semibold text-gray-800">
-              {method.banco}
+            <p className="text-lg font-regular text-gray-800">
+              {method.bankIssuer}
             </p>
           </li>
           <li className="flex justify-center items-center">
-            <p className="text-lg font-semibold text-gray-800">
-              {method.tarjeta}
+            <p className="text-lg font-regular text-gray-800">
+              {"XXXX XXXX XXXX " + method.endCardNumber}
             </p>
           </li>
           <li className="flex justify-center items-center">
-            <p className="text-lg font-semibold text-gray-800">
-              {method.titular}
+            <p className="text-lg font-regular text-gray-800">
+              {method.cardholderName}
             </p>
           </li>
           <li className="flex justify-center items-center">
