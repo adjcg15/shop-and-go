@@ -94,7 +94,6 @@ export const usePaymentMethods = () => {
 
   useEffect(() => {
     getPaymentMethods();
-    console.log("Aquí");
   }, [getPaymentMethods]);
 
   return {

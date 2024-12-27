@@ -52,20 +52,21 @@ export const ListWrapper = () => {
 
   return (
     <>
-      <ul className="grid grid-cols-4 mt-9 gap-8 bg-gray-300 p-4 border border-slate-500">
+      <ul className="mt-9 grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
         <li className="flex justify-center items-center">
-          <p className="text-lg font-semibold text-gray-800">Banco</p>
+          <p className="font-semibold text-gray-800 text-center">Banco</p>
         </li>
         <li className="flex justify-center items-center">
-          <p className="text-lg font-semibold text-gray-800">Tarjeta</p>
+          <p className="font-semibold text-gray-800 text-center">Tarjeta</p>
         </li>
         <li className="flex justify-center items-center">
-          <p className="text-lg font-semibold text-gray-800">Titular</p>
+          <p className="font-semibold text-gray-800 text-center">Titular</p>
         </li>
         <li className="flex justify-center items-center">
-          <p className="text-lg font-semibold text-gray-800">Eliminación</p>
+          <p className="font-semibold text-gray-800 text-center">Eliminar</p>
         </li>
       </ul>
+
       <PaymentMethods paymentMethods={paymentMethods} onDelete={handleDelete} />
       <ConfirmationModal
         title="Eliminación del método de pago"
