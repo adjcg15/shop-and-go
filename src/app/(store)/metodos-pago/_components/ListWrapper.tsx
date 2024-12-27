@@ -1,9 +1,34 @@
 "use client";
+import { useState } from "react";
 import { usePaymentMethods } from "../_hooks/usePaymentMethods";
 import { PaymentMethods } from "./PaymentMethod";
+import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
+import { PaymentMethod } from "@/types/types/model/payment_methods";
 
 export const ListWrapper = () => {
   const { paymentMethods, loading, deletePaymentMethod } = usePaymentMethods();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [methodToDelete, setMethodToDelete] = useState<PaymentMethod | null>(
+    null
+  );
+
+  const handleDelete = (paymentMethod: PaymentMethod) => {
+    setMethodToDelete(paymentMethod);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (methodToDelete !== null) {
+      deletePaymentMethod(methodToDelete.id);
+      setIsModalOpen(false);
+      setMethodToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false);
+    setMethodToDelete(null);
+  };
 
   if (loading)
     return (
@@ -13,6 +38,7 @@ export const ListWrapper = () => {
         </p>
       </div>
     );
+
   if (!paymentMethods || paymentMethods.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -40,9 +66,19 @@ export const ListWrapper = () => {
           <p className="text-lg font-semibold text-gray-800">Eliminación</p>
         </li>
       </ul>
-      <PaymentMethods
-        paymentMethods={paymentMethods}
-        onDelete={deletePaymentMethod}
+      <PaymentMethods paymentMethods={paymentMethods} onDelete={handleDelete} />
+      <ConfirmationModal
+        title="Eliminación del método de pago"
+        message={
+          methodToDelete
+            ? `¿Está seguro que desea eliminar el método de pago:\n${methodToDelete.bankIssuer},\nXXXX XXXX XXXX ${methodToDelete.endCardNumber},\nTitular: ${methodToDelete.cardholderName}?`
+            : ""
+        }
+        primaryButtonText="Eliminar"
+        secondaryButtonText="Cancelar"
+        isOpen={isModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
       />
     </>
   );

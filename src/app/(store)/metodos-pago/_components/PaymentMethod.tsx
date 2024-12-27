@@ -1,5 +1,5 @@
 "use client";
-
+import { PaymentMethod } from "@/types/types/model/payment_methods";
 import { FC } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -10,7 +10,7 @@ type PaymentMethodsProps = {
     endCardNumber: string;
     cardholderName: string;
   }[];
-  onDelete: (id: number) => void;
+  onDelete: (paymentMethod: PaymentMethod) => void;
 };
 
 export const PaymentMethods: FC<PaymentMethodsProps> = ({
@@ -42,7 +42,7 @@ export const PaymentMethods: FC<PaymentMethodsProps> = ({
           <li className="flex justify-center items-center">
             <button
               className="text-lg text-gray-800 hover:text-red-500"
-              onClick={() => onDelete(method.id)}
+              onClick={() => onDelete(method)}
             >
               <FaTrashAlt />
             </button>
