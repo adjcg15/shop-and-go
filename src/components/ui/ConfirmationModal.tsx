@@ -26,16 +26,16 @@ export const ConfirmationModal: FC<ConfirmationModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white p-8 rounded-lg shadow-lg w-1/3"
+        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-4 sm:mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-xl text-center font-bold text-gray-800 mb-4">
+        <h2 className="text-sm sm:text-lg text-center font-bold text-gray-800 mb-4">
           {title}
         </h2>
-        <p className="mb-4 text-gray-800 whitespace-pre-line text-center">
+        <p className="text-xs sm:text-base mb-4 text-gray-800 whitespace-pre-line text-center">
           {message}
         </p>
-        <div className="flex justify-end space-x-5">
+        <div className="flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-5">
           <TernaryButton onClick={onClose}>{secondaryButtonText}</TernaryButton>
           <PrimaryButton onClick={onConfirm}>{primaryButtonText}</PrimaryButton>
         </div>
