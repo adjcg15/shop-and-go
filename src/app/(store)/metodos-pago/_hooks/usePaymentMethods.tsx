@@ -10,44 +10,61 @@ import { PaymentMethod } from "@/types/types/model/payment_methods";
 import { DeletePaymentMethodErrorCodes } from "@/types/enums/error_codes";
 import AuthContext from "@/contexts/auth/context";
 
-export const usePaymentMethods = () => {
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [loading, setLoading] = useState(true);
+type PaymentMethodsState = {
+  loading: boolean;
+  value: PaymentMethod[] | null;
+  error: null | string;
+};
+
+const INITIA_PAYMENT_METHODS_LIST_STATE = {
+  loading: false,
+  value: [],
+  error: null,
+};
+
+export function usePaymentMethods() {
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodsState>(
+    INITIA_PAYMENT_METHODS_LIST_STATE
+  );
 
   const { clientProfile } = useContext(AuthContext);
-  const idClient = clientProfile!.id;
+  const idClient = clientProfile?.id;
 
   const getPaymentMethods = useCallback(async () => {
     try {
-      setLoading(true);
+      setPaymentMethods(() => ({
+        loading: true,
+        value: null,
+        error: null,
+      }));
 
       const { data } = await shopAndGoAPI.get<PaymentMethod[]>(
         `/clients/${idClient}/payment-methods`
       );
 
-      setPaymentMethods(data);
+      setPaymentMethods(() => ({
+        loading: false,
+        value: data,
+        error: null,
+      }));
     } catch (error) {
-      const notificationInfo: NotificationInfo = {
-        title: "Servicio no disponible",
-        message:
-          "Por el momento el sistema no se encuentra disponible, por favor intente más tarde",
-        type: NotificationTypes.ERROR,
-      };
+      let errorMessage =
+        "Por el momento el sistema no se encuentra disponible, por favor intente más tarde";
 
       if (
         isAxiosError(error) &&
         isClientErrorHTTPCode(Number(error.response?.status)) &&
         error.response?.status !== HttpStatusCodes.TOO_MANY_REQUESTS
       ) {
-        notificationInfo.title = "Cliente incorrecto";
-        notificationInfo.message =
+        errorMessage =
           "No se pudieron obtener los métodos de pago porque el cliente no se pudo identificar";
-        notificationInfo.type = NotificationTypes.WARNING;
       }
 
-      notify(notificationInfo);
-    } finally {
-      setLoading(false);
+      setPaymentMethods(() => ({
+        loading: false,
+        value: null,
+        error: errorMessage,
+      }));
     }
   }, [idClient]);
 
@@ -56,9 +73,12 @@ export const usePaymentMethods = () => {
       try {
         await shopAndGoAPI.delete(`/clients/${idClient}/payment-methods/${id}`);
 
-        setPaymentMethods((prevMethods) =>
-          prevMethods.filter((method) => method.id !== id)
-        );
+        setPaymentMethods((previousMethodsState) => ({
+          ...previousMethodsState,
+          value: previousMethodsState.value!.filter(
+            (method) => method.id !== id
+          ),
+        }));
       } catch (error) {
         const notificationInfo: NotificationInfo = {
           title: "Servicio no disponible",
@@ -98,8 +118,7 @@ export const usePaymentMethods = () => {
 
   return {
     paymentMethods,
-    loading,
     getPaymentMethods,
     deletePaymentMethod,
   };
-};
+}
