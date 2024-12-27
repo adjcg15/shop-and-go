@@ -7,7 +7,7 @@ import { ProductCard } from "./ProductCard";
 import { useProducts } from "../hooks/useProducts";
 import { FiAlertCircle } from "react-icons/fi";
 import StoreContext from "@/contexts/store/context";
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 
 type ProductCategorySectionProps = {
   category: ProductCategory;
@@ -37,8 +37,9 @@ export const ProductsByCategorySection:FC<ProductCategorySectionProps> = ({ cate
       } catch(error) {
         let message;
         
-        if(isAxiosError(error) && error.request) {
-          message = "No fue posible carga la lista de productos, por favor compruebe su conexión a Internet."
+        if(isAxiosError(error) && error.code === AxiosError.ERR_NETWORK) {
+          message = "No fue posible establecer una conexión para cargar "
+          + "la lista de productos. Verifique que su conexión a Internet es estable o intente más tarde."
         }
   
         fireErrorLoadingProducts(message);

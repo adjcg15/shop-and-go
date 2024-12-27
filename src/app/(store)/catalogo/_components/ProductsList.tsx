@@ -6,7 +6,7 @@ import { ProductCard } from "./ProductCard";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import StoreContext from "@/contexts/store/context";
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 
 type ProductsListProps = {
   categoryIdFilter: string;
@@ -40,8 +40,9 @@ export const ProductsList: FC<ProductsListProps> = ({ categoryIdFilter, searchQu
     } catch(error) {
       let message;
 
-      if(isAxiosError(error) && error.request) {
-        message = "No fue posible carga la lista de productos, por favor compruebe su conexión a Internet."
+      if(isAxiosError(error) && error.code === AxiosError.ERR_NETWORK) {
+        message = "No fue posible establecer una conexión para cargar "
+          + "la lista de productos. Verifique que su conexión a Internet es estable o intente más tarde."
       }
 
       fireErrorLoadingProducts(message);
