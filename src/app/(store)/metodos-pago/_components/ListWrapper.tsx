@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { usePaymentMethods } from "../_hooks/usePaymentMethods";
 import { PaymentMethods } from "./PaymentMethod";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
@@ -12,23 +12,23 @@ export const ListWrapper = () => {
     null
   );
 
-  const handleDelete = (paymentMethod: PaymentMethod) => {
+  const handleDelete = useCallback((paymentMethod: PaymentMethod) => {
     setMethodToDelete(paymentMethod);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const confirmDelete = () => {
+  const confirmDelete = useCallback(() => {
     if (methodToDelete !== null) {
       deletePaymentMethod(methodToDelete.id);
       setIsModalOpen(false);
       setMethodToDelete(null);
     }
-  };
+  }, [deletePaymentMethod, methodToDelete]);
 
-  const cancelDelete = () => {
+  const cancelDelete = useCallback(() => {
     setIsModalOpen(false);
     setMethodToDelete(null);
-  };
+  }, []);
 
   if (loading)
     return (
