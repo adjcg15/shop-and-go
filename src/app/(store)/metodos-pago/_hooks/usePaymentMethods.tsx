@@ -1,20 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import shopAndGoAPI from "@/utils/axios";
 import { NotificationInfo } from "@/types/types/components/notifications";
 import { NotificationTypes } from "@/types/enums/notifications";
-import { getTokenPayload } from "@/utils/token_payload";
 import { isAxiosError } from "axios";
 import { isClientErrorHTTPCode } from "@/utils/http";
 import { HttpStatusCodes } from "@/types/enums/http";
 import { notify } from "@/utils/notifications";
 import { PaymentMethod } from "@/types/types/model/payment_methods";
 import { DeletePaymentMethodErrorCodes } from "@/types/enums/error_codes";
+import AuthContext from "@/contexts/auth/context";
 
 export const usePaymentMethods = () => {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { id: idClient } = getTokenPayload();
+  const { clientProfile } = useContext(AuthContext);
+  const idClient = clientProfile!.id;
 
   const getPaymentMethods = useCallback(async () => {
     try {
