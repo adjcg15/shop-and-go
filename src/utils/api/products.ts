@@ -9,10 +9,7 @@ async function getProductCategories() {
   
   try {
     const { data: categories } = await shopAndGoAPI.get<ProductCategoriesListResponse>("/product-categories");
-    productCategories = categories.map(category => {
-      delete category.isActive;
-      return category;
-    });
+    productCategories = categories;
   } catch(error) {
     errorLoadingCategories = "Estamos teniendo problemas para cargar las categorías, por favor intente más tarde.";
             
