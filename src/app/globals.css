@@ -59,7 +59,7 @@ body {
     background-size: 29px;
   }
 
-  input[type="radio"], input[type="checkbox"] {
+  input[type="radio"], input[type="checkbox"]:not(.sr-only) {
     @apply size-5 cursor-pointer appearance-none border border-gray-300 bg-gray-100 transition-colors relative disabled:cursor-default;
   }
 
