@@ -22,26 +22,27 @@ export const PaymentMethods: FC<PaymentMethodsProps> = ({
       {paymentMethods.map((method) => (
         <ul
           key={method.id}
-          className="grid grid-cols-4 gap-8 bg-gray-50 p-4 border border-gray-300"
+          className="grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8 bg-gray-50 p-4 border border-gray-300"
         >
           <li className="flex justify-center items-center">
-            <p className="text-lg font-regular text-gray-800">
+            <p className="text-xs sm:text-sm lg:text-base font-regular text-gray-800 text-center break-words">
               {method.bankIssuer}
             </p>
           </li>
           <li className="flex justify-center items-center">
-            <p className="text-lg font-regular text-gray-800">
-              {"XXXX XXXX XXXX " + method.endCardNumber}
+            <p className="text-xs sm:text-sm lg:text-base font-regular text-gray-800 text-center break-words">
+              <span className="hidden sm:inline">**** </span>
+              {method.endCardNumber}
             </p>
           </li>
           <li className="flex justify-center items-center">
-            <p className="text-lg font-regular text-gray-800">
+            <p className="text-xs sm:text-sm lg:text-base font-regular text-gray-800 text-center break-words">
               {method.cardholderName}
             </p>
           </li>
           <li className="flex justify-center items-center">
             <button
-              className="text-lg text-gray-800 hover:text-red-500"
+              className="flex items-center justify-center text-xs sm:text-sm lg:text-base text-gray-800 hover:text-red-500"
               onClick={() => onDelete(method)}
             >
               <FaTrashAlt />
