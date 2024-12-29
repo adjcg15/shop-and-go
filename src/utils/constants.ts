@@ -14,7 +14,8 @@ const CLIENT_ROUTES: string[] = [
   "/metodos-pago",
   "/clientes/pedidos",
   "/catalogo",
-  "/carrito"
+  "/carrito",
+  "/direcciones-entrega"
 ];
 
 const ADMIN_ROUTES: string[] = [
