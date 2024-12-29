@@ -6,12 +6,12 @@ const PHONE_NUMBER_PATTERN = new RegExp("^[0-9]{10}$");
 
 const SECURE_PASSWORD_PATTER = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!_\\-@&%$#])[A-Za-z\\d!_\\-@&%$#]{8,}$");
 
-const CATEGORY_NAME_FORMAT = new RegExp("^[a-zA-Z\\s]{1,255}$");
+const CATEGORY_NAME_FORMAT = new RegExp("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s]{1,255}$");
 
 export  {
-    EMAIL_PATTERN,
-    PHONE_NUMBER_PATTERN,
-    SECURE_PASSWORD_PATTER,
-    USERNAME_PATTERN,
-    CATEGORY_NAME_FORMAT
+  EMAIL_PATTERN,
+  PHONE_NUMBER_PATTERN,
+  SECURE_PASSWORD_PATTER,
+  USERNAME_PATTERN,
+  CATEGORY_NAME_FORMAT
 };
