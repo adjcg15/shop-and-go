@@ -112,9 +112,9 @@ export function usePaymentMethod() {
     const requestBody = {
       idClient,
       cardholderName,
-      expirationMonth: Number(expirationMonth),
-      expirationYear: Number(expirationYear),
-      idIssuer: Number(bankIssuer),
+      expirationMonth: expirationMonth,
+      expirationYear: expirationYear,
+      idIssuer: bankIssuer,
       cardNumber,
     };
 
