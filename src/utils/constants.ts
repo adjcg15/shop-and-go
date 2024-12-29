@@ -12,9 +12,11 @@ const GUEST_ROUTES: string[] = [
 const CLIENT_ROUTES: string[] = [
   "/",
   "/metodos-pago",
+  "/metodos-pago/nuevo",
   "/clientes/pedidos",
   "/catalogo",
-  "/carrito"
+  "/carrito",
+  "/direcciones-entrega"
 ];
 
 const ADMIN_ROUTES: string[] = [

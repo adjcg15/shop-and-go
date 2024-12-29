@@ -49,9 +49,11 @@ export const config = {
     "/iniciar-sesion",
     "/crear-cuenta",
     "/recuperar-contrasenia",
+    "/direcciones-entrega",
     //Client routes
     "/clientes/pedidos",
     "/metodos-pago",
+    "/metodos-pago/nuevo",
     // Admin routes
     "/empleados/productos",
     "/empleados/sucursales",
