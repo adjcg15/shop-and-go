@@ -1,49 +1,16 @@
-"use client";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { ProductCategory } from "@/types/types/model/products";
-import { getProductCategories } from "@/utils/api/products";
-import { useCallback, useEffect, useState } from "react";
+import { FC } from "react";
 import { CategoryCard } from "./CategoryCard";
 import { CategoryCardSkeleton } from "./CategoryCardSkeleton";
+import { CategoriesListState } from "@/types/types/components/products";
 
-type CategoriesListState = {
-  loading: boolean; 
-  value: ProductCategory[]; 
-  error: null | string;
+type CategoriesListProps = {
+  categoriesList: CategoriesListState,
+  updateCategoryOnList: (category: ProductCategory) => void;
 };
 
-const INITIAL_CATEGORIES_LIST_STATE = { loading: true, value: [], error: null };
-
-export const CategoriesList = () => {
-  const [categoriesList, setCategoriesList] = useState<CategoriesListState>(INITIAL_CATEGORIES_LIST_STATE);
-
-  const updateCategoryOnList = useCallback((updatedCategory: ProductCategory) => {
-    setCategoriesList(previousList => ({
-      ...previousList,
-      value: previousList.value.map(category => {
-        if(category.id === updatedCategory.id) {
-          return updatedCategory;
-        }
-  
-        return category
-      })
-    }))
-  }, []);
-
-  useEffect(() => {
-    const recoverProductCategories = async () => {
-      const { errorLoadingCategories, productCategories } = await getProductCategories();
-      
-      if(errorLoadingCategories) {
-        setCategoriesList({ loading: false, value: [], error: errorLoadingCategories });
-      } else {
-        setCategoriesList({ loading: false, value: productCategories, error: null });
-      }
-    }
-
-    recoverProductCategories();
-  }, []);
-
+export const CategoriesList: FC<CategoriesListProps> = ({ categoriesList, updateCategoryOnList }) => {
   return (
     categoriesList.error
     ? (
