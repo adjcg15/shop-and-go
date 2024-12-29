@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { ListWrapper } from "./_components/ListWrapper";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Métodos de pago del cliente",
@@ -14,7 +15,9 @@ export default function PaymentMethodsPage() {
           Mis métodos de pago
         </h1>
         <div className="mt-6 w-full flex justify-end">
-          <PrimaryButton>Registrar otra tarjeta</PrimaryButton>
+          <Link href="metodos-pago/nuevo">
+            <PrimaryButton>Registrar otra tarjeta</PrimaryButton>
+          </Link>
         </div>
       </header>
       <ListWrapper />

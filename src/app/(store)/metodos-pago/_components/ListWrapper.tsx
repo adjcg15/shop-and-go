@@ -34,7 +34,7 @@ export const ListWrapper = () => {
     !paymentMethods.loading ? (
       paymentMethods.value && paymentMethods.value!.length > 0 ? (
         <>
-          <ul className="mt-9 grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
+          <ul className="mt-4 grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
             <li className="flex justify-center items-center">
               <p className="font-semibold text-gray-800 text-center">Banco</p>
             </li>
