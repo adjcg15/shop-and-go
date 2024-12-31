@@ -18,6 +18,8 @@ const SECURE_PASSWORD_PATTER = new RegExp(
   "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!_\\-@&%$#])[A-Za-z\\d!_\\-@&%$#]{8,}$"
 );
 
+const CATEGORY_NAME_FORMAT = new RegExp("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s]{1,255}$");
+
 export {
   EMAIL_PATTERN,
   PHONE_NUMBER_PATTERN,
@@ -27,4 +29,5 @@ export {
   YEAR_PATTERN,
   CVV_PATTERN,
   USERNAME_PATTERN,
+  CATEGORY_NAME_FORMAT
 };
