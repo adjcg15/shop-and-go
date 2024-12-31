@@ -32,9 +32,11 @@ export const StoreNavbar = () => {
           ? (
             <div>
               <ShoppingCartButton className="mr-3"/>
-              <IconButton className="bg-white hover:bg-gray-50 mr-3">
-                <FaRegUser className="text-gray-800"/>
-              </IconButton>
+                <Link href="/mi-perfil">
+                  <IconButton className="bg-white hover:bg-gray-50 mr-3">
+                  <FaRegUser className="text-gray-800"/>
+                  </IconButton>
+                </Link>
               <LogoutButton/>
             </div>
           )
