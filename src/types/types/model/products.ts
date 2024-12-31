@@ -8,6 +8,7 @@ type Product = {
     imageUrl: string;
     salePrice: number;
     maximumAmount: number;
+    idCategory: number;
 };
 
 type ProductWithStock = Product & {

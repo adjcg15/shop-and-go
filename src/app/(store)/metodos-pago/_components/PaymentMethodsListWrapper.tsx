@@ -6,7 +6,7 @@ import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { PaymentMethod } from "@/types/types/model/payment_methods";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
-export const ListWrapper = () => {
+export const PaymentMethodListWrapper = () => {
     const { paymentMethods, deletePaymentMethod } = usePaymentMethods();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [methodToDelete, setMethodToDelete] = useState<PaymentMethod | null>(
@@ -33,7 +33,7 @@ export const ListWrapper = () => {
 
     return !paymentMethods.error ? (
         !paymentMethods.loading ? (
-            paymentMethods.value && paymentMethods.value!.length > 0 ? (
+            paymentMethods.value!.length > 0 ? (
                 <>
                     <ul className="grid grid-cols-4 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
                         <li className="flex justify-center items-center">
