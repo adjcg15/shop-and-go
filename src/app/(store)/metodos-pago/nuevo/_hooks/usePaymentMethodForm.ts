@@ -168,7 +168,7 @@ export function usePaymentMethod() {
                 ) {
                     notificationInfo.title = "Método de pago ya existente";
                     notificationInfo.message =
-                        "No se pudo crear el método de pago usted ya lo tiene registrado en el sistema";
+                        "No se pudo crear el método de pago porque usted ya lo tiene registrado en el sistema";
                     notificationInfo.type = NotificationTypes.WARNING;
                 }
             }
