@@ -38,7 +38,7 @@ const ClientInfo: FC = () => {
       <form className="space-y-8">
         <fieldset className="flex items-center justify-between">
           <legend className="sr-only">Nombre completo</legend>
-          <div className="w-full">
+          <div className={`form-group ${editingField === "fullName" ? "editing" : ""}`}>
             <label htmlFor="fullName" className="block text-gray-600 font-semibold">
               Nombre completo:
             </label>
@@ -88,7 +88,7 @@ const ClientInfo: FC = () => {
 
         <fieldset className="flex items-center justify-between">
           <legend className="sr-only">Fecha de nacimiento</legend>
-          <div className="w-full">
+          <div className={`form-group ${editingField === "birthdate" ? "editing" : ""}`}>
             <label htmlFor="birthdate" className="block text-gray-600 font-semibold">
               Fecha de nacimiento:
             </label>
