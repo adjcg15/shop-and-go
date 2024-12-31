@@ -4,6 +4,7 @@ import { usePaymentMethods } from "../_hooks/usePaymentMethods";
 import { PaymentMethods } from "./PaymentMethod";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { PaymentMethod } from "@/types/types/model/payment_methods";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export const ListWrapper = () => {
     const { paymentMethods, deletePaymentMethod } = usePaymentMethods();
@@ -85,16 +86,21 @@ export const ListWrapper = () => {
             )
         ) : (
             <div className="flex justify-center items-center h-full">
-                <p className="text-center mt-36 text-2xl gap-8">
+                <p className="text-center mt-36 text-2xl">
                     Cargando métodos de pago...
                 </p>
             </div>
         )
     ) : (
-        <div className="flex justify-center items-center h-full">
-            <p className="text-center mt-36 text-2xl gap-8">
-                {paymentMethods.error}
-            </p>
+        <div className="col-start-1 col-span-4 mt-2">
+            <ErrorBanner
+                image={{
+                    src: "/illustrations/empty-cart.svg",
+                    alt: "Imagen representativa de métodos de pago no encontrados",
+                }}
+                title={"¡Error al cargar los métodos de pago!"}
+                message={paymentMethods.error}
+            />
         </div>
     );
 };
