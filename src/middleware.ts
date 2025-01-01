@@ -79,5 +79,6 @@ export const config = {
         "/empleados/pedidos-asignados",
         // Sales executive routes
         "/empleados/pedidos",
+        "/empleados/productos-en-tienda",
     ],
 };

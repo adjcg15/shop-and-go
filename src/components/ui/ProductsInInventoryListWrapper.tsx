@@ -1,19 +1,27 @@
 "use client";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { ProductsInInventory } from "./ProductsInInventory";
-import { useProductsInInventory } from "../_hooks/useProductsInInventory";
-import { useCallback } from "react";
+import { useProductsInInventory } from "../../hooks/useProductsInInventory";
+import { useCallback, useContext } from "react";
 import { useRouter } from "next/navigation";
+import AuthContext from "@/contexts/auth/context";
+import UserRoles from "@/types/enums/user_roles";
 
 export const ProductsInInventoryListWrapper = () => {
     const { productsList, bottomOfProductsListRef } = useProductsInInventory();
     const router = useRouter();
+    const employee = useContext(AuthContext);
+    const userRole = employee.employeeProfile?.position;
 
     const handleModify = useCallback(
         (barCode: string) => {
-            router.push(`/empleados/productos/${barCode}`);
+            router.push(
+                userRole === UserRoles.ADMINISTRATOR
+                    ? `/empleados/productos/${barCode}`
+                    : `/empleados/productos-en-tienda/${barCode}`
+            );
         },
-        [router]
+        [router, userRole]
     );
 
     return productsList.error ? (

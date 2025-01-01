@@ -43,13 +43,13 @@ async function getProductsList(
     let productList: Product[] = [];
     let errorLoadingProducts: string | null = null;
     try {
-        if (userRole == UserRoles.ADMINISTRATOR) {
+        if (userRole === UserRoles.ADMINISTRATOR) {
             const { data: products } = await shopAndGoAPI.get<ProductsResponse>(
                 `/products/`,
                 { params }
             );
             productList = products;
-        } else if (userRole == UserRoles.SALES_EXECUTIVE) {
+        } else if (userRole === UserRoles.SALES_EXECUTIVE) {
             const { data: products } =
                 await shopAndGoAPI.get<ProductsInStoreResponse>(
                     `/stores/${idStore}/products/`,

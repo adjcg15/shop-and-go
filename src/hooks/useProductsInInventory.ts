@@ -21,7 +21,6 @@ export function useProductsInInventory() {
 
     const getProductsInInventory = useCallback(
         async (productsBatchSize: number, totalProductsToOmit: number) => {
-            console.log(userRole);
             startProductsLoading();
             let products: Product[] | null = null;
             let errorLoadingProducts: string | null = "";
