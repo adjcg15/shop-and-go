@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { ListWrapper } from "./_components/ListWrapper";
+import { PaymentMethodListWrapper } from "./_components/PaymentMethodsListWrapper";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function PaymentMethodsPage() {
                 </Link>
             </section>
             <section className="col-start-1 col-span-4 mt-2">
-                <ListWrapper />
+                <PaymentMethodListWrapper />
             </section>
         </div>
     );
