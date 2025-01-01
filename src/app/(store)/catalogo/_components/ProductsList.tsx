@@ -1,5 +1,5 @@
 import { FC, useCallback, useContext, useEffect, useRef } from "react";
-import { useProducts } from "../hooks/useProducts";
+import { useProducts } from "../../../../hooks/useProducts";
 import shopAndGoAPI from "@/utils/axios";
 import { ProductsInStoreResponse } from "@/types/types/api/products";
 import { ProductCard } from "./ProductCard";

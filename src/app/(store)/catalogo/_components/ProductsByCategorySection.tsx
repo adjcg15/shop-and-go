@@ -7,7 +7,7 @@ import shopAndGoAPI from "@/utils/axios";
 import { FC, useContext, useEffect } from "react";
 import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import { ProductCard } from "./ProductCard";
-import { useProducts } from "../hooks/useProducts";
+import { useProducts } from "../../../../hooks/useProducts";
 import { FiAlertCircle } from "react-icons/fi";
 import StoreContext from "@/contexts/store/context";
 import { AxiosError, isAxiosError } from "axios";

@@ -36,7 +36,7 @@ export const ProductsInInventoryListWrapper = () => {
                         alt: "Imagen representativa de un carrito de compras vacío",
                     }}
                     title={"¡No hay productos!"}
-                    message={` No existen productos registrados, deberá registrar uno nuevo`}
+                    message={`No existen productos registrados, deberá registrar uno nuevo`}
                 />
             )}
             {productsList.value.length > 0 && (
@@ -72,7 +72,7 @@ export const ProductsInInventoryListWrapper = () => {
                     </p>
                 </div>
             )}
-            <li ref={bottomOfProductsListRef} className="h-0"></li>
+            <div ref={bottomOfProductsListRef} className="h-0"></div>
         </>
     );
 };

@@ -16,7 +16,7 @@ export default function AdminProductsPage() {
                 </h1>
             </header>
             <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
-                <Link href="metodos-pago/nuevo">
+                <Link href="/empleados/productos/nuevo">
                     <PrimaryButton>Registrar otro producto</PrimaryButton>
                 </Link>
             </section>

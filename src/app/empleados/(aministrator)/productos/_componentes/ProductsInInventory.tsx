@@ -36,12 +36,14 @@ export const ProductsInInventory: FC<ProductProps> = ({
                     {product.name}
                 </p>
             </li>
-            <button
-                className="flex items-center justify-center text-lg sm:text-xl lg:text-2xl text-gray-800 hover:text-red-500 p-4"
-                onClick={() => onModify(product.barCode)}
-            >
-                <FaRegEdit width={80} height={80} />
-            </button>
+            <li className="flex justify-center items-center col-span-1 col-start-5">
+                <button
+                    className="flex items-center justify-center text-lg sm:text-xl lg:text-2xl text-gray-800 hover:text-red-500 p-4"
+                    onClick={() => onModify(product.barCode)}
+                >
+                    <FaRegEdit width={80} height={80} />
+                </button>
+            </li>
         </ul>
     );
 };

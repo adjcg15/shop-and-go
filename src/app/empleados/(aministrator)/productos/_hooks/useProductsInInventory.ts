@@ -3,7 +3,7 @@ import { Product } from "@/types/types/model/products";
 import AuthContext from "@/contexts/auth/context";
 import { getProductsList } from "@/utils/api/products";
 import UserRoles from "@/types/enums/user_roles";
-import { useProducts } from "@/app/(store)/catalogo/hooks/useProducts";
+import { useProducts } from "@/hooks/useProducts";
 
 export function useProductsInInventory() {
     const {
