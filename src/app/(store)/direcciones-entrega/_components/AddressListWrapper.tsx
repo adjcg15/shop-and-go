@@ -2,9 +2,9 @@
 
 import { Address } from "@/types/types/model/deliveries";
 import { useCallback, useState } from "react";
-import { Addresses } from "./Addresses";
+import { Addresses } from "../../_components/Addresses";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
-import { useAddresses } from "../_hooks/useAddresses";
+import { useAddresses } from "../../_hooks/useAddressList";
 
 export const AddressesListWrapper = () => {
   const { addresses, deleteAddress } = useAddresses();
