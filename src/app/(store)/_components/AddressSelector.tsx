@@ -45,7 +45,6 @@ export function AddressSelector() {
   };
 
   const handleConfirm = () => {
-    console.log(selectedAddress);
     if (selectedAddress) {
       setDeliveryAddress(selectedAddress);
       router.push("/catalogo");
