@@ -17,22 +17,8 @@ type StoreProviderProps = {
   children: ReactNode;
 };
 
-//TODO: clear plain delivery address
 const STORE_BASE_STATE: StoreState = {
-  deliveryAddress: {
-    apartmentNumber: null,
-    city: "Xalapa",
-    id: 1,
-    isActive: true,
-    latitude: 19.52953,
-    longitude: -96.92463,
-    municipality: "Xalapa",
-    neighborhood: "Zona centro",
-    postalCode: "91000",
-    state: "Veracruz",
-    street: "Francisco Javier Clavijero",
-    streetNumber: "17"
-  },
+  deliveryAddress: null,
   nearestStore: {
     isBeingCalculated: false,
     value: null,
@@ -85,10 +71,10 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   }, [state.deliveryAddress, setNearestStore]);
 
   useEffect(() => {
-    if(NEAREST_STORE_CHECK_ROUTES.includes(pathname) && state.nearestStore.error) {
+    if(NEAREST_STORE_CHECK_ROUTES.includes(pathname) && (state.deliveryAddress === null || state.nearestStore.error)) {
       router.replace("/?redirigidoDesde=/catalogo");
     }
-  }, [pathname, router, state.nearestStore.error]);
+  }, [pathname, router, state.nearestStore.error, state.deliveryAddress]);
 
   return (
     <StoreContext.Provider
