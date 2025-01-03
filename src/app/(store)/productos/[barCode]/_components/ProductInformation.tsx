@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { ProductWithStock } from "@/types/types/model/products";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { formatMXNCurrency } from "@/utils/currency";
 import Image from "next/image";
 import shopAndGoAPI from "@/utils/axios";
@@ -36,6 +36,7 @@ export const ProductInformation = () => {
     const Store = useContext(StoreContext);
     const idStore = Store?.nearestStore.value?.id;
     const addToCart = Store.addToCart;
+    const quantityRef = useRef<HTMLSelectElement>(null);
 
     const loadProduct = useCallback(
         async (barCode: string) => {
@@ -107,7 +108,7 @@ export const ProductInformation = () => {
 
     const handleAddToCart = () => {
         if (productWithStock.value) {
-            const quantity = Number((document.getElementById("quantity-selector") as HTMLSelectElement).value);
+            const quantity = Number(quantityRef.current?.value);
             addToCart({
                 product: productWithStock.value,
                 totalProducts: quantity
@@ -170,6 +171,7 @@ export const ProductInformation = () => {
                             </label>
                             <select
                                 id="quantity-selector"
+                                ref={quantityRef}
                                 className="p-2 border border-gray-300 rounded-md w-48"
                                 defaultValue={1}
                                 aria-describedby="quantity-selector-description"
