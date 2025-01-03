@@ -35,7 +35,7 @@ export const ProductInformation = () => {
         useState<ProductWithStockState>(INITIAL_PRODUCT_WITH_STOCK_STATE);
     const Store = useContext(StoreContext);
     const idStore = Store?.nearestStore.value?.id;
-    const addToCart = Store?.addToCart;
+    const addToCart = Store.addToCart;
 
     const loadProduct = useCallback(
         async (barCode: string) => {
@@ -108,7 +108,7 @@ export const ProductInformation = () => {
     const handleAddToCart = () => {
         if (productWithStock.value) {
             const quantity = Number((document.getElementById("quantity-selector") as HTMLSelectElement).value);
-            addToCart?.({
+            addToCart({
                 product: productWithStock.value,
                 totalProducts: quantity
             });
@@ -120,8 +120,6 @@ export const ProductInformation = () => {
                 } de '${productWithStock.value.name}' al carrito`,
                 type: NotificationTypes.SUCCESS,
             })
-
-            console.log(Store.shoppingCart);
         }
     };
 
