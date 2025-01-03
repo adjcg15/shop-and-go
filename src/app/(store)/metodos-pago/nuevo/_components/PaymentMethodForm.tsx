@@ -1,6 +1,6 @@
 "use client";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { usePaymentMethod } from "../_hooks/usePaymentMethodForm";
+import { usePaymentMethodForm } from "../_hooks/usePaymentMethodForm";
 import {
     CVV_PATTERN,
     MONTH_PATTERN,
@@ -19,7 +19,7 @@ export const PaymentMethodForm = () => {
         handleIssuerChange,
         issuingBanks,
         issuerColor,
-    } = usePaymentMethod();
+    } = usePaymentMethodForm();
 
     const validateLuhn = useCallback((cardNumber: string) => {
         let sum = 0;
@@ -43,7 +43,7 @@ export const PaymentMethodForm = () => {
 
     return !issuingBanks.loading ? (
         !issuingBanks.error ? (
-            issuingBanks.value && (
+            issuingBanks.value.length > 0 && (
                 <form onSubmit={handleSubmit}>
                     <div
                         className={`form-group ${

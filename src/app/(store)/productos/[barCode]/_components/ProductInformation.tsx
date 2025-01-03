@@ -144,7 +144,13 @@ export const ProductInformation = () => {
                             </p>
                         </main>
                         <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
-                            <PrimaryButton>
+                            <PrimaryButton
+                                disabled={
+                                    productWithStock.value.stock > 0
+                                        ? false
+                                        : true
+                                }
+                            >
                                 <div className="flex items-center">
                                     <span>Agregar producto al carrito</span>
                                     <FaCartShopping className="ml-2" />

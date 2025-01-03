@@ -71,6 +71,7 @@ export const config = {
         "/mi-perfil",
         // Admin routes
         "/empleados/productos",
+        "/empleados/productos/nuevo",
         "/empleados/sucursales",
         "/empleados/categorias",
         "/empleados/personal",
