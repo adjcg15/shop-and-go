@@ -35,11 +35,26 @@ export const CategoriesList: FC<CategoriesListProps> = ({ categoriesList, update
             ))
           )
           : (
-            categoriesList.value.map(category => (
-              <li className="mb-4 lg:mb-0" key={category.id}>
-                <CategoryCard category={category} updateCategoryOnList={updateCategoryOnList}/>
-              </li>
-            ))
+            categoriesList.value.length > 0
+            ? (
+              categoriesList.value.map(category => (
+                <li className="mb-4 lg:mb-0" key={category.id}>
+                  <CategoryCard category={category} updateCategoryOnList={updateCategoryOnList}/>
+                </li>
+              ))
+            )
+            : (
+              <div className="col-span-full">
+                <ErrorBanner
+                  image={{
+                    src: "/illustrations/empty-cart.svg",
+                    alt: "Imagen representativa de un carrito de compras vacío",
+                  }}
+                  title={"Lista vacía"}
+                  message={`Aún no se ha registrado ninguna categoría de productos.`}
+                />
+              </div>
+            )
           )
         }
       </ul>
