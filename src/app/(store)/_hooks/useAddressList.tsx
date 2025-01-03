@@ -76,7 +76,7 @@ export function useAddresses() {
         setAddresses((previousMethodsState) => ({
             ...previousMethodsState,
             value: previousMethodsState.value!.filter(
-                (address) => address.id !== id
+                (address) => address.id !== id  
             ),
         }));
       } catch (error) {
