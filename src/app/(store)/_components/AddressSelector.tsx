@@ -11,6 +11,7 @@ import { useParam } from "@/hooks/useParam";
 import { notify } from "@/utils/notifications";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export function AddressSelector() {
   const { clientProfile } = useContext(AuthContext);
@@ -36,8 +37,6 @@ export function AddressSelector() {
     if (deliveryAddress && deliveryAddress.id !== address.id) {
       setSelectedAddress(address);
       setIsModalOpen(true);
-    } else if (deliveryAddress === address) {
-      router.push("/catalogo");
     } else {
       setDeliveryAddress(address);
       router.push("/catalogo");
@@ -78,11 +77,14 @@ export function AddressSelector() {
           />
         </>
       ) : (
-        <div className="flex justify-center items-start h-96">
-          <p className="text-center mt-36 text-2xl gap-8">
-            No hay direcciones de entrega registradas
-          </p>
-        </div>
+        <ErrorBanner
+          image={{
+            src: "/illustrations/empty-cart.svg",
+            alt: "Imagen representativa de un carrito vacío",
+          }}
+          title={"¡No hay direcciones registradas!"}
+          message={"Registra una dirección de entrega para continuar"}
+        />
       )
     ) : (
       <div className="flex justify-center items-start h-96">
@@ -92,10 +94,13 @@ export function AddressSelector() {
       </div>
     )
   ) : (
-    <div className="flex justify-center items-start h-96">
-      <p className="text-center mt-36 text-2xl gap-8">
-        Ocurrió un error al cargar las direcciones de entrega
-      </p>
-    </div>
+    <ErrorBanner
+          image={{
+            src: "/illustrations/server-error.svg",
+            alt: "Imagen representativa de un servidor no disponible",
+          }}
+          title={"¡Problemas técnicos!"}
+          message={"Ocurrió un error al cargar las direcciones de entrega"}
+        />
   );
 }
