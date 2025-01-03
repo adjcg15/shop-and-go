@@ -12,6 +12,8 @@ import shopAndGoAPI from "@/utils/axios";
 import { CreateProductErrorCodes } from "@/types/enums/error_codes";
 import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
+import { Store } from "@/types/types/model/stores";
+import { getStores } from "@/utils/api/stores";
 
 type PaymentMethodForm = {
     barCode: string;
@@ -23,17 +25,26 @@ type PaymentMethodForm = {
     productCategory: string;
 };
 
-const INITIA_PRODUCT_CATEGORIES_LIST_STATE = {
+const INITIA_GENERAL_LIST_STATE = {
     loading: false,
     value: [],
     error: null,
+};
+
+type StoresListState = {
+    loading: boolean;
+    value: Store[];
+    error: null | string;
 };
 
 export function useProductForm() {
     const [isLoadingRegister, setIsLoadingRegister] = useState(false);
     const [categoryColor, setCategoryColor] = useState("text-gray-400");
     const [productCategories, setProductCategories] =
-        useState<CategoriesListState>(INITIA_PRODUCT_CATEGORIES_LIST_STATE);
+        useState<CategoriesListState>(INITIA_GENERAL_LIST_STATE);
+    const [stores, setStores] = useState<StoresListState>(
+        INITIA_GENERAL_LIST_STATE
+    );
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
@@ -91,9 +102,33 @@ export function useProductForm() {
         }
     }, []);
 
+    const loadStores = useCallback(async () => {
+        setStores(() => ({
+            loading: true,
+            value: [],
+            error: null,
+        }));
+        const { errorLoadingStores, storesList } = await getStores();
+
+        if (errorLoadingStores) {
+            setStores({
+                loading: false,
+                value: [],
+                error: errorLoadingStores,
+            });
+        } else {
+            setStores({
+                loading: false,
+                value: storesList,
+                error: null,
+            });
+        }
+    }, []);
+
     useEffect(() => {
         loadProductCategories();
-    }, [loadProductCategories]);
+        loadStores();
+    }, [loadProductCategories, loadStores]);
 
     const onSubmit: SubmitHandler<PaymentMethodForm> = async ({
         barCode,
@@ -225,6 +260,7 @@ export function useProductForm() {
         handleImageChange,
         getGenerateCode,
         productCategories,
+        stores,
         setValue,
         categoryColor,
     };

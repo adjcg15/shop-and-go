@@ -16,49 +16,12 @@ export const ProductForm = () => {
         handleImageChange,
         getGenerateCode,
         productCategories,
+        stores,
         categoryColor,
     } = useProductForm();
 
-    const stores = [
-        {
-            storeName: "Xalapa",
-            idStore: 1,
-            idInventory: undefined,
-            amount: undefined,
-            expirationDate: undefined,
-        },
-        {
-            storeName: "Veracruz",
-            idStore: 2,
-            idInventory: undefined,
-            amount: undefined,
-            expirationDate: undefined,
-        },
-        {
-            storeName: "Córdoba",
-            idStore: 3,
-            idInventory: undefined,
-            amount: undefined,
-            expirationDate: undefined,
-        },
-        {
-            storeName: "Coatepec",
-            idStore: 4,
-            idInventory: undefined,
-            amount: undefined,
-            expirationDate: undefined,
-        },
-        {
-            storeName: "Orizaba",
-            idStore: 5,
-            idInventory: undefined,
-            amount: undefined,
-            expirationDate: undefined,
-        },
-    ];
-
-    return !productCategories.loading ? (
-        !productCategories.error ? (
+    return !productCategories.loading && !stores.loading ? (
+        !productCategories.error && !stores.error ? (
             <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex items-center space-x-2">
                     <div
@@ -223,28 +186,27 @@ export const ProductForm = () => {
                     <h1 className="lg:text-3xl md:text-3xl sm:text-2xl font-bold text-gray-800">
                         Inventario por sucursal
                     </h1>
-                    <ul className="mt-3 w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
-                        <li className="flex justify-center items-center col-span-1 col-start-1">
-                            <p className="font-semibold text-gray-800 text-center">
-                                Sucursal
-                            </p>
-                        </li>
-                        <li className="flex justify-center items-center col-span-1 col-start-2">
-                            <p className="font-semibold text-gray-800 text-center ">
-                                Caducidad
-                            </p>
-                        </li>
-                        <li className="flex justify-center items-center col-span-1 col-start-3">
-                            <p className="font-semibold text-gray-800 text-center">
-                                Cantidad
-                            </p>
-                        </li>
-                    </ul>
-                    {stores.map((store) => (
-                        <InventoriesByStore
-                            key={store.idStore}
-                            inventory={store}
-                        />
+                    {stores.value.length > 0 && (
+                        <ul className="mt-3 w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
+                            <li className="flex justify-center items-center col-span-1 col-start-1">
+                                <p className="font-semibold text-gray-800 text-center">
+                                    Sucursal
+                                </p>
+                            </li>
+                            <li className="flex justify-center items-center col-span-1 col-start-2">
+                                <p className="font-semibold text-gray-800 text-center ">
+                                    Caducidad
+                                </p>
+                            </li>
+                            <li className="flex justify-center items-center col-span-1 col-start-3">
+                                <p className="font-semibold text-gray-800 text-center">
+                                    Cantidad
+                                </p>
+                            </li>
+                        </ul>
+                    )}
+                    {stores.value.map((store) => (
+                        <InventoriesByStore key={store.id} store={store} />
                     ))}
                 </div>
                 <div className="flex justify-end mt-6">
@@ -262,15 +224,15 @@ export const ProductForm = () => {
                         src: "/illustrations/empty-cart.svg",
                         alt: "Imagen representativa de categorías de productos no cargadas",
                     }}
-                    title={"¡Error al cargar las categorías de productos!"}
-                    message={productCategories.error}
+                    title={"¡Error al cargar las categorías o las tiendas!"}
+                    message="Ocurrió un error al cargar las categorías de productos o las tiendas"
                 />
             </div>
         )
     ) : (
         <div className="col-start-1 col-span-4 mt-2">
             <p className="text-center mt-36 text-2xl">
-                Cargando categorías de productos...
+                Cargando categorías de productos y tiendas...
             </p>
         </div>
     );
