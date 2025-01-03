@@ -15,7 +15,7 @@ import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export function AddressSelector() {
   const { clientProfile } = useContext(AuthContext);
-  const { deliveryAddress, setDeliveryAddress } = useContext(StoreContext);
+  const { deliveryAddress, setDeliveryAddress, clearCart } = useContext(StoreContext);
   const { addresses } = useAddresses();
   const router = useRouter();
   const { nearestStore } = useContext(StoreContext);
@@ -46,6 +46,7 @@ export function AddressSelector() {
   const handleConfirm = () => {
     if (selectedAddress) {
       setDeliveryAddress(selectedAddress);
+      clearCart();
       router.push("/catalogo");
     }
     setIsModalOpen(false);
