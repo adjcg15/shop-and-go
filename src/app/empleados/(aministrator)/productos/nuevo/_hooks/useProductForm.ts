@@ -9,7 +9,7 @@ import { HttpStatusCodes } from "@/types/enums/http";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { isClientErrorHTTPCode } from "@/utils/http";
 import shopAndGoAPI from "@/utils/axios";
-import { CreatePaymentMethodErrorCodes } from "@/types/enums/error_codes";
+import { CreateProductErrorCodes } from "@/types/enums/error_codes";
 import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
 
@@ -147,22 +147,23 @@ export function useProductForm() {
             ) {
                 const errorCode = error.response?.data?.errorCode;
                 if (
-                    errorCode === CreatePaymentMethodErrorCodes.CLIENT_NOT_FOUND
+                    errorCode ===
+                    CreateProductErrorCodes.BAR_CODE_ALREADY_EXISTS
                 ) {
-                    notificationInfo.title = "Cliente incorrecto";
+                    notificationInfo.title = "Código de barras existente";
                     notificationInfo.message =
-                        "No se pudieron obtener los métodos de pago porque el cliente no se pudo identificar";
+                        "Genere o ingrese otro código de barras, el anterior ya está en uso";
                     notificationInfo.type = NotificationTypes.WARNING;
                 } else if (
-                    errorCode === CreatePaymentMethodErrorCodes.ISSUER_NOT_FOUND
+                    errorCode ===
+                    CreateProductErrorCodes.PRODUCT_CATEGORY_NOT_FOUND
                 ) {
-                    notificationInfo.title = "Banco emisor no encontrado";
+                    notificationInfo.title = "Categoría no encontrada";
                     notificationInfo.message =
-                        "No se pudo crear el método de pago porque no se encontró el banco emisor en el sistema";
+                        "La categoría seleccionada no existe actualmente en el sistema";
                     notificationInfo.type = NotificationTypes.WARNING;
                 } else if (
-                    errorCode ==
-                    CreatePaymentMethodErrorCodes.PAYMENT_METHOD_ALREADY_EXISTS
+                    errorCode == CreateProductErrorCodes.PRODUCT_NOT_FOUND
                 ) {
                     notificationInfo.title = "Método de pago ya existente";
                     notificationInfo.message =
@@ -196,7 +197,8 @@ export function useProductForm() {
                 if (!allowedExtensions.test(file.name)) {
                     const notificationInfo: NotificationInfo = {
                         title: "Error al cargar la imagen",
-                        message: "El archivo debe ser de imagen",
+                        message:
+                            "El archivo debe ser un formato de imagen válido",
                         type: NotificationTypes.ERROR,
                     };
                     notify(notificationInfo);

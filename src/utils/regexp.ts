@@ -4,7 +4,7 @@ const EMAIL_PATTERN = new RegExp(
 
 const USERNAME_PATTERN = new RegExp("^[a-zA-Z0-9]+$");
 
-const ONLY_POSITIVE_INTEGERS = new RegExp("^d+$");
+const ONLY_POSITIVE_INTEGERS = new RegExp("^\\d+$");
 
 const ONLY_LETTERS_PATTERN = new RegExp("^[A-Za-zÁ-ÿ\\s]+$");
 

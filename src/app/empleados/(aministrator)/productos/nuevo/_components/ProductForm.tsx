@@ -4,6 +4,7 @@ import { useProductForm } from "../_hooks/useProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { ONLY_POSITIVE_INTEGERS } from "@/utils/regexp";
+import { InventoriesByStore } from "./InventoriesByStore";
 
 export const ProductForm = () => {
     const {
@@ -17,6 +18,44 @@ export const ProductForm = () => {
         productCategories,
         categoryColor,
     } = useProductForm();
+
+    const stores = [
+        {
+            storeName: "Xalapa",
+            idStore: 1,
+            idInventory: undefined,
+            amount: undefined,
+            expirationDate: undefined,
+        },
+        {
+            storeName: "Veracruz",
+            idStore: 2,
+            idInventory: undefined,
+            amount: undefined,
+            expirationDate: undefined,
+        },
+        {
+            storeName: "Córdoba",
+            idStore: 3,
+            idInventory: undefined,
+            amount: undefined,
+            expirationDate: undefined,
+        },
+        {
+            storeName: "Coatepec",
+            idStore: 4,
+            idInventory: undefined,
+            amount: undefined,
+            expirationDate: undefined,
+        },
+        {
+            storeName: "Orizaba",
+            idStore: 5,
+            idInventory: undefined,
+            amount: undefined,
+            expirationDate: undefined,
+        },
+    ];
 
     return !productCategories.loading ? (
         !productCategories.error ? (
@@ -116,9 +155,11 @@ export const ProductForm = () => {
                     }`}
                 >
                     <label>Precio de venta</label>
+
                     <input
                         id="salePrice"
                         type="number"
+                        step="any"
                         placeholder="Ej. 74.5"
                         {...register("salePrice", {
                             required: true,
@@ -177,6 +218,34 @@ export const ProductForm = () => {
                     <p className="error">
                         Debe seleccionar una categoría de producto
                     </p>
+                </div>
+                <div className="flex flex-col items-center mt-8">
+                    <h1 className="lg:text-3xl md:text-3xl sm:text-2xl font-bold text-gray-800">
+                        Inventario por sucursal
+                    </h1>
+                    <ul className="mt-3 w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
+                        <li className="flex justify-center items-center col-span-1 col-start-1">
+                            <p className="font-semibold text-gray-800 text-center">
+                                Sucursal
+                            </p>
+                        </li>
+                        <li className="flex justify-center items-center col-span-1 col-start-2">
+                            <p className="font-semibold text-gray-800 text-center ">
+                                Caducidad
+                            </p>
+                        </li>
+                        <li className="flex justify-center items-center col-span-1 col-start-3">
+                            <p className="font-semibold text-gray-800 text-center">
+                                Cantidad
+                            </p>
+                        </li>
+                    </ul>
+                    {stores.map((store) => (
+                        <InventoriesByStore
+                            key={store.idStore}
+                            inventory={store}
+                        />
+                    ))}
                 </div>
                 <div className="flex justify-end mt-6">
                     <PrimaryButton disabled={isLoadingRegister}>
