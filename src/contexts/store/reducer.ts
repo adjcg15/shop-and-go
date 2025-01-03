@@ -34,11 +34,6 @@ export function storeReducer(state: StoreState, action: StoreActions): StoreStat
       return {
         ...state,
         deliveryAddress: action.payload,
-        nearestStore: {
-          isBeingCalculated: false,
-          value: null,
-          error: null
-        }
       };
     case StoreActionTypes.CLEAR_STORE_STATE:
       return {
