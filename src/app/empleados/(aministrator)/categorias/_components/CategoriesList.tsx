@@ -16,11 +16,11 @@ export const CategoriesList: FC<CategoriesListProps> = ({ categoriesList, update
     ? (
       <ErrorBanner
         image={{
-          src: "illustrations/server-error.svg",
+          src: "/illustrations/server-error.svg",
           alt: "Ilustración representativa de un error en un servidor"
         }}
         message={categoriesList.error}
-        title="¡Problemas técnicos"
+        title="¡Problemas técnicos!"
       />
     )
     : (
