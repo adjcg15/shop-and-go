@@ -45,6 +45,33 @@ export function storeReducer(state: StoreState, action: StoreActions): StoreStat
         },
         shoppingCart: []
       };
+    case StoreActionTypes.ADD_PRODUCT_TO_CART:
+      const existingCartItem = state.shoppingCart.find(item => item.product.id === action.payload.product.id);
+      if (existingCartItem) {
+        return {
+          ...state,
+          shoppingCart: state.shoppingCart.map(item =>
+            item.product.id === action.payload.product.id
+              ? { ...item, totalProducts: action.payload.totalProducts }
+              : item
+          )
+        };
+      } else {
+        return {
+          ...state,
+          shoppingCart: [...state.shoppingCart, action.payload]
+        };
+      }
+    case StoreActionTypes.REMOVE_PRODUCT_FROM_CART:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.filter(item => item.product.id !== action.payload)
+      };
+    case StoreActionTypes.CLEAR_CART:
+      return {
+        ...state,
+        shoppingCart: []
+      };
     default:
       return state;
   }
