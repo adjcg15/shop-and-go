@@ -32,8 +32,22 @@ export function useStores() {
     }
   }, []);
 
+  const updateStoreOnList = useCallback((updatedStore: Store) => {
+    setStoresList(previousList => ({
+      ...previousList,
+      value: previousList.value.map(store => {
+        if(store.id === updatedStore.id) {
+          return updatedStore;
+        } 
+  
+        return store;
+      })
+    }))
+  }, []);
+
   return {
     recoverStores,
-    storesList
+    storesList,
+    updateStoreOnList
   };
 }
