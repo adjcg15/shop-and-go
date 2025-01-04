@@ -148,6 +148,10 @@ body {
   .form-group.form-group.invalid > input {
     @apply border-red-600;
   }
+
+  .form-group.invalid .password-container > input {
+    @apply border-red-600;
+  }  
 }
 
 @keyframes rotation {

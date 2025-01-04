@@ -87,12 +87,17 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     }
   }, [pathname, state.clientProfile, state.employeeProfile, refreshSession]);
 
+  const updateClientProfile = useCallback((profile: Client) => {
+    dispatch({ type: AuthActionTypes.UPDATE_CLIENT_PROFILE, payload: profile });
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
         ...state,
         login,
-        logout
+        logout,
+        updateClientProfile
       }}
     >
       {

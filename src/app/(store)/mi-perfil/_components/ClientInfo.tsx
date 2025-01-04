@@ -1,58 +1,60 @@
 "use client";
 
-import AuthContext from "@/contexts/auth/context";
-import { FC, useState, useContext } from "react";
+import { useUpdateClientInfo } from "../_hooks/useUpdateClientInfo";
+import { FULL_NAME_PATTERN } from "@/utils/regexp";
+import { FC } from "react";
 import { FiEdit2, FiCheck, FiX } from "react-icons/fi";
-
-const formatDate = (dateString: string | undefined) => {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  const options: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-  return date.toLocaleDateString("es-ES", options);
-};
+import { formatDate, validateBirthdate } from "@/utils/date";
 
 const ClientInfo: FC = () => {
-  const { clientProfile } = useContext(AuthContext);
-
-  const [editingField, setEditingField] = useState<string | null>(null);
-  const [newFullName, setNewFullName] = useState(clientProfile?.fullName);
-  const [newBirthdate, setNewBirthdate] = useState(clientProfile?.birthdate);
-
-  const handleSave = async () => {
-    setEditingField(null);
-  };
-
-  const handleCancel = () => {
-    setNewFullName(clientProfile?.fullName);
-    setNewBirthdate(clientProfile?.birthdate);
-    setEditingField(null);
-  };
+  const {
+    editingField,
+    setEditingField,
+    newFullName,
+    newBirthdate,
+    errors,
+    register,
+    handleSubmit,
+    handleCancel,
+  } = useUpdateClientInfo();
 
   return (
     <section aria-labelledby="client-info-section">
-      <h2 id="client-info-section" className="sr-only">Información del Cliente</h2>
-      <form className="space-y-8">
+      <h2 id="client-info-section" className="sr-only">
+        Información del Cliente
+      </h2>
+      <form className="space-y-8" onSubmit={handleSubmit}>
         <fieldset className="flex items-center justify-between">
           <legend className="sr-only">Nombre completo</legend>
-          <div className={`form-group ${editingField === "fullName" ? "editing" : ""}`}>
-            <label htmlFor="fullName" className="block text-gray-600 font-semibold">
+          <div
+            className={`w-full form-group ${
+              editingField === "fullName" ? "editing" : ""
+            } ${errors.fullName ? "invalid" : ""}`}
+          >
+            <label
+              htmlFor="fullName"
+            >
               Nombre completo:
             </label>
             {editingField === "fullName" ? (
               <input
                 id="fullName"
                 type="text"
-                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                value={newFullName}
-                onChange={(e) => setNewFullName(e.target.value)}
+                defaultValue={newFullName}
+                {...register("fullName", {
+                  required: true,
+                  maxLength: 200,
+                  pattern: FULL_NAME_PATTERN,
+                })}
               />
             ) : (
               <p className="w-full mt-2 p-2 text-gray-800 border border-transparent rounded-md">
-                {clientProfile?.fullName || "Sin información"}
+                {newFullName || "Sin información"}
+              </p>
+            )}
+            {errors.fullName && editingField === "fullName" && (
+              <p className="error">
+              Nombre completo inválido. Se deben incluir al menos nombre y apellido.
               </p>
             )}
           </div>
@@ -61,7 +63,7 @@ const ClientInfo: FC = () => {
               <>
                 <button
                   type="button"
-                  onClick={handleSave}
+                  onClick={handleSubmit}
                   className="text-green-500 hover:text-green-600"
                 >
                   <FiCheck size={24} />
@@ -88,22 +90,33 @@ const ClientInfo: FC = () => {
 
         <fieldset className="flex items-center justify-between">
           <legend className="sr-only">Fecha de nacimiento</legend>
-          <div className={`form-group ${editingField === "birthdate" ? "editing" : ""}`}>
-            <label htmlFor="birthdate" className="block text-gray-600 font-semibold">
+          <div
+            className={`form-group ${
+              editingField === "birthdate" ? "editing" : ""
+            } ${errors.birthdate ? "invalid" : ""}`}
+          >
+            <label
+              htmlFor="birthdate"
+            >
               Fecha de nacimiento:
             </label>
             {editingField === "birthdate" ? (
               <input
                 id="birthdate"
                 type="date"
-                className="w-full mt-2 p-2 border border-gray-300 rounded-md"
-                value={newBirthdate}
-                onChange={(e) => setNewBirthdate(e.target.value)}
+                defaultValue={newBirthdate || ""}
+                {...register("birthdate", {
+                  required: true,
+                  validate: (value) => validateBirthdate(value ?? ""),
+                })}
               />
             ) : (
               <p className="w-full mt-2 p-2 text-gray-800 border border-transparent rounded-md">
-                {formatDate(clientProfile?.birthdate) || "Sin información"}
+                {formatDate(newBirthdate) || "Sin información"}
               </p>
+            )}
+            {errors.birthdate && editingField==="birthdate" && (
+              <p className="error">{errors.birthdate.message}</p>
             )}
           </div>
           <div className="min-h-[80px] ml-2 flex items-center space-x-2">
@@ -111,7 +124,7 @@ const ClientInfo: FC = () => {
               <>
                 <button
                   type="button"
-                  onClick={handleSave}
+                  onClick={handleSubmit}
                   className="text-green-500 hover:text-green-600"
                 >
                   <FiCheck size={24} />

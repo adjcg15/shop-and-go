@@ -57,7 +57,7 @@ export const Addresses: FC<AddressesProps> = ({
                 {address.neighborhood}, {address.municipality}, {address.state}
               </p>
               {selectedAddress?.id === address.id && (
-                <span className="text-blue-600 font-bold">Dirección actual</span>
+                <span className="text-orange-500 font-bold">Dirección actual</span>
               )}
             </div>
             {showDelete && (
