@@ -1,5 +1,6 @@
 import { TernaryButton } from "@/components/buttons/TernaryButton";
 import { Store } from "@/types/types/model/stores";
+import { parseToCommonTime } from "@/utils/date";
 import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 import { FC } from "react";
 
@@ -41,7 +42,7 @@ export const StorePresentationCard: FC<StorePresentationCardProps> = ({ store, o
 
         <section className="mt-3">
           <p className="font-bold"><small>Horario de atención</small></p>
-          <p className="text-xl">{`${store.openingTime}-${store.closingTime}`}</p>
+          <p className="text-xl">{`${parseToCommonTime(store.openingTime)}-${parseToCommonTime(store.closingTime)}`}</p>
         </section>
 
         <section className="mt-3">
