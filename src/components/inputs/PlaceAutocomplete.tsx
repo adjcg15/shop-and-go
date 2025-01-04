@@ -7,9 +7,10 @@ type PlaceAutocompleteProps = {
   id: string;
   value: string;
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+  disabled?: boolean;
 };
 
-export const PlaceAutocomplete:FC<PlaceAutocompleteProps> = ({ id, value, onPlaceSelect }) => {
+export const PlaceAutocomplete:FC<PlaceAutocompleteProps> = ({ id, value, onPlaceSelect, disabled }) => {
   const places = useMapsLibrary("places");
   const [placeAutocomplete, setPlaceAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,7 +36,7 @@ export const PlaceAutocomplete:FC<PlaceAutocompleteProps> = ({ id, value, onPlac
   return (
     <div className="autocomplete-container">
       {value && <p><small>Dirección actual: {value}</small></p>}
-      <input id={id} ref={inputRef}/>
+      <input id={id} ref={inputRef} disabled={disabled}/>
     </div>
   );
 }
