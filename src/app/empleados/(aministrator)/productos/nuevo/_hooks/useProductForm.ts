@@ -32,6 +32,8 @@ const INITIA_GENERAL_LIST_STATE = {
     error: null,
 };
 
+type InventoryField = "stock" | "expirationDate";
+
 type StoresListState = {
     loading: boolean;
     value: Store[];
@@ -43,9 +45,19 @@ export function useProductForm() {
     const [categoryColor, setCategoryColor] = useState("text-gray-400");
     const [productCategories, setProductCategories] =
         useState<CategoriesListState>(INITIA_GENERAL_LIST_STATE);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [stores, setStores] = useState<StoresListState>(
         INITIA_GENERAL_LIST_STATE
     );
+    const [inventories, setInventories] = useState(() => {
+        return stores.value.length
+            ? stores.value.map((store) => ({
+                  idStore: store.id,
+                  stock: "",
+                  expirationDate: "",
+              }))
+            : [];
+    });
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
@@ -70,6 +82,20 @@ export function useProductForm() {
     });
 
     const router = useRouter();
+
+    const handleInventoryChange = (
+        storeId: number,
+        field: InventoryField,
+        value: string | number
+    ) => {
+        setInventories((prev) =>
+            prev.map((inventory) =>
+                inventory.idStore === storeId
+                    ? { ...inventory, [field]: value }
+                    : inventory
+            )
+        );
+    };
 
     const loadProductCategories = useCallback(async () => {
         setProductCategories(() => ({
@@ -127,6 +153,18 @@ export function useProductForm() {
     }, []);
 
     useEffect(() => {
+        if (stores.value.length) {
+            setInventories(
+                stores.value.map((store) => ({
+                    idStore: store.id,
+                    stock: "",
+                    expirationDate: "",
+                }))
+            );
+        }
+    }, [stores.value]);
+
+    useEffect(() => {
         loadProductCategories();
         loadStores();
     }, [loadProductCategories, loadStores]);
@@ -135,7 +173,6 @@ export function useProductForm() {
         barCode,
         name,
         description,
-        image,
         salePrice,
         maximumAmount,
         productCategory,
@@ -148,14 +185,13 @@ export function useProductForm() {
         maximumAmount = maximumAmount.trim();
 
         const { errorUploadImage, imageUrl } = await uploadImageToCloudinary(
-            image!
+            selectedFile!
         );
 
         if (errorUploadImage) {
             const notificationInfo: NotificationInfo = {
-                title: "No se pudo cargar la imagen",
-                message:
-                    "Por el momento el sistema no se encuentra disponible, por favor intente más tarde",
+                title: "Error al cargar la imagen",
+                message: errorUploadImage,
                 type: NotificationTypes.ERROR,
             };
             notify(notificationInfo);
@@ -170,9 +206,10 @@ export function useProductForm() {
                 salePrice,
                 maximumAmount,
                 idCategory: productCategory,
+                inventories,
             };
             try {
-                await shopAndGoAPI.post(`products`, requestBody);
+                await shopAndGoAPI.post(`/products`, requestBody);
                 const notificationInfo: NotificationInfo = {
                     title: "Producto registrado",
                     message: "El producto ha sido registrado exitosamente",
@@ -247,6 +284,8 @@ export function useProductForm() {
                     };
                     notify(notificationInfo);
                     e.target.value = "";
+                } else {
+                    setSelectedFile(file);
                 }
             }
         },
@@ -269,6 +308,8 @@ export function useProductForm() {
         handleImageChange,
         getGenerateCode,
         productCategories,
+        inventories,
+        handleInventoryChange,
         stores,
         setValue,
         categoryColor,

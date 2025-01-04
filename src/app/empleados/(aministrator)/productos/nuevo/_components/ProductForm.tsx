@@ -16,6 +16,8 @@ export const ProductForm = () => {
         handleImageChange,
         getGenerateCode,
         productCategories,
+        inventories,
+        handleInventoryChange,
         stores,
         categoryColor,
     } = useProductForm();
@@ -100,7 +102,7 @@ export const ProductForm = () => {
                         Fotografía del producto (.png, .jpeg, .jpg, .webp)
                     </label>
                     <input
-                        id="imageUrl"
+                        id="image"
                         type="file"
                         accept="image/*"
                         {...register("image", {
@@ -206,7 +208,17 @@ export const ProductForm = () => {
                         </ul>
                     )}
                     {stores.value.map((store) => (
-                        <InventoriesByStore key={store.id} store={store} />
+                        <InventoriesByStore
+                            key={store.id}
+                            store={store}
+                            inventory={
+                                inventories.find(
+                                    (inventory) =>
+                                        inventory.idStore === store.id
+                                ) || {}
+                            }
+                            onInventoryChange={handleInventoryChange}
+                        />
                     ))}
                 </div>
                 <div className="flex justify-end mt-6">

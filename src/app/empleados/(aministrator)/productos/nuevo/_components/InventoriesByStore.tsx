@@ -1,6 +1,8 @@
 "use client";
 import { FC } from "react";
 
+type InventoryField = "stock" | "expirationDate";
+
 type InventoriesByStoreProps = {
     inventory?: {
         id?: number;
@@ -11,11 +13,17 @@ type InventoriesByStoreProps = {
         id: number;
         name: string;
     };
+    onInventoryChange: (
+        storeId: number,
+        field: InventoryField,
+        value: string | number
+    ) => void;
 };
 
 export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
     inventory,
     store,
+    onInventoryChange,
 }) => {
     return (
         <ul
@@ -35,6 +43,13 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                     id="expirationDate"
                     type="date"
                     defaultValue={inventory ? inventory.expirationDate : ""}
+                    onChange={(e) =>
+                        onInventoryChange(
+                            store.id,
+                            "expirationDate",
+                            e.target.value
+                        )
+                    }
                 />
             </li>
             <li className="flex justify-center items-center col-span-1 col-start-3">
@@ -43,6 +58,13 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                     type="number"
                     min="1"
                     defaultValue={inventory ? inventory.amount : ""}
+                    onChange={(e) =>
+                        onInventoryChange(
+                            store.id,
+                            "stock",
+                            Number(e.target.value)
+                        )
+                    }
                 />
             </li>
         </ul>
