@@ -1,5 +1,6 @@
 import { TernaryButton } from "@/components/buttons/TernaryButton";
 import { Store } from "@/types/types/model/stores";
+import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 import { FC } from "react";
 
 type StoreCardProps = {
@@ -7,10 +8,30 @@ type StoreCardProps = {
 };
 
 export const StoreCard:FC<StoreCardProps> = ({store}) => {
+  const storeLocation = { lat: store.latitude, lng: store.longitude };
+
   return (
     <article className="p-8 rounded-lg border border-gray-300">
-      <header className="border border-gray-300 rounded-lg h-72">
-
+      <header className="border border-gray-300 rounded-lg h-72 overflow-hidden">
+        <Map
+          style={{width: "100%", height: "100%"}}
+          defaultCenter={storeLocation}
+          defaultZoom={17}
+          gestureHandling="none"
+          disableDefaultUI={true}
+          id={`map-${store.id}`}
+          mapId={`map-${store.id}`}
+          reuseMaps
+          scrollwheel={false}
+        >
+          <AdvancedMarker position={storeLocation}>
+            <Pin
+              background="#f97316"
+              borderColor="transparent"
+              glyphColor="#fed7aa"
+            />
+          </AdvancedMarker>
+        </Map>
       </header>
 
       <main className="mt-6">
