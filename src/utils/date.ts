@@ -38,7 +38,16 @@ function formatDate(dateString: string | undefined): string {
   return date.toLocaleDateString("es-ES", options);
 }
 
+function parseToCommonTime(time: string) {
+  if(time.length !== 8) {
+    return time;
+  }
+
+  return time.substring(0, 5);
+}
+
 export {
   validateBirthdate,
-  formatDate
-}
+  formatDate,
+  parseToCommonTime
+};

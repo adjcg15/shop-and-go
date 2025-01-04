@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vis.gl/react-google-maps": "^1.4.2",
     "axios": "^1.7.9",
     "jose": "^5.9.6",
     "js-cookie": "^3.0.5",

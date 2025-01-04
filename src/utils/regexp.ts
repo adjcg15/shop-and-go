@@ -24,6 +24,8 @@ const CATEGORY_NAME_FORMAT = new RegExp("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s
 const FULL_NAME_PATTERN = new RegExp("^(?=.*\\s)[\\p{L}\\s\\-']+$", "u");
 
 
+const STORE_NAME_FORMAT = new RegExp("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s]{1,255}$");
+
 export {
   EMAIL_PATTERN,
   PHONE_NUMBER_PATTERN,
@@ -34,5 +36,6 @@ export {
   CVV_PATTERN,
   USERNAME_PATTERN,
   CATEGORY_NAME_FORMAT,
+  STORE_NAME_FORMAT,
   FULL_NAME_PATTERN,
 };
