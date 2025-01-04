@@ -14,6 +14,7 @@ import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
 import { Store } from "@/types/types/model/stores";
 import { getStores } from "@/utils/api/stores";
+import { uploadImageToCloudinary } from "@/utils/cloudinary";
 
 type PaymentMethodForm = {
     barCode: string;
@@ -146,70 +147,78 @@ export function useProductForm() {
         salePrice = salePrice.trim();
         maximumAmount = maximumAmount.trim();
 
-        const requestBody = {
-            barCode,
-            name,
-            description,
-            image,
-            salePrice,
-            maximumAmount,
-            idCategory: productCategory,
-        };
+        const { errorUploadImage, imageUrl } = await uploadImageToCloudinary(
+            image!
+        );
 
-        try {
-            await shopAndGoAPI.post(`products`, requestBody);
+        if (errorUploadImage) {
             const notificationInfo: NotificationInfo = {
-                title: "Producto registrado",
-                message: "El producto ha sido registrado exitosamente",
-                type: NotificationTypes.SUCCESS,
-            };
-            notify(notificationInfo);
-            setIsLoadingRegister(false);
-
-            router.push("/empleados/productos");
-        } catch (error) {
-            const notificationInfo: NotificationInfo = {
-                title: "Servicio no disponible",
+                title: "No se pudo cargar la imagen",
                 message:
                     "Por el momento el sistema no se encuentra disponible, por favor intente más tarde",
                 type: NotificationTypes.ERROR,
             };
-
-            if (
-                isAxiosError(error) &&
-                isClientErrorHTTPCode(Number(error.response?.status)) &&
-                error.response?.status !== HttpStatusCodes.TOO_MANY_REQUESTS
-            ) {
-                const errorCode = error.response?.data?.errorCode;
-                if (
-                    errorCode ===
-                    CreateProductErrorCodes.BAR_CODE_ALREADY_EXISTS
-                ) {
-                    notificationInfo.title = "Código de barras existente";
-                    notificationInfo.message =
-                        "Genere o ingrese otro código de barras, el anterior ya está en uso";
-                    notificationInfo.type = NotificationTypes.WARNING;
-                } else if (
-                    errorCode ===
-                    CreateProductErrorCodes.PRODUCT_CATEGORY_NOT_FOUND
-                ) {
-                    notificationInfo.title = "Categoría no encontrada";
-                    notificationInfo.message =
-                        "La categoría seleccionada no existe actualmente en el sistema";
-                    notificationInfo.type = NotificationTypes.WARNING;
-                } else if (
-                    errorCode == CreateProductErrorCodes.PRODUCT_NOT_FOUND
-                ) {
-                    notificationInfo.title = "Método de pago ya existente";
-                    notificationInfo.message =
-                        "No se pudo crear el método de pago porque usted ya lo tiene registrado en el sistema";
-                    notificationInfo.type = NotificationTypes.WARNING;
-                }
-            }
-
             notify(notificationInfo);
-        } finally {
+
             setIsLoadingRegister(false);
+        } else {
+            const requestBody = {
+                barCode,
+                name,
+                description,
+                imageUrl,
+                salePrice,
+                maximumAmount,
+                idCategory: productCategory,
+            };
+            try {
+                await shopAndGoAPI.post(`products`, requestBody);
+                const notificationInfo: NotificationInfo = {
+                    title: "Producto registrado",
+                    message: "El producto ha sido registrado exitosamente",
+                    type: NotificationTypes.SUCCESS,
+                };
+                notify(notificationInfo);
+                setIsLoadingRegister(false);
+
+                router.push("/empleados/productos");
+            } catch (error) {
+                const notificationInfo: NotificationInfo = {
+                    title: "Servicio no disponible",
+                    message:
+                        "Por el momento el sistema no se encuentra disponible, por favor intente más tarde",
+                    type: NotificationTypes.ERROR,
+                };
+
+                if (
+                    isAxiosError(error) &&
+                    isClientErrorHTTPCode(Number(error.response?.status)) &&
+                    error.response?.status !== HttpStatusCodes.TOO_MANY_REQUESTS
+                ) {
+                    const errorCode = error.response?.data?.errorCode;
+                    if (
+                        errorCode ===
+                        CreateProductErrorCodes.BAR_CODE_ALREADY_EXISTS
+                    ) {
+                        notificationInfo.title = "Código de barras existente";
+                        notificationInfo.message =
+                            "Genere o ingrese otro código de barras, el anterior ya está en uso";
+                        notificationInfo.type = NotificationTypes.WARNING;
+                    } else if (
+                        errorCode ===
+                        CreateProductErrorCodes.PRODUCT_CATEGORY_NOT_FOUND
+                    ) {
+                        notificationInfo.title = "Categoría no encontrada";
+                        notificationInfo.message =
+                            "La categoría seleccionada no existe actualmente en el sistema";
+                        notificationInfo.type = NotificationTypes.WARNING;
+                    }
+                }
+
+                notify(notificationInfo);
+            } finally {
+                setIsLoadingRegister(false);
+            }
         }
     };
 
