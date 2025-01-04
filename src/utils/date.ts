@@ -27,6 +27,18 @@ function validateBirthdate(value: string): string | true {
   return true;
 }
 
+function formatDate(dateString: string | undefined): string {
+  const [year, month, day] = dateString!.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("es-ES", options);
+}
+
 export {
   validateBirthdate,
+  formatDate
 }
