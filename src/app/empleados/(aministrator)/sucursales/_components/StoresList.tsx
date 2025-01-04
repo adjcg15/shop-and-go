@@ -7,7 +7,7 @@ import { StoreCardSkeleton } from "./StoreCardSkeleton";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
 export const StoresList = () => {
-    const { recoverStores, storesList } = useStores();
+    const { recoverStores, storesList, updateStoreOnList } = useStores();
 
     useEffect(() => {
       recoverStores();
@@ -43,7 +43,7 @@ export const StoresList = () => {
                   ? (
                     storesList.value.map(store => (
                       <li className="mb-4 lg:mb-0" key={store.id}>
-                        <StoreCard store={store}/>
+                        <StoreCard store={store} updateStoreOnList={updateStoreOnList}/>
                       </li>
                     ))
                   )

@@ -10,16 +10,18 @@ import { AdvancedMarker, Map, Pin } from "@vis.gl/react-google-maps";
 type ModifyStoreCardProps = {
   store: Store;
   onDiscardEditionButtonClick: () => void;
+  onStoreUpdate: (store: Store) => void;
 };
 
-export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEditionButtonClick }) => {
+export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEditionButtonClick, onStoreUpdate }) => {
   const {
     register,
     errors,
     handleSubmit,
     getValues,
-    handleNewPlaceSelected
-  } = useModifyStore(store);
+    handleNewPlaceSelected,
+    isUpdatingStore
+  } = useModifyStore(store, onStoreUpdate);
 
   return (
     <article className="p-8 rounded-lg border border-gray-300">
@@ -36,8 +38,9 @@ export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEdit
             }
             id="name"
             type="text"
+            disabled={isUpdatingStore}
           />
-          <p className="error">El nombre solo puede tener números y letras y no debe superar los 255 caracteres</p>
+          <p className="error">El nombre solo puede tener letras y no debe superar los 255 caracteres</p>
         </div>
 
         <div className={`form-group ${errors.address ? "invalid" : ""}`}>
@@ -46,6 +49,7 @@ export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEdit
             id="address"
             onPlaceSelect={handleNewPlaceSelected}
             value={getValues("address")}
+            disabled={isUpdatingStore}
           />
           <p className="error">La dirección no puede estar vacía</p>
           <div className="border border-gray-300 rounded-lg h-72 overflow-hidden mt-1">
@@ -84,6 +88,7 @@ export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEdit
               }
               id="openingTime"
               type="time"
+              disabled={isUpdatingStore}
             />
             <p className="error">El horario de apertura no puede estar vacío</p>
           </div>
@@ -99,6 +104,7 @@ export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEdit
               }
               id="closingTime"
               type="time"
+              disabled={isUpdatingStore}
             />
             <p className="error">El horario de cierre no puede estar vacío</p>
           </div>
@@ -109,10 +115,14 @@ export const ModifyStoreCard: FC<ModifyStoreCardProps> = ({ store, onDiscardEdit
             onClick={onDiscardEditionButtonClick} 
             type="button" 
             className="block sm:inline-block w-full sm:w-auto sm:mr-3"
+            disabled={isUpdatingStore}
           >
             Descartar
           </TernaryButton>
-          <SecondaryButton className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0">
+          <SecondaryButton 
+            className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0"
+            disabled={isUpdatingStore}
+          >
             Guardar cambios
           </SecondaryButton>
         </div>

@@ -5,9 +5,10 @@ import { ModifyStoreCard } from "./ModifyStoreCard";
 
 type StoreCardProps = {
   store: Store;
+  updateStoreOnList: (store: Store) => void;
 };
 
-export const StoreCard:FC<StoreCardProps> = ({ store }) => {
+export const StoreCard:FC<StoreCardProps> = ({ store, updateStoreOnList }) => {
   const [isEditingStore, setIsEditingStore] = useState(false);
 
   const startStoreEdition = useCallback(() => {
@@ -17,10 +18,15 @@ export const StoreCard:FC<StoreCardProps> = ({ store }) => {
   const finishStoreEdition = useCallback(() => {
     setIsEditingStore(false);
   }, []);
+
+  const onStoreUpdate = useCallback((store: Store) => {
+    finishStoreEdition();
+    updateStoreOnList(store);
+  }, [finishStoreEdition, updateStoreOnList]);
   
   return (
     !isEditingStore 
     ? <StorePresentationCard store={store} onModifyStoreButtonClick={startStoreEdition}/>
-    : <ModifyStoreCard store={store} onDiscardEditionButtonClick={finishStoreEdition}/>
+    : <ModifyStoreCard onStoreUpdate={onStoreUpdate} store={store} onDiscardEditionButtonClick={finishStoreEdition}/>
   );
 }
