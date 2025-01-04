@@ -25,6 +25,11 @@ export function authReducer(state: AuthState, action: AuthActions): AuthState {
         clientProfile: null,
         employeeProfile: null
       };
+    case AuthActionTypes.UPDATE_CLIENT_PROFILE:
+      return {
+        ...state,
+        clientProfile: action.payload
+      };
     default:
       return state;
   }

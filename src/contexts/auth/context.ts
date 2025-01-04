@@ -5,6 +5,7 @@ import { createContext } from "react";
 type AuthContext = AuthState & {
   login: (profile: Employee | Client) => void;
   logout: () => void;
+  updateClientProfile: (profile: Client) => void;
 };
 
 const AuthContext = createContext({} as AuthContext);
