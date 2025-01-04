@@ -16,7 +16,7 @@ export default function AdminStoresPage() {
                 </Link>
             </section>
             
-            <section>
+            <section className="mt-5">
                 <h1>Sucursales registradas</h1>
                 <StoresList/>
             </section>
