@@ -3,6 +3,7 @@ import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { useStores } from "@/hooks/useStores";
 import { useEffect } from "react";
 import { StoreCard } from "./StoreCard";
+import { StoreCardSkeleton } from "./StoreCardSkeleton";
 
 export const StoresList = () => {
     const { recoverStores, storesList } = useStores();
@@ -31,7 +32,7 @@ export const StoresList = () => {
             ? (
               Array.from({ length: 6 }, (_, index) => (
                 <li key={index} className="mb-4 lg:mb-0">
-                  {/* <CategoryCardSkeleton/> */}
+                  <StoreCardSkeleton/>
                 </li>
               ))
             )
