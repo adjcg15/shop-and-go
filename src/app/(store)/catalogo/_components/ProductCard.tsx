@@ -16,7 +16,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
     return (
         <article
-            className="border border-gray-300 rounded-lg overflow-hidden"
+            className="border border-gray-300 rounded-lg overflow-hidden cursor-pointer"
             onClick={() => handleProductClick()}
         >
             <header className="flex items-center justify-center h-60 bg-gray-50 relative">

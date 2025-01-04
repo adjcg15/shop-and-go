@@ -12,27 +12,14 @@ import shopAndGoAPI from "@/utils/axios";
 import { usePathname, useRouter } from "next/navigation";
 import { NEAREST_STORE_CHECK_ROUTES } from "@/utils/constants";
 import { FullScreenLoader } from "@/components/ui/FullScreenLoader";
+import { CartItem } from "@/types/types/model/products";
 
 type StoreProviderProps = {
   children: ReactNode;
 };
 
-//TODO: clear plain delivery address
 const STORE_BASE_STATE: StoreState = {
-  deliveryAddress: {
-    apartmentNumber: null,
-    city: "Xalapa",
-    id: 1,
-    isActive: true,
-    latitude: 19.52953,
-    longitude: -96.92463,
-    municipality: "Xalapa",
-    neighborhood: "Zona centro",
-    postalCode: "91000",
-    state: "Veracruz",
-    street: "Francisco Javier Clavijero",
-    streetNumber: "17"
-  },
+  deliveryAddress: null,
   nearestStore: {
     isBeingCalculated: false,
     value: null,
@@ -56,6 +43,18 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   
   const clearStore = useCallback(() => {
     dispatch({ type: StoreActionTypes.CLEAR_STORE_STATE });
+  }, []);
+
+  const addToCart = useCallback((item: CartItem) => {
+    dispatch({ type: StoreActionTypes.ADD_PRODUCT_TO_CART, payload: item });
+  }, []);
+
+  const removeFromCart = useCallback((itemId: number) => {
+    dispatch({ type: StoreActionTypes.REMOVE_PRODUCT_FROM_CART, payload: itemId });
+  }, []);
+
+  const clearCart = useCallback(() => {
+    dispatch({ type: StoreActionTypes.CLEAR_CART });
   }, []);
   
   useEffect(() => {
@@ -85,10 +84,10 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
   }, [state.deliveryAddress, setNearestStore]);
 
   useEffect(() => {
-    if(NEAREST_STORE_CHECK_ROUTES.includes(pathname) && state.nearestStore.error) {
+    if(NEAREST_STORE_CHECK_ROUTES.includes(pathname) && (state.deliveryAddress === null || state.nearestStore.error)) {
       router.replace("/?redirigidoDesde=/catalogo");
     }
-  }, [pathname, router, state.nearestStore.error]);
+  }, [pathname, router, state.nearestStore.error, state.deliveryAddress]);
 
   return (
     <StoreContext.Provider
@@ -96,7 +95,10 @@ export const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
         ...state,
         setDeliveryAddress,
         setNearestStore,
-        clearStore
+        clearStore,
+        addToCart,
+        removeFromCart,
+        clearCart
       }}
     >
       {

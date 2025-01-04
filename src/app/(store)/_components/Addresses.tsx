@@ -1,9 +1,10 @@
 "use client";
 
+import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { Address } from "@/types/types/model/deliveries";
 import { FC } from "react";
-import { IconType } from "react-icons"; 
-import { FaMapMarkerAlt, FaTrashAlt } from "react-icons/fa"; 
+import { IconType } from "react-icons";
+import { FaMapMarkerAlt, FaTrashAlt } from "react-icons/fa";
 
 type AddressesProps = {
   addresses: Address[];
@@ -11,6 +12,7 @@ type AddressesProps = {
   onDelete?: (address: Address) => void;
   showDelete: boolean;
   LocationIcon?: IconType;
+  selectedAddress?: Address | null;
 };
 
 export const Addresses: FC<AddressesProps> = ({
@@ -19,15 +21,28 @@ export const Addresses: FC<AddressesProps> = ({
   onDelete,
   showDelete,
   LocationIcon = FaMapMarkerAlt,
+  selectedAddress,
 }) => {
+  const handleSelect = (address: Address) => {
+    if (onSelect) {
+      onSelect(address);
+    }
+  };
+
+  const sortedAddresses = selectedAddress
+    ? [selectedAddress, ...addresses.filter(addr => addr.id !== selectedAddress.id)]
+    : addresses;
+
   return (
     <>
-      {addresses.map((address, index) => (
+      {sortedAddresses.map((address, index) => (
         <ul
           key={address.id}
           className={`space-y-4 ${
             (index + 1) % 2 === 0 ? "bg-gray-50" : "bg-white"
-          } border-b border-gray-400 p-4`}
+          } border-b border-gray-400 p-4 ${
+            selectedAddress?.id === address.id ? "bg-blue-200" : ""
+          }`}
         >
           <li className="flex items-center space-x-4">
             <div className="hidden md:block flex-shrink-0">
@@ -41,6 +56,9 @@ export const Addresses: FC<AddressesProps> = ({
               <p className="text-gray-600 text-sm">
                 {address.neighborhood}, {address.municipality}, {address.state}
               </p>
+              {selectedAddress?.id === address.id && (
+                <span className="text-orange-500 font-bold">Dirección actual</span>
+              )}
             </div>
             {showDelete && (
               <button
@@ -53,17 +71,12 @@ export const Addresses: FC<AddressesProps> = ({
                 />
               </button>
             )}
-          </li>
-          {onSelect && (
-            <li className="flex justify-end">
-              <button
-                onClick={() => onSelect(address)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-              >
+            {onSelect && (
+              <SecondaryButton onClick={() => handleSelect(address)}>
                 Seleccionar
-              </button>
-            </li>
-          )}
+              </SecondaryButton>
+            )}
+          </li>
         </ul>
       ))}
     </>

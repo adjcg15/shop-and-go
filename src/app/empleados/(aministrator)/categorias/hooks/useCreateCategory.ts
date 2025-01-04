@@ -53,6 +53,14 @@ export function useCreateCategory(addCategoryToList: (category: ProductCategory)
     });
   }, []);
 
+  const showEmptyCategoryNameMessage = useCallback(() => {
+    notify({
+      title: "Nombre inválido",
+      message: "El nombre de la categoría no puede estar vacío.",
+      type: NotificationTypes.WARNING
+    });
+  }, []);
+
   const showCreationError = useCallback(() => {
     const message = "Hemos tenido problemas para guardar la información "
     + "de la categoría, por favor intente más tarde.";
@@ -65,8 +73,14 @@ export function useCreateCategory(addCategoryToList: (category: ProductCategory)
   }, []);
 
   const onSubmit: SubmitHandler<ProductCategoryForm> = async (data) => {
-    setIsCreatingCategory(true);
+    const sanitizedCategoryName = data.name.trim();
+    if(!sanitizedCategoryName) {
+      showEmptyCategoryNameMessage();
+      return;
+    }
+    data.name = sanitizedCategoryName;
     
+    setIsCreatingCategory(true);
     try {
       const { data: newCategory } = await shopAndGoAPI.post<ProductCategory>("/product-categories", data);
       closeCreateCategoryModal();

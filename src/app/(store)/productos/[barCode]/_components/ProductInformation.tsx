@@ -1,7 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import { ProductWithStock } from "@/types/types/model/products";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { formatMXNCurrency } from "@/utils/currency";
 import Image from "next/image";
 import shopAndGoAPI from "@/utils/axios";
@@ -13,6 +13,8 @@ import { HttpStatusCodes } from "@/types/enums/http";
 import { isClientErrorHTTPCode } from "@/utils/http";
 import { FaCartShopping } from "react-icons/fa6";
 import { GetProductWithStockInStoreErrorCodes } from "@/types/enums/error_codes";
+import { notify } from "@/utils/notifications";
+import { NotificationTypes } from "@/types/enums/notifications";
 
 type ProductWithStockState = {
     loading: boolean;
@@ -33,6 +35,8 @@ export const ProductInformation = () => {
         useState<ProductWithStockState>(INITIAL_PRODUCT_WITH_STOCK_STATE);
     const Store = useContext(StoreContext);
     const idStore = Store?.nearestStore.value?.id;
+    const addToCart = Store.addToCart;
+    const quantityRef = useRef<HTMLSelectElement>(null);
 
     const loadProduct = useCallback(
         async (barCode: string) => {
@@ -102,6 +106,24 @@ export const ProductInformation = () => {
         getProduct();
     }, [loadProduct, validatedBarCode]);
 
+    const handleAddToCart = () => {
+        if (productWithStock.value) {
+            const quantity = Number(quantityRef.current?.value);
+            addToCart({
+                product: productWithStock.value,
+                totalProducts: quantity,
+            });
+
+            notify({
+                title: "Producto agregado al carrito",
+                message: `Se ha agregado ${quantity} ${
+                    quantity > 1 ? "unidades" : "unidad"
+                } de '${productWithStock.value.name}' al carrito`,
+                type: NotificationTypes.SUCCESS,
+            });
+        }
+    };
+
     return !productWithStock.error ? (
         !productWithStock.loading ? (
             productWithStock.value && (
@@ -143,8 +165,39 @@ export const ProductInformation = () => {
                                     : "Producto agotado"}
                             </p>
                         </main>
+                        <section className="col-start-4 mt-4 col-span-1 flex flex-col items-end md:col-span-4">
+                            <label
+                                htmlFor="quantity-selector"
+                                className="text-sm font-medium text-gray-800 mb-2"
+                            >
+                                Cantidad
+                            </label>
+                            <select
+                                id="quantity-selector"
+                                ref={quantityRef}
+                                className="p-2 border border-gray-300 rounded-md w-48"
+                                defaultValue={1}
+                                aria-describedby="quantity-selector-description"
+                            >
+                                {Array.from(
+                                    {
+                                        length: Math.min(
+                                            productWithStock.value
+                                                ?.maximumAmount || 0,
+                                            productWithStock.value?.stock || 0
+                                        ),
+                                    },
+                                    (_, i) => i + 1
+                                ).map((quantity) => (
+                                    <option key={quantity} value={quantity}>
+                                        {quantity}
+                                    </option>
+                                ))}
+                            </select>
+                        </section>
                         <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
                             <PrimaryButton
+                                onClick={handleAddToCart}
                                 disabled={
                                     productWithStock.value.stock > 0
                                         ? false

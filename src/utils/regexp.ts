@@ -16,16 +16,18 @@ const YEAR_PATTERN = new RegExp("^(2[5-9]|[3-9][0-9])$");
 
 const CVV_PATTERN = new RegExp("^[0-9]{3}$");
 
-const SECURE_PASSWORD_PATTER = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!_\\-@&%$#])[A-Za-z\\d!_\\-@&%$#]{8,}$"
+const SECURE_PASSWORD_PATTERN = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d!_\\-@&%$#])[A-Za-z\\d!_\\-@&%$#]{8,64}$"
 );
 
 const CATEGORY_NAME_FORMAT = new RegExp("^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\\s]{1,255}$");
 
+const FULL_NAME_PATTERN = new RegExp("^(?=.*\\s)[\\p{L}\\s\\-']+$", "u");
+
 export {
     EMAIL_PATTERN,
     PHONE_NUMBER_PATTERN,
-    SECURE_PASSWORD_PATTER,
+    SECURE_PASSWORD_PATTERN,
     ONLY_LETTERS_PATTERN,
     ONLY_POSITIVE_INTEGERS,
     MONTH_PATTERN,
@@ -33,4 +35,5 @@ export {
     CVV_PATTERN,
     USERNAME_PATTERN,
     CATEGORY_NAME_FORMAT,
+    FULL_NAME_PATTERN,
 };

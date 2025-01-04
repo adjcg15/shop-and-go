@@ -58,6 +58,11 @@ enum DeleteAddressErrorCodes {
     DELIVERY_ADDRESS_NOT_FOUND = EndpointContexts.DELETE_ADDRESS + "-400002",
 }
 
+enum CreateClientErrorCodes {
+    CLIENT_ALREADY_EXISTS = EndpointContexts.CREATE_CLIENT + "-400001",
+}
+
+
 export {
     CreatePaymentMethodErrorCodes,
     DeletePaymentMethodErrorCodes,
@@ -67,4 +72,5 @@ export {
     GetProductWithStockInStoreErrorCodes,
     GetStoreInventoriesErrorCodes,
     DeleteAddressErrorCodes,
+    CreateClientErrorCodes
 };
