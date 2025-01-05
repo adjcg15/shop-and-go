@@ -20,7 +20,7 @@ type ProductWithInventory = Product & {
 };
 
 type CartItem = {
-    product: Product;
+    product: ProductWithStock;
     totalProducts: number;
 };
 
