@@ -5,8 +5,22 @@ import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { ONLY_POSITIVE_INTEGERS } from "@/utils/regexp";
 import { InventoriesByStore } from "./InventoriesByStore";
+import { FC } from "react";
 
-export const ProductForm = () => {
+type ProductProps = {
+    product?: {
+        id: number;
+        barCode: string;
+        name: string;
+        description: string;
+        imageUrl: string;
+        salePrice: number;
+        maximumAmount: number;
+        idCategory: number;
+    };
+};
+
+export const ProductForm: FC<ProductProps> = ({ product }) => {
     const {
         register,
         errors,
@@ -20,7 +34,7 @@ export const ProductForm = () => {
         handleInventoryChange,
         stores,
         categoryColor,
-    } = useProductForm();
+    } = useProductForm(product);
 
     return !productCategories.loading && !stores.loading ? (
         !productCategories.error && !stores.error ? (
@@ -35,6 +49,8 @@ export const ProductForm = () => {
                         <input
                             id="barCode"
                             type="text"
+                            defaultValue={product ? product.barCode : ""}
+                            disabled={product ? true : false}
                             placeholder="Ej. 1234567890123"
                             {...register("barCode", {
                                 required: true,
@@ -42,7 +58,9 @@ export const ProductForm = () => {
                                 minLength: 13,
                                 pattern: ONLY_POSITIVE_INTEGERS,
                             })}
-                            className="w-full"
+                            className={`w-full ${
+                                product ? "text-gray-400" : ""
+                            }`}
                         />
                         <p className="error">
                             Debe ingresar el código de barras a 13 dígitos
@@ -52,6 +70,7 @@ export const ProductForm = () => {
                     <SecondaryButton
                         className="mt-11 w-2/5 sm:w-fit"
                         type="button"
+                        disabled={product ? true : false}
                         onClick={getGenerateCode}
                     >
                         Generar código
@@ -63,6 +82,7 @@ export const ProductForm = () => {
                         id="name"
                         type="text"
                         placeholder="Ej. Leche deslactosada 1L"
+                        defaultValue={product ? product.name : ""}
                         {...register("name", {
                             required: true,
                             maxLength: 255,
@@ -81,6 +101,7 @@ export const ProductForm = () => {
                     <textarea
                         id="description"
                         placeholder="Ej. Producto 100% de vaca, obtenida de manera artesanal..."
+                        defaultValue={product ? product.description : ""}
                         className={`${
                             errors.description ? "border-red-600" : ""
                         }`}
@@ -106,10 +127,16 @@ export const ProductForm = () => {
                         type="file"
                         accept="image/*"
                         {...register("image", {
-                            required: true,
+                            required: !product,
                             onChange: (e) => handleImageChange(e),
                         })}
                     />
+                    {product && (
+                        <p>
+                            **Seleccione una imágen si desea cambiarla, caso
+                            contrario omita este campo
+                        </p>
+                    )}
                     {errors.image && (
                         <p className="error">Debe seleccionar una imagen</p>
                     )}
@@ -126,6 +153,7 @@ export const ProductForm = () => {
                         type="number"
                         step="any"
                         placeholder="Ej. 74.5"
+                        defaultValue={product ? product.salePrice : ""}
                         {...register("salePrice", {
                             required: true,
                         })}
@@ -142,6 +170,7 @@ export const ProductForm = () => {
                         id="maximumAmount"
                         type="number"
                         placeholder="Ej. 20"
+                        defaultValue={product ? product.maximumAmount : ""}
                         {...register("maximumAmount", {
                             required: true,
                         })}
@@ -158,7 +187,7 @@ export const ProductForm = () => {
                     <label>Categoría del producto</label>
                     <select
                         id="productCategory"
-                        defaultValue=""
+                        defaultValue={product ? product.idCategory : ""}
                         className={`${
                             errors.productCategory ? "border-red-600" : ""
                         } ${categoryColor}`}
@@ -224,7 +253,11 @@ export const ProductForm = () => {
                 <div className="flex justify-end mt-6">
                     <PrimaryButton disabled={isLoadingRegister}>
                         {isLoadingRegister
-                            ? "Registrando..."
+                            ? product
+                                ? "Actualizando..."
+                                : "Registrando..."
+                            : product
+                            ? "Actulizar Producto"
                             : "Registrar producto"}
                     </PrimaryButton>
                 </div>

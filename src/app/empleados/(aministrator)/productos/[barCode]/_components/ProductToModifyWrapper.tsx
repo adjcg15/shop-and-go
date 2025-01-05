@@ -1,0 +1,43 @@
+"use client";
+import { ProductForm } from "../../nuevo/_components/ProductForm";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
+import { useProductToModify } from "../_hooks/useProductToModify";
+
+export const ProductToModifyWrapper = () => {
+    const { product } = useProductToModify();
+    return (
+        <div className="px-3 md:px-12 max-w-screen-2xl mx-auto pt-8 pb-16 md:grid grid-cols-4 gap-5">
+            {!product.error ? (
+                !product.loading ? (
+                    product.value && (
+                        <div className="col-start-2 col-span-2 flex flex-col items-center">
+                            <header className="flex flex-col items-center">
+                                <h1 className="lg:text-4xl md:text-4xl sm:text-3xl font-bold text-gray-800">
+                                    Modificar de producto
+                                </h1>
+                            </header>
+                            <ProductForm product={product.value} />
+                        </div>
+                    )
+                ) : (
+                    <div className="col-start-1 col-span-4 mt-2">
+                        <p className="text-center mt-36 text-2xl">
+                            Cargando información del producto...
+                        </p>
+                    </div>
+                )
+            ) : (
+                <div className="col-start-1 col-span-4 mt-2">
+                    <ErrorBanner
+                        image={{
+                            src: "/illustrations/empty-cart.svg",
+                            alt: "Imagen representativa de un producto no encontrado",
+                        }}
+                        title={"¡Error al cargar la información del producto!"}
+                        message={product.error}
+                    />
+                </div>
+            )}
+        </div>
+    );
+};

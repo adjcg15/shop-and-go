@@ -53,7 +53,6 @@ export const ProductInformation = () => {
                 const { data } = await shopAndGoAPI.get<ProductWithStock>(
                     `/stores/${idStore}/products/${barCode}`
                 );
-                console.log(barCode);
                 setProductWithStock(() => ({
                     loading: false,
                     value: data,

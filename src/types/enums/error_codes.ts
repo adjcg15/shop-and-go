@@ -37,6 +37,10 @@ enum CreateOrderErrorCodes {
     MAXIMUM_AMOUNT_IS_EXCEEDED = EndpointContexts.CREATE_ORDER + "-400009",
 }
 
+enum GetProductErrorCodes {
+    PRODUCT_NOT_FOUND = EndpointContexts.GET_PRODUCT + "-400001",
+}
+
 enum GetProductWithStockInStoreErrorCodes {
     STORE_NOT_FOUND = EndpointContexts.GET_PRODUCT_WITH_STOCK_IN_STORE +
         "-400001",
@@ -62,15 +66,15 @@ enum CreateClientErrorCodes {
     CLIENT_ALREADY_EXISTS = EndpointContexts.CREATE_CLIENT + "-400001",
 }
 
-
 export {
     CreatePaymentMethodErrorCodes,
     DeletePaymentMethodErrorCodes,
     CreateProductErrorCodes,
     UpdateProductErrorCodes,
     CreateOrderErrorCodes,
+    GetProductErrorCodes,
     GetProductWithStockInStoreErrorCodes,
     GetStoreInventoriesErrorCodes,
     DeleteAddressErrorCodes,
-    CreateClientErrorCodes
+    CreateClientErrorCodes,
 };

@@ -15,15 +15,16 @@ import { getProductCategories } from "@/utils/api/products";
 import { Store } from "@/types/types/model/stores";
 import { getStores } from "@/utils/api/stores";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
+import { Product } from "@/types/types/model/products";
 
 type PaymentMethodForm = {
     barCode: string;
     name: string;
     description: string;
-    image: File | null;
-    salePrice: string;
-    maximumAmount: string;
-    productCategory: string;
+    image: null;
+    salePrice: string | number;
+    maximumAmount: string | number;
+    productCategory: string | number;
 };
 
 const INITIA_GENERAL_LIST_STATE = {
@@ -40,7 +41,7 @@ type StoresListState = {
     error: null | string;
 };
 
-export function useProductForm() {
+export function useProductForm(product?: Product) {
     const [isLoadingRegister, setIsLoadingRegister] = useState(false);
     const [categoryColor, setCategoryColor] = useState("text-gray-400");
     const [productCategories, setProductCategories] =
@@ -61,15 +62,15 @@ export function useProductForm() {
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
-            barCode: "",
-            name: "",
-            description: "",
+            barCode: product ? product.barCode : "",
+            name: product ? product.name : "",
+            description: product ? product.description : "",
             image: null,
-            salePrice: "",
-            maximumAmount: "",
-            productCategory: "",
+            salePrice: product ? product.salePrice : "",
+            maximumAmount: product ? product.maximumAmount : "",
+            productCategory: product ? product.idCategory : "",
         }),
-        []
+        [product]
     );
 
     const {
@@ -165,9 +166,12 @@ export function useProductForm() {
     }, [stores.value]);
 
     useEffect(() => {
+        if (product) {
+            setCategoryColor("text-gray-800");
+        }
         loadProductCategories();
         loadStores();
-    }, [loadProductCategories, loadStores]);
+    }, [product, loadProductCategories, loadStores]);
 
     const onSubmit: SubmitHandler<PaymentMethodForm> = async ({
         barCode,
@@ -181,8 +185,8 @@ export function useProductForm() {
         barCode = barCode.trim();
         name = name.trim();
         description = description.trim();
-        salePrice = salePrice.trim();
-        maximumAmount = maximumAmount.trim();
+        salePrice = (salePrice as string).trim();
+        maximumAmount = (maximumAmount as string).trim();
 
         const { errorUploadImage, imageUrl } = await uploadImageToCloudinary(
             selectedFile!
