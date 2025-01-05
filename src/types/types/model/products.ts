@@ -7,6 +7,7 @@ type Product = {
     description: string;
     imageUrl: string;
     salePrice: number;
+    isActive: boolean;
     maximumAmount: number;
     idCategory: number;
 };

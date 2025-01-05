@@ -60,6 +60,8 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
     const [inventoriesOnForm, setInventoriesOnForm] = useState<InventoryState>(
         []
     );
+    const [selectedOptionProductState, setSelectedOptionProductState] =
+        useState<string>("");
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
@@ -185,6 +187,9 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
 
     useEffect(() => {
         if (product) {
+            setSelectedOptionProductState(
+                product.isActive ? "activo" : "inactivo"
+            );
             setCategoryColor("text-gray-800");
         }
         loadProductCategories();
@@ -203,12 +208,17 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         barCode = barCode.trim();
         name = name.trim();
         description = description.trim();
-        salePrice = (salePrice as string).trim();
-        maximumAmount = (maximumAmount as string).trim();
 
-        const { errorUploadImage, imageUrl } = await uploadImageToCloudinary(
-            selectedFile!
-        );
+        let errorUploadImage;
+        let imageUrl;
+
+        if (selectedFile) {
+            const dataResult = await uploadImageToCloudinary(selectedFile);
+            errorUploadImage = dataResult.errorUploadImage;
+            imageUrl = dataResult.imageUrl;
+        } else {
+            imageUrl = product?.imageUrl;
+        }
 
         if (errorUploadImage) {
             const notificationInfo: NotificationInfo = {
@@ -226,15 +236,27 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                 description,
                 imageUrl,
                 salePrice,
+                isActive: selectedOptionProductState === "activo",
                 maximumAmount,
                 idCategory: productCategory,
                 inventories: inventoriesOnForm,
             };
             try {
-                await shopAndGoAPI.post(`/products`, requestBody);
+                if (product) {
+                    await shopAndGoAPI.put(
+                        `/products/${product.id}`,
+                        requestBody
+                    );
+                } else {
+                    await shopAndGoAPI.post(`/products`, requestBody);
+                }
                 const notificationInfo: NotificationInfo = {
-                    title: "Producto registrado",
-                    message: "El producto ha sido registrado exitosamente",
+                    title: product
+                        ? "Producto actualizado"
+                        : "Producto registrado",
+                    message: product
+                        ? "El producto ha sido actualizado exitosamente"
+                        : "El producto ha sido registrado exitosamente",
                     type: NotificationTypes.SUCCESS,
                 };
                 notify(notificationInfo);
@@ -242,6 +264,7 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
 
                 router.push("/empleados/productos");
             } catch (error) {
+                console.log(error);
                 const notificationInfo: NotificationInfo = {
                     title: "Servicio no disponible",
                     message:
@@ -314,6 +337,12 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         []
     );
 
+    const handleProductStateChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setSelectedOptionProductState(event.target.value);
+    };
+
     const getGenerateCode = useCallback(() => {
         const barCodeGenerated = Math.floor(
             10 ** 12 + Math.random() * 9 * 10 ** 12
@@ -332,6 +361,8 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         productCategories,
         inventoriesOnForm,
         handleInventoryChange,
+        handleProductStateChange,
+        selectedOptionProductState,
         stores,
         setValue,
         categoryColor,

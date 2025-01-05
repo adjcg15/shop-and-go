@@ -14,6 +14,7 @@ type ProductProps = {
         name: string;
         description: string;
         imageUrl: string;
+        isActive: boolean;
         salePrice: number;
         maximumAmount: number;
         idCategory: number;
@@ -39,6 +40,8 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
         productCategories,
         inventoriesOnForm,
         handleInventoryChange,
+        handleProductStateChange,
+        selectedOptionProductState,
         stores,
         categoryColor,
     } = useProductForm(product, inventories);
@@ -83,6 +86,39 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         Generar código
                     </SecondaryButton>
                 </div>
+                {product && (
+                    <div className="form-group">
+                        <label>Estado del producto</label>
+                        <br />
+                        <div className="mt-1 space-x-6">
+                            <label>
+                                <input
+                                    id="active"
+                                    type="radio"
+                                    value="activo"
+                                    checked={
+                                        selectedOptionProductState === "activo"
+                                    }
+                                    onChange={handleProductStateChange}
+                                />
+                                Activo
+                            </label>
+                            <label>
+                                <input
+                                    id="inactive"
+                                    type="radio"
+                                    value="inactivo"
+                                    checked={
+                                        selectedOptionProductState ===
+                                        "inactivo"
+                                    }
+                                    onChange={handleProductStateChange}
+                                />
+                                Inactivo
+                            </label>
+                        </div>
+                    </div>
+                )}
                 <div className={`form-group ${errors.name ? "invalid" : ""}`}>
                     <label>Nombre del producto</label>
                     <input
