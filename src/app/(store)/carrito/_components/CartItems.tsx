@@ -52,7 +52,7 @@ export const CartItems = ({ items }: CartItemsProps) => {
               </div>
               <div className="flex items-center gap-4">
                 <select
-                  id={`quantity-selector-${item.product.id}`} // Asegúrate de usar un ID único
+                  id={`quantity-selector-${item.product.id}`}
                   onChange={(event) =>
                     handleQuantityChange(item, parseInt(event.target.value))
                   }
