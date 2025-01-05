@@ -1,5 +1,5 @@
 "use client";
-import { ProductForm } from "../../nuevo/_components/ProductForm";
+import { ProductForm } from "../../../../../../components/ui/ProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { useProductToModify } from "../_hooks/useProductToModify";
 

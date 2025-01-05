@@ -1,6 +1,6 @@
 "use client";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { useProductForm } from "../_hooks/useProductForm";
+import { useProductForm } from "../../hooks/useProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { ONLY_POSITIVE_INTEGERS } from "@/utils/regexp";
@@ -326,11 +326,11 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
             <div className="col-start-1 col-span-4 mt-2">
                 <ErrorBanner
                     image={{
-                        src: "/illustrations/empty-cart.svg",
-                        alt: "Imagen representativa de categorías de productos no cargadas",
+                        src: "/illustrations/server-error.svg",
+                        alt: "Ilustración representativa de un error en un servidor",
                     }}
-                    title={"¡Error al cargar las categorías o las tiendas!"}
-                    message="Ocurrió un error al cargar las categorías de productos o las tiendas"
+                    title={"¡Problemas técnicos!"}
+                    message="Estamos teniendo problemas para cargar las categorías y las tiendas, por favor intente más tarde."
                 />
             </div>
         )

@@ -14,7 +14,10 @@ import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
 import { Inventory, Store } from "@/types/types/model/stores";
 import { getStores } from "@/utils/api/stores";
-import { uploadImageToCloudinary } from "@/utils/cloudinary";
+import {
+    deleteImageFromCloudinary,
+    uploadImageToCloudinary,
+} from "@/utils/cloudinary";
 import { Product } from "@/types/types/model/products";
 
 type PaymentMethodForm = {
@@ -220,21 +223,35 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         name = name.trim();
         description = description.trim();
 
-        let errorUploadImage;
+        let errorImage;
         let imageUrl;
 
         if (selectedFile) {
-            const dataResult = await uploadImageToCloudinary(selectedFile);
-            errorUploadImage = dataResult.errorUploadImage;
-            imageUrl = dataResult.imageUrl;
+            if (product) {
+                const errorDeleteImage = await deleteImageFromCloudinary(
+                    product.imageUrl
+                );
+                if (!errorDeleteImage) {
+                    const dataResult = await uploadImageToCloudinary(
+                        selectedFile
+                    );
+                    errorImage = dataResult.errorUploadImage;
+                    imageUrl = dataResult.imageUrl;
+                }
+                errorImage = errorDeleteImage;
+            } else {
+                const dataResult = await uploadImageToCloudinary(selectedFile);
+                errorImage = dataResult.errorUploadImage;
+                imageUrl = dataResult.imageUrl;
+            }
         } else {
             imageUrl = product?.imageUrl;
         }
 
-        if (errorUploadImage) {
+        if (errorImage) {
             const notificationInfo: NotificationInfo = {
                 title: "Error al cargar la imagen",
-                message: errorUploadImage,
+                message: errorImage,
                 type: NotificationTypes.ERROR,
             };
             notify(notificationInfo);
@@ -331,11 +348,20 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
             const file = e.target.files?.[0];
             if (file) {
                 const allowedExtensions = /\.(jpg|jpeg|png|webp)$/i;
+                const maxSizeInBytes = 0.1 * 1024 * 1024;
                 if (!allowedExtensions.test(file.name)) {
                     const notificationInfo: NotificationInfo = {
                         title: "Error al cargar la imagen",
                         message:
                             "El archivo debe ser un formato de imagen válido",
+                        type: NotificationTypes.ERROR,
+                    };
+                    notify(notificationInfo);
+                    e.target.value = "";
+                } else if (file.size > maxSizeInBytes) {
+                    const notificationInfo: NotificationInfo = {
+                        title: "Error al cargar la imagen",
+                        message: "El archivo no debe ser mayor a 100 KB",
                         type: NotificationTypes.ERROR,
                     };
                     notify(notificationInfo);
