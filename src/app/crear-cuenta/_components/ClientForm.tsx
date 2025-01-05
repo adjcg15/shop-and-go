@@ -3,6 +3,7 @@ import { FULL_NAME_PATTERN, PHONE_NUMBER_PATTERN, SECURE_PASSWORD_PATTERN } from
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { SecondaryIconButton } from "@/components/buttons/SecondaryIconButton";
+import { validateBirthdate } from "@/utils/date";
 
 export const ClientForm = () => {
     const { 
@@ -15,11 +16,10 @@ export const ClientForm = () => {
         setShowPassword, 
         setShowPasswordConfirmation,
         password,
-        passwordConfirmation,
-        validateBirthdate
+        passwordConfirmation
     } = useClientForm();
 
-    function validatePasswordConfirmation(value: string): string | true {
+    function validatePasswordConfirmation(): string | true {
         if (password !== passwordConfirmation) {
             return "Las contraseñas no coinciden.";
         }
