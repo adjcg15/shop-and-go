@@ -67,6 +67,11 @@ enum UpdateStoreErrorCodes {
     STORE_LOCATION_DUPLICATED = EndpointContexts.UPDATE_STORE + "-400002"
 }
 
+enum CreateStoreErrorCodes {
+    STORE_NAME_DUPLICATED = EndpointContexts.CREATE_STORE + "-400001",
+    STORE_LOCATION_DUPLICATED = EndpointContexts.CREATE_STORE + "-400002"
+}
+
 export {
     CreatePaymentMethodErrorCodes,
     DeletePaymentMethodErrorCodes,
@@ -77,5 +82,6 @@ export {
     GetStoreInventoriesErrorCodes,
     DeleteAddressErrorCodes,
     CreateClientErrorCodes,
-    UpdateStoreErrorCodes
+    UpdateStoreErrorCodes,
+    CreateStoreErrorCodes
 };

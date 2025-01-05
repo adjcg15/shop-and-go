@@ -72,6 +72,7 @@ export const config = {
         // Admin routes
         "/empleados/productos",
         "/empleados/sucursales",
+        "/empleados/sucursales/nueva",
         "/empleados/categorias",
         "/empleados/personal",
         "/empleados/incidencias",

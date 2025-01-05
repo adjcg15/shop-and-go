@@ -145,7 +145,8 @@ body {
     @apply flex justify-end mt-1;
   }
 
-  .form-group.form-group.invalid > input {
+  .form-group.invalid > input, 
+  .form-group.invalid .autocomplete-container input {
     @apply border-red-600;
   }
 
