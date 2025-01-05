@@ -13,7 +13,7 @@ export const ProductToModifyWrapper = () => {
                     inventories.value && (
                         <div className="col-start-2 col-span-2 flex flex-col items-center">
                             <header className="flex flex-col items-center">
-                                <h1 className="lg:text-4xl md:text-4xl sm:text-3xl font-bold text-gray-800">
+                                <h1 className="lg:text-4xl md:text-3xl sm:text-2xl font-bold text-gray-800">
                                     Modificar de producto
                                 </h1>
                             </header>

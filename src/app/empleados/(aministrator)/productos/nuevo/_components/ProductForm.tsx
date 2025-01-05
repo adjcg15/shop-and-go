@@ -6,6 +6,7 @@ import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { ONLY_POSITIVE_INTEGERS } from "@/utils/regexp";
 import { InventoriesByStore } from "./InventoriesByStore";
 import { FC } from "react";
+import { FiDollarSign } from "react-icons/fi";
 
 type ProductProps = {
     product?: {
@@ -49,13 +50,13 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
     return !productCategories.loading && !stores.loading ? (
         !productCategories.error && !stores.error ? (
             <form onSubmit={handleSubmit} className="w-full">
-                <div className="flex items-center space-x-2">
+                <div className="mt-5 ">
+                    <label htmlFor="barCode">Código de barras</label>
                     <div
-                        className={`form-group flex-1 ${
+                        className={`form-group mt-0 grid grid-cols-[1fr_auto] gap-x-2 ${
                             errors.barCode ? "invalid" : ""
                         }`}
                     >
-                        <label>Código de barras</label>
                         <input
                             id="barCode"
                             type="text"
@@ -68,27 +69,27 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                 minLength: 13,
                                 pattern: ONLY_POSITIVE_INTEGERS,
                             })}
-                            className={`w-full ${
+                            className={`w-max ${
                                 product ? "text-gray-400" : ""
                             }`}
                         />
-                        <p className="error">
+                        <SecondaryButton
+                            className="w-min sm:w-fit"
+                            type="button"
+                            disabled={product ? true : false}
+                            onClick={getGenerateCode}
+                        >
+                            Generar código
+                        </SecondaryButton>
+                        <p className="error col-span-1">
                             Debe ingresar el código de barras a 13 dígitos
-                            (número entero2)
+                            (número entero)
                         </p>
                     </div>
-                    <SecondaryButton
-                        className="mt-11 w-2/5 sm:w-fit"
-                        type="button"
-                        disabled={product ? true : false}
-                        onClick={getGenerateCode}
-                    >
-                        Generar código
-                    </SecondaryButton>
                 </div>
                 {product && (
                     <div className="form-group">
-                        <label>Estado del producto</label>
+                        <label htmlFor="active">Estado del producto</label>
                         <br />
                         <div className="mt-1 space-x-6">
                             <label>
@@ -103,7 +104,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                 />
                                 Activo
                             </label>
-                            <label>
+                            <label htmlFor="inactive">
                                 <input
                                     id="inactive"
                                     type="radio"
@@ -120,7 +121,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     </div>
                 )}
                 <div className={`form-group ${errors.name ? "invalid" : ""}`}>
-                    <label>Nombre del producto</label>
+                    <label htmlFor="name">Nombre del producto</label>
                     <input
                         id="name"
                         type="text"
@@ -140,7 +141,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         errors.description ? "invalid" : ""
                     }`}
                 >
-                    <label>Descripción</label>
+                    <label htmlFor="description">Descripción</label>
                     <textarea
                         id="description"
                         placeholder="Ej. Producto 100% de vaca, obtenida de manera artesanal..."
@@ -162,7 +163,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         errors.image ? "invalid" : ""
                     }`}
                 >
-                    <label>
+                    <label htmlFor="image">
                         Fotografía del producto (.png, .jpeg, .jpg, .webp)
                     </label>
                     <input
@@ -184,31 +185,38 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         <p className="error">Debe seleccionar una imagen</p>
                     )}
                 </div>
-                <div
-                    className={`form-group ${
-                        errors.salePrice ? "invalid" : ""
-                    }`}
-                >
-                    <label>Precio de venta</label>
-
-                    <input
-                        id="salePrice"
-                        type="number"
-                        step="any"
-                        placeholder="Ej. 74.5"
-                        defaultValue={product ? product.salePrice : ""}
-                        {...register("salePrice", {
-                            required: true,
-                        })}
-                    />
-                    <p className="error">Debe ingresar el precio de venta</p>
+                <div className="mt-5">
+                    <label htmlFor="salePrice">Precio de venta</label>
+                    <div
+                        className={`mt-0 form-group grid grid-cols-[auto_1fr] ${
+                            errors.salePrice ? "invalid" : ""
+                        }`}
+                    >
+                        <FiDollarSign className="mt-0.5 w-max h-full py-1" />
+                        <input
+                            id="salePrice"
+                            type="number"
+                            step="any"
+                            placeholder="Ej. 74.5"
+                            defaultValue={product ? product.salePrice : ""}
+                            {...register("salePrice", {
+                                required: true,
+                            })}
+                            className="w-max"
+                        />
+                        <p className="error col-start-2 col-span-1">
+                            Debe ingresar el precio de venta
+                        </p>
+                    </div>
                 </div>
                 <div
                     className={`form-group ${
                         errors.maximumAmount ? "invalid" : ""
                     }`}
                 >
-                    <label>Cantidad máxima en compra</label>
+                    <label htmlFor="maximumAmount">
+                        Cantidad máxima en compra
+                    </label>
                     <input
                         id="maximumAmount"
                         type="number"
@@ -227,7 +235,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         errors.productCategory ? "invalid" : ""
                     }`}
                 >
-                    <label>Categoría del producto</label>
+                    <label htmlFor="productCategory">
+                        Categoría del producto
+                    </label>
                     <select
                         id="productCategory"
                         defaultValue={product ? product.idCategory : ""}
@@ -261,23 +271,29 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         Inventario por sucursal
                     </h1>
                     {stores.value.length > 0 && (
-                        <ul className="mt-3 w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
-                            <li className="flex justify-center items-center col-span-1 col-start-1">
-                                <p className="font-semibold text-gray-800 text-center">
-                                    Sucursal
-                                </p>
-                            </li>
-                            <li className="flex justify-center items-center col-span-1 col-start-2">
-                                <p className="font-semibold text-gray-800 text-center ">
-                                    Caducidad
-                                </p>
-                            </li>
-                            <li className="flex justify-center items-center col-span-1 col-start-3">
-                                <p className="font-semibold text-gray-800 text-center">
-                                    Cantidad
-                                </p>
-                            </li>
-                        </ul>
+                        <>
+                            <p className="mt-3">
+                                **Solo se registrarán inventarios completos por
+                                tienda (que se hayan ingresado la fecha y stock)
+                            </p>
+                            <ul className="w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
+                                <li className="flex justify-center items-center col-span-1 col-start-1">
+                                    <p className="font-semibold text-gray-800 text-center">
+                                        Sucursal
+                                    </p>
+                                </li>
+                                <li className="flex justify-center items-center col-span-1 col-start-2">
+                                    <p className="font-semibold text-gray-800 text-center ">
+                                        Caducidad
+                                    </p>
+                                </li>
+                                <li className="flex justify-center items-center col-span-1 col-start-3">
+                                    <p className="font-semibold text-gray-800 text-center">
+                                        Cantidad
+                                    </p>
+                                </li>
+                            </ul>
+                        </>
                     )}
                     {stores.value.map((store) => (
                         <InventoriesByStore
@@ -289,6 +305,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                         inventory.idStore === store.id
                                 ) || {}
                             }
+                            isEdition={product ? true : false}
                             onInventoryChange={handleInventoryChange}
                         />
                     ))}
@@ -300,7 +317,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                 ? "Actualizando..."
                                 : "Registrando..."
                             : product
-                            ? "Actulizar Producto"
+                            ? "Actualizar Producto"
                             : "Registrar producto"}
                     </PrimaryButton>
                 </div>
@@ -320,7 +337,8 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
     ) : (
         <div className="col-start-1 col-span-4 mt-2">
             <p className="text-center mt-36 text-2xl">
-                Cargando categorías de productos y tiendas...
+                Cargando categorías de productos y tiendas para registrar un
+                producto...
             </p>
         </div>
     );

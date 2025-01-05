@@ -44,7 +44,7 @@ type StoresListState = {
 type InventoryState = {
     id?: number;
     stock?: number;
-    expirationDate: string;
+    expirationDate?: string;
     idStore: number;
 }[];
 
@@ -80,6 +80,7 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         register,
         handleSubmit: submitWrapper,
         setValue,
+        trigger,
         formState: { errors },
     } = useForm({
         defaultValues: FORM_INITIAL_VALUES,
@@ -88,17 +89,19 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
     const router = useRouter();
 
     const handleInventoryChange = (
-        storeId: number,
+        idStore: number,
         field: InventoryField,
         value: string | number
     ) => {
-        setInventoriesOnForm((prev) =>
-            prev.map((inventory) =>
-                inventory.idStore === storeId
+        setInventoriesOnForm((prevInventories) => {
+            const updatedInventories = prevInventories.map((inventory) =>
+                inventory.idStore === idStore
                     ? { ...inventory, [field]: value }
                     : inventory
-            )
-        );
+            );
+
+            return updatedInventories;
+        });
     };
 
     const loadProductCategories = useCallback(async () => {
@@ -177,7 +180,6 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                 ...existingInventories,
                 ...filteredStores.map((store) => ({
                     idStore: store.id,
-                    expirationDate: "",
                 })),
             ];
 
@@ -205,6 +207,15 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         productCategory,
     }) => {
         setIsLoadingRegister(true);
+        const filteredInventories = inventoriesOnForm.filter(
+            (inventory) =>
+                inventory.stock !== undefined &&
+                inventory.stock >= 0 &&
+                inventory.expirationDate !== undefined &&
+                inventory.expirationDate.trim() !== ""
+        );
+        setInventoriesOnForm(filteredInventories);
+
         barCode = barCode.trim();
         name = name.trim();
         description = description.trim();
@@ -239,7 +250,7 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                 isActive: selectedOptionProductState === "activo",
                 maximumAmount,
                 idCategory: productCategory,
-                inventories: inventoriesOnForm,
+                inventories: filteredInventories,
             };
             try {
                 if (product) {
@@ -248,6 +259,7 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                         requestBody
                     );
                 } else {
+                    console.log(requestBody);
                     await shopAndGoAPI.post(`/products`, requestBody);
                 }
                 const notificationInfo: NotificationInfo = {
@@ -264,7 +276,6 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
 
                 router.push("/empleados/productos");
             } catch (error) {
-                console.log(error);
                 const notificationInfo: NotificationInfo = {
                     title: "Servicio no disponible",
                     message:
@@ -348,7 +359,8 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
             10 ** 12 + Math.random() * 9 * 10 ** 12
         ).toString();
         setValue("barCode", barCodeGenerated);
-    }, [setValue]);
+        trigger("barCode");
+    }, [setValue, trigger]);
 
     return {
         register,

@@ -18,11 +18,13 @@ type InventoriesByStoreProps = {
         field: InventoryField,
         value: string | number
     ) => void;
+    isEdition: boolean;
 };
 
 export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
     inventory,
     store,
+    isEdition,
     onInventoryChange,
 }) => {
     return (
@@ -54,9 +56,9 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
             </li>
             <li className="flex justify-center items-center col-span-1 col-start-3">
                 <input
-                    id="amount"
+                    id="stock"
                     type="number"
-                    min="1"
+                    min={isEdition ? "0" : "1"}
                     defaultValue={inventory ? inventory.stock : ""}
                     onChange={(e) =>
                         onInventoryChange(
