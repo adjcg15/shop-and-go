@@ -74,6 +74,7 @@ export const config = {
         "/empleados/productos/[barCode]",
         "/empleados/productos/nuevo",
         "/empleados/sucursales",
+        "/empleados/sucursales/nueva",
         "/empleados/categorias",
         "/empleados/personal",
         "/empleados/incidencias",

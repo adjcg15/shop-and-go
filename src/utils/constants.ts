@@ -27,6 +27,7 @@ const ADMIN_ROUTES: string[] = [
     "/empleados/productos/[barCode]",
     "/empleados/productos/nuevo",
     "/empleados/sucursales",
+    "/empleados/sucursales/nueva",
     "/empleados/categorias",
     "/empleados/personal",
     "/empleados/incidencias",
