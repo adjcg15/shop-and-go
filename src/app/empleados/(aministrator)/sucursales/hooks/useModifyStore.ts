@@ -45,7 +45,7 @@ export function useModifyStore(store: Store, updateStoreOnList: (store: Store) =
     } catch(error) {
       const notificationInfo: NotificationInfo = {
         title: "Error al actualizar",
-        message: "No hemos podido completar la actualización de la categoría, por favor intente más tarde.",
+        message: "No hemos podido completar la actualización de la sucursal, por favor intente más tarde.",
         type: NotificationTypes.ERROR,
       };
 
