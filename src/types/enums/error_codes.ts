@@ -62,6 +62,10 @@ enum CreateClientErrorCodes {
     CLIENT_ALREADY_EXISTS = EndpointContexts.CREATE_CLIENT + "-400001",
 }
 
+enum UpdateStoreErrorCodes {
+    STORE_NAME_DUPLICATED = EndpointContexts.UPDATE_STORE + "-400001",
+    STORE_LOCATION_DUPLICATED = EndpointContexts.UPDATE_STORE + "-400002"
+}
 
 export {
     CreatePaymentMethodErrorCodes,
@@ -72,5 +76,6 @@ export {
     GetProductWithStockInStoreErrorCodes,
     GetStoreInventoriesErrorCodes,
     DeleteAddressErrorCodes,
-    CreateClientErrorCodes
+    CreateClientErrorCodes,
+    UpdateStoreErrorCodes
 };

@@ -1,8 +1,11 @@
+import { UpdateStoreErrorCodes } from "@/types/enums/error_codes";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { NotificationInfo } from "@/types/types/components/notifications";
 import { Store } from "@/types/types/model/stores";
 import shopAndGoAPI from "@/utils/axios";
+import { isClientErrorHTTPCode } from "@/utils/http";
 import { notify } from "@/utils/notifications";
+import { isAxiosError } from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -39,12 +42,27 @@ export function useModifyStore(store: Store, updateStoreOnList: (store: Store) =
 
       notify(notificationInfo);
       updateStoreOnList(newStore);
-    } catch {
+    } catch(error) {
       const notificationInfo: NotificationInfo = {
         title: "Error al actualizar",
         message: "No hemos podido completar la actualización de la categoría, por favor intente más tarde.",
         type: NotificationTypes.ERROR,
       };
+
+      if (
+        isAxiosError(error) &&
+        isClientErrorHTTPCode(Number(error.response?.status))
+      ) {
+        notificationInfo.type = NotificationTypes.WARNING;
+        switch(error.response?.data.errorCode) {
+          case UpdateStoreErrorCodes.STORE_LOCATION_DUPLICATED:
+            notificationInfo.message = "Ya existe una tienda en la ubicación seleccionada.";
+            break;
+          case UpdateStoreErrorCodes.STORE_NAME_DUPLICATED: 
+            notificationInfo.message = "El nombre de la tienda ya está siendo usado por otra.";
+            break;
+        }
+      }
 
       notify(notificationInfo);
     } finally {
