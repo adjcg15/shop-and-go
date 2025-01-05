@@ -12,7 +12,7 @@ import shopAndGoAPI from "@/utils/axios";
 import { CreateProductErrorCodes } from "@/types/enums/error_codes";
 import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
-import { Store } from "@/types/types/model/stores";
+import { Inventory, Store } from "@/types/types/model/stores";
 import { getStores } from "@/utils/api/stores";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
 import { Product } from "@/types/types/model/products";
@@ -41,7 +41,14 @@ type StoresListState = {
     error: null | string;
 };
 
-export function useProductForm(product?: Product) {
+type InventoryState = {
+    id?: number;
+    stock?: number;
+    expirationDate: string;
+    idStore: number;
+}[];
+
+export function useProductForm(product?: Product, inventories?: Inventory[]) {
     const [isLoadingRegister, setIsLoadingRegister] = useState(false);
     const [categoryColor, setCategoryColor] = useState("text-gray-400");
     const [productCategories, setProductCategories] =
@@ -50,15 +57,9 @@ export function useProductForm(product?: Product) {
     const [stores, setStores] = useState<StoresListState>(
         INITIA_GENERAL_LIST_STATE
     );
-    const [inventories, setInventories] = useState(() => {
-        return stores.value.length
-            ? stores.value.map((store) => ({
-                  idStore: store.id,
-                  stock: "",
-                  expirationDate: "",
-              }))
-            : [];
-    });
+    const [inventoriesOnForm, setInventoriesOnForm] = useState<InventoryState>(
+        []
+    );
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
@@ -89,7 +90,7 @@ export function useProductForm(product?: Product) {
         field: InventoryField,
         value: string | number
     ) => {
-        setInventories((prev) =>
+        setInventoriesOnForm((prev) =>
             prev.map((inventory) =>
                 inventory.idStore === storeId
                     ? { ...inventory, [field]: value }
@@ -155,15 +156,32 @@ export function useProductForm(product?: Product) {
 
     useEffect(() => {
         if (stores.value.length) {
-            setInventories(
-                stores.value.map((store) => ({
-                    idStore: store.id,
-                    stock: "",
-                    expirationDate: "",
-                }))
+            const filteredStores = stores.value.filter(
+                (store) =>
+                    !inventories?.some(
+                        (inventory) => inventory.idStore === store.id
+                    )
             );
+
+            const existingInventories =
+                inventories?.map((inventory) => ({
+                    id: inventory.id,
+                    idStore: inventory.idStore,
+                    stock: inventory.stock,
+                    expirationDate: inventory.expirationDate,
+                })) || [];
+
+            const combinedInventories = [
+                ...existingInventories,
+                ...filteredStores.map((store) => ({
+                    idStore: store.id,
+                    expirationDate: "",
+                })),
+            ];
+
+            setInventoriesOnForm(combinedInventories);
         }
-    }, [stores.value]);
+    }, [stores.value, inventories]);
 
     useEffect(() => {
         if (product) {
@@ -210,7 +228,7 @@ export function useProductForm(product?: Product) {
                 salePrice,
                 maximumAmount,
                 idCategory: productCategory,
-                inventories,
+                inventories: inventoriesOnForm,
             };
             try {
                 await shopAndGoAPI.post(`/products`, requestBody);
@@ -312,7 +330,7 @@ export function useProductForm(product?: Product) {
         handleImageChange,
         getGenerateCode,
         productCategories,
-        inventories,
+        inventoriesOnForm,
         handleInventoryChange,
         stores,
         setValue,

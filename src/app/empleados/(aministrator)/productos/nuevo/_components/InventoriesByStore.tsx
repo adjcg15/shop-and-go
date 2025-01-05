@@ -6,7 +6,7 @@ type InventoryField = "stock" | "expirationDate";
 type InventoriesByStoreProps = {
     inventory?: {
         id?: number;
-        amount?: number;
+        stock?: number;
         expirationDate?: string;
     };
     store: {
@@ -57,7 +57,7 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                     id="amount"
                     type="number"
                     min="1"
-                    defaultValue={inventory ? inventory.amount : ""}
+                    defaultValue={inventory ? inventory.stock : ""}
                     onChange={(e) =>
                         onInventoryChange(
                             store.id,

@@ -18,9 +18,16 @@ type ProductProps = {
         maximumAmount: number;
         idCategory: number;
     };
+    inventories?: {
+        id: number;
+        stock: number;
+        expirationDate: string;
+        idStore: number;
+        idProduct: number;
+    }[];
 };
 
-export const ProductForm: FC<ProductProps> = ({ product }) => {
+export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
     const {
         register,
         errors,
@@ -30,11 +37,11 @@ export const ProductForm: FC<ProductProps> = ({ product }) => {
         handleImageChange,
         getGenerateCode,
         productCategories,
-        inventories,
+        inventoriesOnForm,
         handleInventoryChange,
         stores,
         categoryColor,
-    } = useProductForm(product);
+    } = useProductForm(product, inventories);
 
     return !productCategories.loading && !stores.loading ? (
         !productCategories.error && !stores.error ? (
@@ -241,7 +248,7 @@ export const ProductForm: FC<ProductProps> = ({ product }) => {
                             key={store.id}
                             store={store}
                             inventory={
-                                inventories.find(
+                                inventoriesOnForm.find(
                                     (inventory) =>
                                         inventory.idStore === store.id
                                 ) || {}
