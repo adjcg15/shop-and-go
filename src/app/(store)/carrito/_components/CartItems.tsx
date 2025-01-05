@@ -4,7 +4,6 @@ import Link from "next/link";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import Image from "next/image";
 import { formatMXNCurrency } from "@/utils/currency";
-import { useRef } from "react";
 import { useCart } from "../_hooks/useCart";
 import { FaTrashAlt } from "react-icons/fa";
 
@@ -13,12 +12,10 @@ interface CartItemsProps {
 }
 
 export const CartItems = ({ items }: CartItemsProps) => {
-  const quantityRef = useRef<HTMLSelectElement>(null);
   const { handleRemoveFromCart, updateQuantity } = useCart();
 
-  const handleQuantityChange = (item: CartItem) => {
-    const quantity = parseInt(quantityRef.current!.value);
-    if (quantity != item.totalProducts) {
+  const handleQuantityChange = (item: CartItem, quantity: number) => {
+    if (quantity !== item.totalProducts) {
       updateQuantity(item, quantity);
     }
   };
@@ -55,9 +52,10 @@ export const CartItems = ({ items }: CartItemsProps) => {
               </div>
               <div className="flex items-center gap-4">
                 <select
-                  id="quantity-selector"
-                  ref={quantityRef}
-                  onChange={() => handleQuantityChange(item)}
+                  id={`quantity-selector-${item.product.id}`} // Asegúrate de usar un ID único
+                  onChange={(event) =>
+                    handleQuantityChange(item, parseInt(event.target.value))
+                  }
                   className="p-2 border border-gray-300 rounded-md w-48"
                   defaultValue={item.totalProducts}
                   aria-describedby="quantity-selector-description"
