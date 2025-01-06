@@ -133,7 +133,7 @@ export function usePaymentMethodForm() {
             notify(notificationInfo);
             setIsLoadingRegister(false);
 
-            router.push("/metodos-pago");
+            router.back();
         } catch (error) {
             const notificationInfo: NotificationInfo = {
                 title: "Servicio no disponible",
