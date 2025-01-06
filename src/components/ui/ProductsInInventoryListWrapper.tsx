@@ -28,10 +28,10 @@ export const ProductsInInventoryListWrapper = () => {
         <div className="col-start-1 col-span-4 mt-2">
             <ErrorBanner
                 image={{
-                    src: "/illustrations/empty-cart.svg",
-                    alt: "Imagen representativa de productos no encontrados",
+                    src: "/illustrations/server-error.svg",
+                    alt: "Ilustración representativa de un error en un servidor",
                 }}
-                title={"¡Error al cargar los productos!"}
+                title={"¡Problemas técnicos!"}
                 message={productsList.error}
             />
         </div>
@@ -44,7 +44,7 @@ export const ProductsInInventoryListWrapper = () => {
                         alt: "Imagen representativa de un carrito de compras vacío",
                     }}
                     title={"¡No hay productos!"}
-                    message={`No existen productos registrados, deberá registrar uno nuevo`}
+                    message="No existen productos registrados, deberá registrar uno nuevo"
                 />
             )}
             {productsList.value.length > 0 && (

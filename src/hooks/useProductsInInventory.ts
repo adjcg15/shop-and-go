@@ -46,10 +46,11 @@ export function useProductsInInventory() {
 
             if (errorLoadingProducts) {
                 fireErrorLoadingProducts(errorLoadingProducts);
+            } else if (products) {
+                const stillProductsToLoad =
+                    products.length >= productsBatchSize;
+                finishProductsLoading(products!, stillProductsToLoad);
             }
-
-            const stillProductsToLoad = products!.length >= productsBatchSize;
-            finishProductsLoading(products!, stillProductsToLoad);
         },
         [
             finishProductsLoading,

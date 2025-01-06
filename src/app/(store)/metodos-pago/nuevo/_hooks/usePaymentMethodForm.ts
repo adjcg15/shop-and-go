@@ -15,7 +15,7 @@ import { CreatePaymentMethodErrorCodes } from "@/types/enums/error_codes";
 
 type IussingBanksState = {
     loading: boolean;
-    value: IssuerBank[] | null;
+    value: IssuerBank[];
     error: string | null;
 };
 
@@ -34,7 +34,7 @@ const INITIA_ISSUING_BANKS_LIST_STATE = {
     error: null,
 };
 
-export function usePaymentMethod() {
+export function usePaymentMethodForm() {
     const [isLoadingRegister, setIsLoadingRegister] = useState(false);
     const [issuerColor, setIssuerColor] = useState("text-gray-400");
     const [issuingBanks, setIssuingBanks] = useState<IussingBanksState>(
@@ -70,7 +70,7 @@ export function usePaymentMethod() {
     const getIssuingBanks = useCallback(async () => {
         setIssuingBanks(() => ({
             loading: true,
-            value: null,
+            value: [],
             error: null,
         }));
         try {
@@ -87,7 +87,7 @@ export function usePaymentMethod() {
                 "Por el momento el sistema no se encuentra disponible, por favor intente más tarde";
             setIssuingBanks(() => ({
                 loading: false,
-                value: null,
+                value: [],
                 error: errorMessage,
             }));
         }

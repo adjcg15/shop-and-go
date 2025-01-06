@@ -53,7 +53,6 @@ export const ProductInformation = () => {
                 const { data } = await shopAndGoAPI.get<ProductWithStock>(
                     `/stores/${idStore}/products/${barCode}`
                 );
-                console.log(barCode);
                 setProductWithStock(() => ({
                     loading: false,
                     value: data,
@@ -111,7 +110,7 @@ export const ProductInformation = () => {
             const quantity = Number(quantityRef.current?.value);
             addToCart({
                 product: productWithStock.value,
-                totalProducts: quantity
+                totalProducts: quantity,
             });
 
             notify({
@@ -120,7 +119,7 @@ export const ProductInformation = () => {
                     quantity > 1 ? "unidades" : "unidad"
                 } de '${productWithStock.value.name}' al carrito`,
                 type: NotificationTypes.SUCCESS,
-            })
+            });
         }
     };
 
@@ -166,7 +165,10 @@ export const ProductInformation = () => {
                             </p>
                         </main>
                         <section className="col-start-4 mt-4 col-span-1 flex flex-col items-end md:col-span-4">
-                            <label htmlFor="quantity-selector" className="text-sm font-medium text-gray-800 mb-2">
+                            <label
+                                htmlFor="quantity-selector"
+                                className="text-sm font-medium text-gray-800 mb-2"
+                            >
                                 Cantidad
                             </label>
                             <select
@@ -177,7 +179,13 @@ export const ProductInformation = () => {
                                 aria-describedby="quantity-selector-description"
                             >
                                 {Array.from(
-                                    { length: Math.min(productWithStock.value?.maximumAmount || 0, productWithStock.value?.stock || 0) },
+                                    {
+                                        length: Math.min(
+                                            productWithStock.value
+                                                ?.maximumAmount || 0,
+                                            productWithStock.value?.stock || 0
+                                        ),
+                                    },
                                     (_, i) => i + 1
                                 ).map((quantity) => (
                                     <option key={quantity} value={quantity}>
@@ -187,7 +195,14 @@ export const ProductInformation = () => {
                             </select>
                         </section>
                         <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
-                            <PrimaryButton onClick={handleAddToCart}>
+                            <PrimaryButton
+                                onClick={handleAddToCart}
+                                disabled={
+                                    productWithStock.value.stock > 0
+                                        ? false
+                                        : true
+                                }
+                            >
                                 <div className="flex items-center">
                                     <span>Agregar producto al carrito</span>
                                     <FaCartShopping className="ml-2" />

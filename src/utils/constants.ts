@@ -24,6 +24,8 @@ const CLIENT_ROUTES: string[] = [
 
 const ADMIN_ROUTES: string[] = [
     "/empleados/productos",
+    "/empleados/productos/[barCode]",
+    "/empleados/productos/nuevo",
     "/empleados/sucursales",
     "/empleados/sucursales/nueva",
     "/empleados/categorias",
