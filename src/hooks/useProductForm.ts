@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NotificationInfo } from "@/types/types/components/notifications";
@@ -13,12 +13,14 @@ import { CreateProductErrorCodes } from "@/types/enums/error_codes";
 import { CategoriesListState } from "@/types/types/components/products";
 import { getProductCategories } from "@/utils/api/products";
 import { Inventory, Store } from "@/types/types/model/stores";
-import { getStores } from "@/utils/api/stores";
+import { getStore, getStores } from "@/utils/api/stores";
 import {
     deleteImageFromCloudinary,
     uploadImageToCloudinary,
 } from "@/utils/cloudinary";
 import { Product } from "@/types/types/model/products";
+import AuthContext from "@/contexts/auth/context";
+import UserRoles from "@/types/enums/user_roles";
 
 type PaymentMethodForm = {
     barCode: string;
@@ -65,6 +67,9 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
     );
     const [selectedOptionProductState, setSelectedOptionProductState] =
         useState<string>("");
+    const { employeeProfile } = useContext(AuthContext);
+    const userRole = employeeProfile?.position;
+    const idStore = employeeProfile?.idStore;
 
     const FORM_INITIAL_VALUES = useMemo(
         () => ({
@@ -145,7 +150,17 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
             value: [],
             error: null,
         }));
-        const { errorLoadingStores, storesList } = await getStores();
+        let errorLoadingStores: string | null = "";
+        let storesList: Store[] | null = null;
+        if (userRole === UserRoles.ADMINISTRATOR) {
+            const dataResult = await getStores();
+            errorLoadingStores = dataResult.errorLoadingStores;
+            storesList = dataResult.storesList;
+        } else if (userRole === UserRoles.SALES_EXECUTIVE) {
+            const dataResult = await getStore(idStore!);
+            errorLoadingStores = dataResult.errorLoadingStore;
+            storesList = dataResult.storeInList;
+        }
 
         if (errorLoadingStores) {
             setStores({
@@ -153,14 +168,14 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                 value: [],
                 error: errorLoadingStores,
             });
-        } else {
+        } else if (storesList) {
             setStores({
                 loading: false,
                 value: storesList,
                 error: null,
             });
         }
-    }, []);
+    }, [idStore, userRole]);
 
     useEffect(() => {
         if (stores.value.length) {
@@ -291,7 +306,11 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                 notify(notificationInfo);
                 setIsLoadingRegister(false);
 
-                router.push("/empleados/productos");
+                router.push(
+                    userRole === UserRoles.ADMINISTRATOR
+                        ? "/empleados/productos"
+                        : "/empleados/productos-en-tienda"
+                );
             } catch (error) {
                 const notificationInfo: NotificationInfo = {
                     title: "Servicio no disponible",

@@ -26,4 +26,27 @@ async function getStores() {
     return { storesList, errorLoadingStores };
 }
 
-export { getStores };
+async function getStore(idStore: number) {
+    let storeInList: Store[] = [];
+    let errorLoadingStore: string | null = null;
+
+    try {
+        const { data: store } = await shopAndGoAPI.get<Store>(
+            `/stores/${idStore}`
+        );
+        storeInList = [store];
+    } catch (error) {
+        errorLoadingStore =
+            "Estamos teniendo problemas para cargar las categorías, por favor intente más tarde.";
+
+        if (isAxiosError(error) && error.code === AxiosError.ERR_NETWORK) {
+            errorLoadingStore =
+                "No fue posible establecer una conexión para cargar " +
+                "la lista de categorías. Verifique que su conexión a Internet es estable o intente más tarde.";
+        }
+    }
+
+    return { storeInList, errorLoadingStore };
+}
+
+export { getStores, getStore };

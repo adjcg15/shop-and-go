@@ -1,7 +1,7 @@
 "use client";
-import { ProductForm } from "../../../../../../components/ui/ProductForm";
+import { ProductForm } from "./ProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
-import { useProductToModify } from "../_hooks/useProductToModify";
+import { useProductToModify } from "../../hooks/useProductToModify";
 
 export const ProductToModifyWrapper = () => {
     const { product, inventories } = useProductToModify();
