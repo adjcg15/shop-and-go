@@ -1,6 +1,9 @@
 "use client";
 import { Incident } from "@/types/types/model/orders";
+import { download, generateCsv, mkConfig } from "export-to-csv";
 import { useCallback, useState } from "react";
+
+const csvConfig = mkConfig({ useKeysAsHeaders: true, filename: "Reportes de incidencias" });
 
 export function useExportIncidents(incidentsList: Incident[]) {
     const [incidentsToExport, setIncidentToExport] = useState<number[]>([]);
@@ -29,7 +32,12 @@ export function useExportIncidents(incidentsList: Incident[]) {
     const exportIncidentsToCSV = useCallback(() => {
         setExportingIncidents(true);
         
-    }, [incidentsToExport]);
+        const incidentsCSVList = incidentsList.filter(incident => incidentsToExport.includes(incident.id));
+        const csv = generateCsv(csvConfig)(incidentsCSVList);
+        download(csvConfig)(csv)
+
+        setExportingIncidents(false);
+    }, [incidentsToExport, incidentsList]);
 
     return {
         exportingIncidents,
