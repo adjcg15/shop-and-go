@@ -33,7 +33,7 @@ export function useUpdateClientInfo() {
     };
 
     try {
-      await shopAndGoAPI.put(`clients/` + clientProfile?.id, requestBody);
+      await shopAndGoAPI.patch(`clients/` + clientProfile?.id, requestBody);
 
       const notificationInfo: NotificationInfo = {
         title: "Información actualizada",
