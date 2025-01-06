@@ -54,9 +54,17 @@ function formatDDMMYYY(date: Date) {
   return `${day.toString().padStart(2, "0")}/${month.toString().padStart(2, "0")}/${year}`
 }
 
+function formatCommonTime(date: Date) {
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`
+}
+
 export {
   validateBirthdate,
   formatDate,
   parseToCommonTime,
-  formatDDMMYYY
+  formatDDMMYYY,
+  formatCommonTime
 };
