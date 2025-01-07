@@ -51,11 +51,14 @@ export const DeliveryTimeMessage = () => {
                     response
                 ) {
                     const duration = response.rows[0].elements[0].duration.text;
+                    const formattedDuration = duration
+                        .replace("min", "minutos")
+                        .replace("h", "hora");
 
-                    if (duration) {
+                    if (formattedDuration) {
                         setDeliveryTime({
                             loading: false,
-                            value: duration,
+                            value: formattedDuration,
                             error: null,
                         });
                     } else {
@@ -84,19 +87,21 @@ export const DeliveryTimeMessage = () => {
         <div className="mt-2 flex items-center justify-center text-center">
             {!deliveryTime.loading ? (
                 !deliveryTime.error ? (
-                    <p>
+                    <p className="text-xs sm:text-sm lg:text-base">
                         El tiempo estimado de entrega es de{" "}
                         <span>{deliveryTime.value}</span> después de que el
                         pedido salga de la sucursal al domicilio
                     </p>
                 ) : (
-                    <p>
+                    <p className="text-xs sm:text-sm lg:text-base">
                         No fue posible calcular el tiempo de entrega por razones
                         externas al sistema
                     </p>
                 )
             ) : (
-                <p>Calculando tiempo de entrega...</p>
+                <p className="text-xs sm:text-sm lg:text-base">
+                    Calculando tiempo de entrega...
+                </p>
             )}
         </div>
     );

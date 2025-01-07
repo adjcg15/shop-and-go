@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { OrderConfirmationWrapperPage } from "./_components/OrderConfirmationWrapper";
+import { OrderConfirmation } from "./_components/OrderConfirmation";
 
 export const metadata: Metadata = {
     title: "Confirmación de pedido",
@@ -15,7 +15,7 @@ export default function OrderConfirmationPage() {
                     </h1>
                 </header>
                 <section className="col-start-2 col-span-2">
-                    <OrderConfirmationWrapperPage />
+                    <OrderConfirmation />
                 </section>
             </div>
         </div>
