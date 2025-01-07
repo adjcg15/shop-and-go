@@ -141,24 +141,24 @@ export const ProductInformation = () => {
                     </div>
                     <div className="col-span-4 md:col-span-2 p-4 max-w-3xl mx-auto">
                         <main>
-                            <h1 className="text-3xl sm:text-5xl font-bold">
+                            <h1 className="text-xl sm:text-3xl font-bold">
                                 {productWithStock.value.name}
                             </h1>
-                            <p className="text-2xl sm:text-4xl font-bold text-orange-500 mt-6">
+                            <p className="text-xl sm:text-3xl font-bold text-orange-500 mt-6">
                                 {formatMXNCurrency(
                                     productWithStock.value.salePrice!
                                 )}
                             </p>
-                            <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mt-8">
+                            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mt-8">
                                 Descripción
                             </h1>
-                            <p className="text-lg sm:text-2xl text-gray-800 mt-4">
+                            <p className="text-base sm:text-xl text-gray-800 mt-4">
                                 {productWithStock.value.description}
                             </p>
-                            <h1 className="text-xl sm:text-3xl font-bold text-gray-800 mt-8">
+                            <h1 className="text-lg sm:text-2xl font-bold text-gray-800 mt-8">
                                 Disponibilidad
                             </h1>
-                            <p className="text-lg sm:text-2xl text-gray-800 mt-4">
+                            <p className="text-base sm:text-xl text-gray-800 mt-4">
                                 {productWithStock.value.stock > 0
                                     ? `${productWithStock.value.stock} unidades disponibles`
                                     : "Producto agotado"}
