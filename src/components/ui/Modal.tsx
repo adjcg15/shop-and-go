@@ -27,7 +27,7 @@ export const Modal: FC<ModalProps> = ({ handleCloseModal, isOpen, children, size
 
   return (
     <FloatingElement>
-      <div className={`size-full overflow-hidden fixed top-0 left-0 bg-opacity-30 w-[100vw] h-[100vh] transition-colors z-30 px-3 ${visibilityStyle}`} role="dialog" tabIndex={isOpen ? 0 : -1}>
+      <div className={`size-full overflow-hidden fixed top-0 left-0 bg-opacity-30 transition-colors z-30 px-3 ${visibilityStyle}`} role="dialog" tabIndex={isOpen ? 0 : -1}>
         <article className={`m-3 mt-[calc(50vh+0.1rem)] -translate-y-1/2 mx-auto max-h-[calc(100vh-3rem)] flex flex-col bg-white rounded-lg relative transition-all ${positionStyle} ${modalSize}`}>
           <header className="flex items-center justify-end pt-[5px] pr-[5px]">
             <IconButton

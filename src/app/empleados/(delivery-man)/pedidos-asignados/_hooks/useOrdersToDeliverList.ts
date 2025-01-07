@@ -14,6 +14,13 @@ const INITIAL_ORDERS_LIST_STATE = { loading: true, value: [], error: null };
 export function useOrdersToDeliverList() {
   const [ordersToDeliver, setOrdersToDeliver] = useState<OrdersToDeliverListState>(INITIAL_ORDERS_LIST_STATE);
 
+  const onOrderCanceled = useCallback((idOrder: number) => {
+    setOrdersToDeliver(previousOrders => ({
+      ...previousOrders,
+      value: previousOrders.value.filter(order => order.id !== idOrder)
+    }))
+  }, []);
+
   const recoverOrdersToDeliver = useCallback(async () => {
     try {
       const { data: orders } = await shopAndGoAPI.get<Order[]>("/orders/orders-to-deliver");
@@ -34,6 +41,7 @@ export function useOrdersToDeliverList() {
 
   return {
     ordersToDeliver,
-    recoverOrdersToDeliver
+    recoverOrdersToDeliver,
+    onOrderCanceled
   };
 }

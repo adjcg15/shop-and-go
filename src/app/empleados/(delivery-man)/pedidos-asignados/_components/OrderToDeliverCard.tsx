@@ -8,16 +8,22 @@ import { FC } from "react";
 
 type OrderToDeliverCardProps = {
   order: Order;
+  startIncidentCreation: (idOrder: number) => void;
 };
 
-export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order }) => {
+export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startIncidentCreation }) => {
   const purchaseDate = new Date(order.dateOfPurchase);
 
   return (
     <article className="p-8 rounded-lg border border-gray-300 mb-5">
       <header className="flex flex-col-reverse sm:flex-row sm:justify-between lg:justify-end">
-        <TernaryButton className="w-full sm:w-auto text-red-600 hover:text-red-700">Reportar incidencia</TernaryButton>
-        <PrimaryButton className="w-full sm:w-auto mt-3 sm:mt-0 lg:ml-3">Entregar</PrimaryButton>
+        <TernaryButton 
+          onClick={() => startIncidentCreation(order.id)}
+          className="w-full sm:w-auto text-red-600 hover:text-red-700 mt-3 sm:mt-0"
+        >
+          Reportar incidencia
+        </TernaryButton>
+        <PrimaryButton className="w-full sm:w-auto lg:ml-3">Entregar</PrimaryButton>
       </header>
 
       <main className="mt-5 lg:grid lg:grid-cols-2 lg:gap-10">
