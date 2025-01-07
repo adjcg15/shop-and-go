@@ -31,7 +31,7 @@ export const OrdersList = () => {
           />
         )
         : (
-          <ul className="lg:grid lg:grid-cols-2 lg:gap-4 mt-3">
+          <ul className="lg:grid mt-3">
             {
               ordersToDeliver.loading
               ? (

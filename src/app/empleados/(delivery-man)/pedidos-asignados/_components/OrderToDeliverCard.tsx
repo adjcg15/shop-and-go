@@ -14,21 +14,23 @@ export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order }) => {
   const purchaseDate = new Date(order.dateOfPurchase);
 
   return (
-    <article className="p-8 rounded-lg border border-gray-300">
-      <header className="flex flex-col-reverse sm:flex-row sm:justify-between">
+    <article className="p-8 rounded-lg border border-gray-300 mb-5">
+      <header className="flex flex-col-reverse sm:flex-row sm:justify-between lg:justify-end">
         <TernaryButton className="w-full sm:w-auto text-red-600 hover:text-red-700">Reportar incidencia</TernaryButton>
-        <PrimaryButton className="w-full sm:w-auto mt-3 sm:mt-0">Entregar</PrimaryButton>
+        <PrimaryButton className="w-full sm:w-auto mt-3 sm:mt-0 lg:ml-3">Entregar</PrimaryButton>
       </header>
 
-      <main className="mt-5">
+      <main className="mt-5 lg:grid lg:grid-cols-2 lg:gap-10">
         <section>
-          <p className="font-bold"><small>Fecha de solicitud</small></p>
-          <p className="text-2xl font-bold">{`${formatDDMMYYY(purchaseDate)} - ${formatCommonTime(purchaseDate)}`}</p>
-        </section>
+          <div>
+            <p className="font-bold"><small>Fecha de solicitud</small></p>
+            <p className="text-2xl font-bold">{`${formatDDMMYYY(purchaseDate)} - ${formatCommonTime(purchaseDate)}`}</p>
+          </div>
 
-        <section className="mt-3">
-          <p className="font-bold"><small>Entregar en</small></p>
-          <p>{formatPlainAddressString(order.deliveryAddress!)}</p>
+          <div className="mt-3">
+            <p className="font-bold"><small>Entregar en</small></p>
+            <p>{formatPlainAddressString(order.deliveryAddress!)}</p>
+          </div>
 
           <div className="border border-gray-300 rounded-lg h-72 overflow-hidden mt-1">
             <Map
@@ -54,15 +56,51 @@ export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order }) => {
           </div>
         </section>
 
-        <section className="mt-3">
-          <p className="font-bold"><small>Entregar a</small></p>
-          <p>{order.client!.fullName}</p>
-        </section>
+        <div>
+          <section className="mt-5 lg:mt-0">
+            <h2>Productos para entregar</h2>
 
-        <section className="mt-3">
-          <p className="font-bold"><small>Contacto del cliente</small></p>
-          <p>{order.client!.phoneNumber}</p>
-        </section>
+            <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2
+              [&::-webkit-scrollbar-track]:rounded-full
+              [&::-webkit-scrollbar-track]:bg-gray-100
+              [&::-webkit-scrollbar-thumb]:rounded-full
+              [&::-webkit-scrollbar-thumb]:bg-gray-300"
+            >
+              <table className="w-full min-w-[500px] mt-3">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="uppercase py-3 px-5">Producto</th>
+                    <th className="uppercase py-3 px-5 text-center">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    order.products!.map(product => (
+                      <tr key={product.id} className="border-b border-gray-300">
+                        <td className="py-3 px-5">{product.name}</td>
+                        <td className="py-3 px-5 text-center">{product.OrderProduct!.amount}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="mt-5 lg:mt-10">
+            <h2>Información del cliente</h2>
+
+            <div className="mt-3">
+              <p className="font-bold"><small>Nombre</small></p>
+              <p>{order.client!.fullName}</p>
+            </div>
+
+            <div className="mt-1">
+              <p className="font-bold"><small>Número de contacto</small></p>
+              <p>{order.client!.phoneNumber}</p>
+            </div>
+          </section>
+        </div>
       </main>
     </article>
   );
