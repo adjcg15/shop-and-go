@@ -177,7 +177,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     />
                     {product && (
                         <p>
-                            **Seleccione una imágen si desea cambiarla, caso
+                            **Seleccione una imagen si desea cambiarla, caso
                             contrario omita este campo
                         </p>
                     )}
@@ -273,8 +273,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     {stores.value.length > 0 && (
                         <>
                             <p className="mt-3">
-                                **Solo se registrarán inventarios completos por
-                                tienda (que se hayan ingresado la fecha y stock)
+                                **Solo se guardarán inventarios completos por
+                                tienda (en los que se hayan ingresado la fecha
+                                de caducidad y cantidad)
                             </p>
                             <ul className="w-full grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 bg-gray-300 p-4 border border-slate-500 text-xs sm:text-sm md:text-xs lg:text-lg">
                                 <li className="flex justify-center items-center col-span-1 col-start-1">

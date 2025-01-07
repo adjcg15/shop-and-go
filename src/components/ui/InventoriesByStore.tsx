@@ -16,7 +16,7 @@ type InventoriesByStoreProps = {
     onInventoryChange: (
         storeId: number,
         field: InventoryField,
-        value: string | number
+        value: string | number | undefined
     ) => void;
     isEdition: boolean;
 };
@@ -60,13 +60,14 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                     type="number"
                     min={isEdition ? "0" : "1"}
                     defaultValue={inventory ? inventory.stock : ""}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                        const value = e.target.value;
                         onInventoryChange(
                             store.id,
                             "stock",
-                            Number(e.target.value)
-                        )
-                    }
+                            value === "" ? undefined : Number(value)
+                        );
+                    }}
                 />
             </li>
         </ul>

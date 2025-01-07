@@ -123,7 +123,6 @@ export function usePaymentMethods() {
 
     return {
         paymentMethods,
-        getPaymentMethods,
         deletePaymentMethod,
     };
 }

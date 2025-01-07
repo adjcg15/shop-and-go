@@ -15,6 +15,7 @@ const CLIENT_ROUTES: string[] = [
     "/metodos-pago",
     "/metodos-pago/nuevo",
     "/clientes/pedidos",
+    "/confirmar-pedido",
     "/catalogo",
     "/productos/[barCode]",
     "/carrito",
