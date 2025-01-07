@@ -1,3 +1,4 @@
+import { OrderProduct } from "./orders";
 import { Inventory } from "./stores";
 
 type Product = {
@@ -10,6 +11,7 @@ type Product = {
     isActive: boolean;
     maximumAmount: number;
     idCategory: number;
+    OrderProduct?: OrderProduct;
 };
 
 type ProductWithStock = Product & {
