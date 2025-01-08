@@ -39,7 +39,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     [UserRoles.GUEST]: GUEST_ROUTES,
   }), []);
 
-  const startSession= useCallback((profile: Client | Employee) => {
+  const startSession = useCallback((profile: Client | Employee) => {
     if("position" in profile) {
       dispatch({ type: AuthActionTypes.START_EMPLOYEE_SESSION, payload: profile });
     } else {
@@ -79,10 +79,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const isProtectedPage = 
-      ADMIN_ROUTES.includes(pathname) || 
+      isRouteInRoutesArray(pathname, ADMIN_ROUTES) || 
       isRouteInRoutesArray(pathname, SALES_EXECUTIVE_ROUTES) ||
-      DELIVERY_MAN_ROUTES.includes(pathname) ||
-      (CLIENT_ROUTES.includes(pathname) && Cookies.get("token"));
+      isRouteInRoutesArray(pathname, DELIVERY_MAN_ROUTES) ||
+      (isRouteInRoutesArray(pathname, CLIENT_ROUTES) && Cookies.get("token"));
 
     if(
       isProtectedPage 

@@ -57,7 +57,7 @@ export const config = {
         // Shared routes (client and guest)
         "/",
         "/catalogo",
-        "/productos/[barCode]",
+        "/productos/:path",
         "/carrito",
         // Guest routes
         "/iniciar-sesion",
@@ -72,7 +72,7 @@ export const config = {
         "/mi-perfil",
         // Admin routes
         "/empleados/productos",
-        "/empleados/productos/[barCode]",
+        "/empleados/productos/:path",
         "/empleados/productos/nuevo",
         "/empleados/sucursales",
         "/empleados/sucursales/nueva",
