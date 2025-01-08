@@ -1,4 +1,3 @@
-"use client";
 import { useParams } from "next/navigation";
 import { Product } from "@/types/types/model/products";
 import { useCallback, useState, useEffect, useContext } from "react";

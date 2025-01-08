@@ -9,6 +9,7 @@ import { notify } from "@/utils/notifications";
 import { PaymentMethod } from "@/types/types/model/payment_methods";
 import { DeletePaymentMethodErrorCodes } from "@/types/enums/error_codes";
 import AuthContext from "@/contexts/auth/context";
+import { PaymentMethodsResponse } from "@/types/types/api/products";
 
 type PaymentMethodsState = {
     loading: boolean;
@@ -38,7 +39,7 @@ export function usePaymentMethods() {
                 error: null,
             }));
 
-            const { data } = await shopAndGoAPI.get<PaymentMethod[]>(
+            const { data } = await shopAndGoAPI.get<PaymentMethodsResponse>(
                 `/clients/${idClient}/payment-methods`
             );
 
@@ -102,12 +103,12 @@ export function usePaymentMethods() {
                         notificationInfo.title = "Cliente incorrecto";
                         notificationInfo.message =
                             "No se pudieron obtener los métodos de pago porque el cliente no se pudo identificar";
-                        notificationInfo.type = NotificationTypes.WARNING;
+                        notificationInfo.type = NotificationTypes.ERROR;
                     } else {
                         notificationInfo.title = "Método de pago no encontrado";
                         notificationInfo.message =
                             "No se pudo eliminar el método de pago porque no se encontró en el sistema";
-                        notificationInfo.type = NotificationTypes.WARNING;
+                        notificationInfo.type = NotificationTypes.ERROR;
                     }
                 }
 
