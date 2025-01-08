@@ -4,7 +4,7 @@ import { useProductForm } from "../../hooks/useProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { ONLY_POSITIVE_INTEGERS } from "@/utils/regexp";
-import { InventoriesByStore } from "./InventoriesByStore";
+import { InventoriesByStore } from "../ui/InventoriesByStore";
 import { FC } from "react";
 import { FiDollarSign } from "react-icons/fi";
 

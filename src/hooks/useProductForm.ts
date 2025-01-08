@@ -1,4 +1,3 @@
-"use client";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";

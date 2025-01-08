@@ -2,12 +2,12 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { usePaymentMethodForm } from "../_hooks/usePaymentMethodForm";
 import {
+    CARD_IS_VISA_OR_MASTERCARD,
     CVV_PATTERN,
     MONTH_PATTERN,
     ONLY_LETTERS_PATTERN,
     YEAR_PATTERN,
 } from "@/utils/regexp";
-import { useCallback } from "react";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export const PaymentMethodForm = () => {
@@ -16,30 +16,11 @@ export const PaymentMethodForm = () => {
         errors,
         handleSubmit,
         isLoadingRegister,
+        validateLuhn,
         handleIssuerChange,
         issuingBanks,
         issuerColor,
     } = usePaymentMethodForm();
-
-    const validateLuhn = useCallback((cardNumber: string) => {
-        let sum = 0;
-        let shouldDouble = false;
-        for (let i = cardNumber.length - 1; i >= 0; i--) {
-            let digit = parseInt(cardNumber[i], 10);
-
-            if (shouldDouble) {
-                digit *= 2;
-                if (digit > 9) {
-                    digit -= 9;
-                }
-            }
-
-            sum += digit;
-            shouldDouble = !shouldDouble;
-        }
-
-        return sum % 10 === 0;
-    }, []);
 
     return !issuingBanks.loading ? (
         !issuingBanks.error ? (
@@ -50,7 +31,9 @@ export const PaymentMethodForm = () => {
                             errors.cardholderName ? "invalid" : ""
                         }`}
                     >
-                        <label>Titular de la tarjeta</label>
+                        <label htmlFor="carholderName">
+                            Titular de la tarjeta
+                        </label>
                         <input
                             id="carholderName"
                             type="text"
@@ -70,21 +53,22 @@ export const PaymentMethodForm = () => {
                             errors.cardNumber ? "invalid" : ""
                         }`}
                     >
-                        <label>Número de tarjeta</label>
+                        <label htmlFor="cardNumber">
+                            Número de tarjeta (Visa o Mastercard)
+                        </label>
                         <input
                             id="cardNumber"
                             type="text"
                             placeholder="Ej. 5474925432670366"
                             {...register("cardNumber", {
                                 required: true,
-                                minLength: 16,
-                                maxLength: 16,
+                                pattern: CARD_IS_VISA_OR_MASTERCARD,
                                 validate: (value) => validateLuhn(value),
                             })}
                         />
                         <p className="error">
                             Debe ingresar un número de tarjeta válido a 16
-                            dígitos
+                            dígitos (Visa o Mastercard)
                         </p>
                     </div>
                     <div
@@ -92,7 +76,7 @@ export const PaymentMethodForm = () => {
                             errors.bankIssuer ? "invalid" : ""
                         }`}
                     >
-                        <label>Banco emisor</label>
+                        <label htmlFor="bankIssuer">Banco emisor</label>
                         <select
                             id="bankIssuer"
                             defaultValue=""
@@ -127,7 +111,9 @@ export const PaymentMethodForm = () => {
                                 errors.expirationMonth ? "invalid" : ""
                             }`}
                         >
-                            <label>Mes de vencimiento</label>
+                            <label htmlFor="expirationMonth">
+                                Mes de vencimiento
+                            </label>
                             <input
                                 id="expirationMonth"
                                 type="text"
@@ -140,14 +126,16 @@ export const PaymentMethodForm = () => {
                                     pattern: MONTH_PATTERN,
                                 })}
                             />
-                            <p className="error">Debe ingresar el mes</p>
+                            <p className="error">Debe ingresar un mes válido</p>
                         </div>
                         <div
                             className={`col-span-1 form-group ${
                                 errors.expirationYear ? "invalid" : ""
                             }`}
                         >
-                            <label>Año de vencimiento</label>
+                            <label htmlFor="expirationYear">
+                                Año de vencimiento
+                            </label>
                             <input
                                 id="expirationYear"
                                 type="text"
@@ -160,14 +148,14 @@ export const PaymentMethodForm = () => {
                                     pattern: YEAR_PATTERN,
                                 })}
                             />
-                            <p className="error">Debe ingresar el año</p>
+                            <p className="error">Debe ingresar un año válido</p>
                         </div>
                         <div
                             className={`form-group col-start-3 ${
                                 errors.cvv ? "invalid" : ""
                             }`}
                         >
-                            <label>CVV / CVC</label>
+                            <label htmlFor="cvv">CVV / CVC</label>
                             <input
                                 id="cvv"
                                 type="text"
