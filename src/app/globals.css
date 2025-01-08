@@ -147,6 +147,7 @@ body {
 
   .form-group.invalid > input,
   .form-group.invalid > textarea, 
+  .form-group.invalid > select, 
   .form-group.invalid .autocomplete-container input {
     @apply border-red-600;
   }

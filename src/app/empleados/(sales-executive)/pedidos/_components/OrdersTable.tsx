@@ -32,7 +32,7 @@ export const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
                 <p>{formatPlainAddressString(order.deliveryAddress!)}</p>
               </td>
               <td className="py-3 px-5 whitespace-nowrap">
-                <Link href={`./${order.id}`} className="p-0 m-0">
+                <Link href={`/empleados/pedidos/${order.id}`} className="p-0 m-0">
                   <PrimaryButton>Asignar repartidor</PrimaryButton>
                 </Link>
               </td>

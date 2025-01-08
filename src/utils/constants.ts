@@ -36,6 +36,7 @@ const ADMIN_ROUTES: (string | RegExp)[] = [
 
 const SALES_EXECUTIVE_ROUTES: (string | RegExp)[] = [
     "/empleados/pedidos",
+    new RegExp("^\/empleados\/pedidos\/[^\/]+$"),
     "/empleados/productos-en-tienda",
     new RegExp("^/empleados/productos-en-tienda/[^/]+$"),
     "/empleados/productos-en-tienda/nuevo",
