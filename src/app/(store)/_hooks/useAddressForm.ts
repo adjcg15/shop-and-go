@@ -135,6 +135,8 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
         place.geometry.location
       ) {
         const addressComponents = place.address_components || [];
+        let streetNumberFound = false;
+
         addressComponents.forEach((component) => {
           if (component.types.includes("route"))
             setValue("street", component.long_name, { shouldValidate: true });
