@@ -30,7 +30,7 @@ export const ClientForm = () => {
     return (
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <div className={`form-group col-span-2 ${errors.fullName ? "invalid" : ""}`}>
-                <label htmlFor="fullName">Nombre completo</label>
+                <label htmlFor="fullName">Nombre completo <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -43,7 +43,9 @@ export const ClientForm = () => {
                         ) 
                     }
                     id="fullName" type="text" placeholder="Ej. José Pérez"
+                    aria-describedby="clientNameInputDescription"
                 />
+                <p className="sr-only" id="clientNameInputDescription">Nombre de pila y apellidos</p>
                 <p className="error">
                     {
                         "Nombre completo inválido. Se deben incluir al menos nombre y apellido."
@@ -52,7 +54,7 @@ export const ClientForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.phoneNumber ? "invalid" : ""}`}>
-                <label htmlFor="phoneNumber">Número de teléfono</label>
+                <label htmlFor="phoneNumber">Número de teléfono <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -65,7 +67,9 @@ export const ClientForm = () => {
                         ) 
                     }
                     id="phoneNumber" type="number" placeholder="Ej. 2288103221"
+                    aria-describedby="clientPhoneNumberInputDescription"
                 />
+                <p className="sr-only" id="clientPhoneNumberInputDescription">Número de teléfono a 10 dígitos</p>
                 <p className="error">
                     {
                         "Número telefónico inválido. Debe contener 10 dígitos."
@@ -74,7 +78,7 @@ export const ClientForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.birthdate ? "invalid" : ""}`}>
-                <label htmlFor="birthdate">Fecha de nacimiento</label>
+                <label htmlFor="birthdate">Fecha de nacimiento <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -86,7 +90,9 @@ export const ClientForm = () => {
                         ) 
                     }
                     id="birthdate" type="date"
+                    aria-describedby="clientBirthdateInputDescription"
                 />
+                <p className="sr-only" id="clientBirthdateInputDescription">Fecha de nacimiento con número de día, número de mes y año</p>
                 <p className="error">
                     {
                         errors.birthdate?.message
@@ -95,7 +101,7 @@ export const ClientForm = () => {
             </div>
 
             <div className={`form-group col-span-2 ${errors.password ? "invalid" : ""}`}>
-                <label htmlFor="password">Contraseña</label>
+                <label htmlFor="password">Contraseña <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <div className="password-container flex items-center">
                     <input
                         {
@@ -116,14 +122,20 @@ export const ClientForm = () => {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         className="flex-1"
+                        aria-describedby="passwordInputDescription"
                     />
+                    <p className="sr-only" id="passwordInputDescription">Contraseña con 8 a 16 caracteres, con una mayúscula, una minúscula, un número y un caracter especial</p>
                     <SecondaryIconButton
                         type="button"
                         className="toggle-password ml-1"
                         onClick={() => setShowPassword(!showPassword)}
+                        aria-describedby="showPasswordButtonDescription"
                     >
                         {showPassword ? <MdVisibilityOff size={24} /> : <MdVisibility size={24} />}
                     </SecondaryIconButton>
+                    <p className="sr-only" id="showPasswordButtonDescription">
+                        { showPassword ? "Ocultar contraseña" : "Mostrar contraseña" }
+                    </p>
                 </div>
                 <p className="error">
                     {
@@ -133,7 +145,7 @@ export const ClientForm = () => {
             </div>
 
             <div className={`form-group col-span-2 ${errors.passwordConfirmation ? "invalid" : ""}`}>
-                <label htmlFor="passwordConfirmation">Confirmar Contraseña</label>
+                <label htmlFor="passwordConfirmation">Confirmar Contraseña <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <div className="password-container flex items-center">
                     <input
                         {
@@ -149,14 +161,20 @@ export const ClientForm = () => {
                         id="passwordConfirmation"
                         type={showPasswordConfirmation ? "text" : "password"}
                         className="flex-1"
+                        aria-describedby="passwordConfirmationInputDescription"
                     />
+                    <p className="sr-only" id="passwordConfirmationInputDescription">Confirmación de la contraseña con 8 a 16 caracteres, con una mayúscula, una minúscula, un número y un caracter especial</p>
                     <SecondaryIconButton
                         type="button"
                         className="toggle-password ml-1"
                         onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                        aria-describedby="showPasswordConfirmationButtonDescription"
                     >
                         {showPasswordConfirmation ? <MdVisibilityOff size={24} /> : <MdVisibility size={24} />}
                     </SecondaryIconButton>
+                    <p className="sr-only" id="showPasswordConfirmationButtonDescription">
+                        { showPassword ? "Ocultar contraseña" : "Mostrar contraseña" }
+                    </p>
                 </div>
                 <p className="error">
                     {
@@ -166,9 +184,10 @@ export const ClientForm = () => {
             </div>
 
             <div className="col-start-2 flex justify-end mt-8">
-                <PrimaryButton disabled={isLoadingRegister} className="w-auto">
+                <PrimaryButton disabled={isLoadingRegister} className="w-auto" aria-describedby="createAccountButtonDescription">
                     {isLoadingRegister ? "Cargando..." : "Crear cuenta"}
                 </PrimaryButton>
+                <p className="sr-only" id="createAccountButtonDescription">Registrar una nueva cuenta de cliente con los datos ingresados</p>
             </div>
         </form>
     );

@@ -33,7 +33,8 @@ export const OrdersTable: FC<OrdersTableProps> = ({ orders }) => {
               </td>
               <td className="py-3 px-5 whitespace-nowrap">
                 <Link href={`/empleados/pedidos/${order.id}`} className="p-0 m-0">
-                  <PrimaryButton>Asignar repartidor</PrimaryButton>
+                  <PrimaryButton aria-describedby={`assignOrderButtonDescription${order.id}`}>Asignar repartidor</PrimaryButton>
+                  <p className="sr-only" id={`assignOrderButtonDescription${order.id}`}></p>
                 </Link>
               </td>
             </tr>

@@ -27,7 +27,7 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
   return (
     <form onSubmit={handleSubmit}>
       <div className={`form-group ${errors.name ? "invalid" : ""} mt-0`}>
-        <label htmlFor="name">Nombre</label>
+        <label htmlFor="name">Nombre <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
         <input 
           {
             ...register(
@@ -39,12 +39,14 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
           id="name"
           type="text"
           disabled={isSavingChanges}
+          aria-describedby="storeNameInputDescription"
         />
+        <p className="sr-only" id="storeNameInputDescription">El nombre comerical de la sucursal</p>
         <p className="error">El nombre solo puede tener letras y no debe superar los 255 caracteres</p>
       </div>
 
       <div className={`form-group ${errors.address ? "invalid" : ""}`}>
-        <label htmlFor="address">Dirección</label>
+        <label htmlFor="address">Dirección <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
         <PlaceAutocomplete
           id="address"
           onPlaceSelect={handleNewPlaceSelected}
@@ -78,7 +80,7 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
 
       <div className="sm:grid grid-cols-2 gap-3">
         <div className={`form-group ${errors.openingTime ? "invalid" : ""}`}>
-          <label htmlFor="openingTime">Horario de apertura</label>
+          <label htmlFor="openingTime">Horario de apertura <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
           <input 
             {
               ...register(
@@ -89,12 +91,14 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
             id="openingTime"
             type="time"
             disabled={isSavingChanges}
+            aria-describedby="storeOpeningTimeDescription"
           />
+          <p className="sr-only" id="storeOpeningTimeDescription">El horario de apertura de la tienda, con horas y minutos, en formato de 12 horas</p>
           <p className="error">El horario de apertura no puede estar vacío</p>
         </div>
 
         <div className={`form-group ${errors.closingTime ? "invalid" : ""}`}>
-          <label htmlFor="closingTime">Horario de cierre</label>
+          <label htmlFor="closingTime">Horario de cierre <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
           <input 
             {
               ...register(
@@ -105,7 +109,9 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
             id="closingTime"
             type="time"
             disabled={isSavingChanges}
+            aria-describedby="storeClosingTimeDescription"
           />
+          <p className="sr-only" id="storeClosingTimeDescription">El horario de cierre de la tienda, con horas y minutos, en formato de 12 horas</p>
           <p className="error">El horario de cierre no puede estar vacío</p>
         </div>
       </div>
@@ -116,15 +122,19 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
           type="button" 
           className="block sm:inline-block w-full sm:w-auto sm:mr-3"
           disabled={isSavingChanges}
+          aria-describedby="discardChangesButtonDescription"
         >
           Descartar
         </TernaryButton>
+        <p className="sr-only" id="discardChangesButtonDescription">Descartar la creación de la tienda</p>
         <SecondaryButton 
           className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0"
           disabled={isSavingChanges}
+          aria-describedby="saveStoreButtonDescription"
         >
           Guardar cambios
         </SecondaryButton>
+        <p className="sr-only" id="saveStoreButtonDescription">Guardar todos los datos ingresados sobre la sucursal</p>
       </div>
     </form>
   );

@@ -16,9 +16,11 @@ export const UserTypeSelector: FC<UserTypeSelectorProps> = ({ isEmployee, setIsE
           <button
             onClick={() => setIsEmployee(false)}
             className={!isEmployee ? userTypeActiveStyle : userTypePlainStyle}
+            aria-describedby="clientButtonDescription"
           >
             Soy cliente
           </button>
+          <p className="sr-only" id="clientButtonDescription">Cambiar a inicio de sesión como cliente</p>
         </li>
         <li className="w-1/2">
           <button 
@@ -27,9 +29,11 @@ export const UserTypeSelector: FC<UserTypeSelectorProps> = ({ isEmployee, setIsE
               ${isEmployee ? userTypeActiveStyle : userTypePlainStyle} 
               rounded-r-lg rounded-l-none
             `}
+            aria-describedby="employeeButtonDescription"
           >
             Soy empleado
           </button>
+          <p className="sr-only" id="employeeButtonDescription">Cambiar a inicio de sesión como empleado</p>
         </li>
       </ul>
     </nav>

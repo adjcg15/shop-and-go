@@ -27,7 +27,7 @@ export const CreateIncidentModal: FC<CreateIncidentModalProps> = ({
 
       <form className="mt-8" onSubmit={formState.handleSubmit}>
         <div className={`form-group ${formState.errors.reason ? "invalid" : ""}`}>
-          <label htmlFor="reason">Motivo de la cancelación</label>
+          <label htmlFor="reason">Motivo de la cancelación <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
           <textarea 
             {
               ...formState.register(
@@ -39,7 +39,9 @@ export const CreateIncidentModal: FC<CreateIncidentModalProps> = ({
             disabled={formState.isSavingIncidentInfo}
             rows={6}
             placeholder="Explique la razón de por qué cancela el pedido"
+            aria-describedby="incidentReasonTextareaDescription"
           />
+          <p className="sr-only" id="incidentReasonTextareaDescription">La explicación de por qué está cancelando el pedido, en no más de 255 caracteres</p>
           <p className="error">El motivo no puede estar vacío, ni superar los 255 caracteres</p>
         </div>
 
@@ -49,10 +51,13 @@ export const CreateIncidentModal: FC<CreateIncidentModalProps> = ({
             type="button" 
             className="text-red-600 hover:text-red-700 mb-3 sm:mr-3 sm:mb-0 w-full sm:w-auto"
             disabled={formState.isSavingIncidentInfo}
+            aria-describedby="discardIncidentButtonDescription"
           >
             Descartar
           </TernaryButton>
-          <PrimaryButton className="w-full sm:w-auto" disabled={formState.isSavingIncidentInfo}>Generar reporte</PrimaryButton>
+          <p className="sr-only" id="discardIncidentButtonDescription">Cerrar la ventana de cancelación de pedido y descarta todos los datos ingresados</p>
+          <PrimaryButton aria-describedby="sendIncidentButtonDescription" className="w-full sm:w-auto" disabled={formState.isSavingIncidentInfo}>Generar reporte</PrimaryButton>
+          <p className="sr-only" id="sendIncidentButtonDescription">Actualizar el pedido a cancelado, guardando la razón previamente descrita</p>
         </div>
       </form>
     </Modal>

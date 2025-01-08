@@ -3,7 +3,6 @@ import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { SecondaryIconButton } from "@/components/buttons/SecondaryIconButton";
 import { validateRegistrationDate } from "@/utils/date";
-import UserRoles from "@/types/enums/user_roles";
 import { useEmployeeForm } from "../hooks/useEmployeeForm"
 import { useEffect } from "react";
 import { useStores } from "../hooks/useStores";
@@ -40,7 +39,7 @@ export const EmployeeForm = () => {
     return (
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <div className={`form-group col-span-2 ${errors.fullName ? "invalid" : ""}`}>
-                <label htmlFor="fullName">Nombre completo</label>
+                <label htmlFor="fullName">Nombre completo <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -53,7 +52,9 @@ export const EmployeeForm = () => {
                         ) 
                     }
                     id="fullName" type="text" placeholder="Ej. José Pérez"
+                    aria-describedby="nameInputDescription"
                 />
+                <p className="sr-only" id="nameInputDescription">Nombre completo del trabajador, incluyendo nombre de pila y apellidos</p>
                 <p className="error">
                     {
                         "Nombre completo inválido. Se deben incluir al menos nombre y apellido."
@@ -62,7 +63,7 @@ export const EmployeeForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.registrationDate ? "invalid" : ""}`}>
-                <label htmlFor="registrationDate">Fecha de ingreso</label>
+                <label htmlFor="registrationDate">Fecha de ingreso <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -74,7 +75,9 @@ export const EmployeeForm = () => {
                         ) 
                     }
                     id="registrationDate" type="date"
+                    aria-describedby="registrationDateInputDescription"
                 />
+                <p className="sr-only" id="registrationDateInputDescription">Fecha en la que el empleado comenzó a trabajar para la compañía</p>
                 <p className="error">
                     {
                         errors.registrationDate?.message
@@ -83,7 +86,7 @@ export const EmployeeForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.position ? "invalid" : ""}`}>
-                <label htmlFor="position">Cargo</label>
+                <label htmlFor="position">Cargo <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <select
                     {
                         ...register(
@@ -95,6 +98,7 @@ export const EmployeeForm = () => {
                         )
                     }
                     id="position"
+                    aria-describedby="positionInputDescription"
                 >
                     <option value={0} disabled>
                         {
@@ -109,6 +113,7 @@ export const EmployeeForm = () => {
                         ))
                     }
                 </select>
+                <p className="sr-only" id="positionInputDescription">Cargo que ocupa el trabajador dentro de la sucursal en la que labora</p>
                 <p className="error">
                     {
                         "Debes seleccionar un puesto"
@@ -117,7 +122,7 @@ export const EmployeeForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.store ? "invalid" : ""}`}>
-                <label htmlFor="store">Sucursal</label>
+                <label htmlFor="store">Sucursal <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <select
                     {
                         ...register(
@@ -129,6 +134,7 @@ export const EmployeeForm = () => {
                         )
                     }
                     id="store"
+                    aria-describedby="storeInputDescription"
                 >
                     <option value={0} disabled>
                         {
@@ -143,6 +149,7 @@ export const EmployeeForm = () => {
                         ))
                     }
                 </select>
+                <p className="sr-only" id="storeInputDescription">Sucursal en la que labora el trabajador</p>
                 <p className="error">
                     {
                         "Debes seleccionar una sucursal"
@@ -151,7 +158,7 @@ export const EmployeeForm = () => {
             </div>
 
             <div className={`form-group col-span-2 md:col-span-1 ${errors.user ? "invalid" : ""}`}>
-                <label htmlFor="user">Usuario</label>
+                <label htmlFor="user">Usuario <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <input
                     {
                         ...register(
@@ -164,7 +171,9 @@ export const EmployeeForm = () => {
                         ) 
                     }
                     id="user" type="text" placeholder="Ej. Admin123"
+                    aria-describedby="userInputDescription"
                 />
+                <p className="sr-only" id="userInputDescription">Nombre del usuario con el que el trabajador iniciará sesión en el sistema</p>
                 <p className="error">
                     {
                         "Nombre completo inválido. Se deben incluir al menos nombre y apellido."
@@ -173,7 +182,7 @@ export const EmployeeForm = () => {
             </div>
 
             <div className={`form-group col-span-2 ${errors.password ? "invalid" : ""}`}>
-                <label htmlFor="password">Contraseña</label>
+                <label htmlFor="password">Contraseña <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
                 <div className="password-container flex items-center">
                     <input
                         {
@@ -193,14 +202,20 @@ export const EmployeeForm = () => {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         className="flex-1"
+                        aria-describedby="passwordInputDescription"
                     />
+                    <p className="sr-only" id="passwordInputDescription">Contraseña de la cuenta del trabajador, con entre 8 y 16 caracteres, una mayúsucla, una minúscula, un número y un caracter especial</p>
                     <SecondaryIconButton
                         type="button"
                         className="toggle-password ml-1"
                         onClick={() => setShowPassword(!showPassword)}
+                        aria-describedby="showPasswordButtonDescription"
                     >
                         {showPassword ? <MdVisibilityOff size={24} /> : <MdVisibility size={24} />}
                     </SecondaryIconButton>
+                    <p className="sr-only" id="showPasswordButtonDescription">
+                        { showPassword ? "Mostrar contraseña" : "Ocultar contraseña" }
+                    </p>
                 </div>
                 <p className="error">
                     {
@@ -210,9 +225,10 @@ export const EmployeeForm = () => {
             </div>
             
             <div className="col-start-2 flex justify-end mt-8">
-                <PrimaryButton disabled={isLoadingRegister} className="w-auto">
+                <PrimaryButton disabled={isLoadingRegister} className="w-auto" aria-describedby="createAccountButtonDescription">
                     {isLoadingRegister ? "Cargando..." : "Crear cuenta"}
                 </PrimaryButton>
+                <p className="sr-only" id="createAccountButtonDescription">Registrar nueva cuenta de trabajador con los datos registrados</p>
             </div>
         </form>
     );

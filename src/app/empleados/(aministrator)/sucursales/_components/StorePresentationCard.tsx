@@ -52,7 +52,8 @@ export const StorePresentationCard: FC<StorePresentationCardProps> = ({ store, o
       </main>
 
       <footer className="flex justify-end mt-3">
-        <TernaryButton onClick={onModifyStoreButtonClick}>Editar sucursal</TernaryButton>
+        <TernaryButton aria-describedby={`updateCategoryButtonDescription${store.id}`} onClick={onModifyStoreButtonClick}>Editar sucursal</TernaryButton>
+        <p className="sr-only" id={`updateCategoryButtonDescription${store.id}`}>Mostrar los campos de edición para la información de la sucursal</p>
       </footer>
     </article>
   );
