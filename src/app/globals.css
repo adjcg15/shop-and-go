@@ -4,18 +4,164 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #1F2937;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
+
+.Toastify__toast {
+  padding: 0;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.Toastify__close-button {
+  display: none;
+}
+
+.rotate {
+  animation: rotation 1s ease-in-out infinite;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  label {
+    font-size: 14px;
+    @apply font-semibold inline-block;
+  }
+
+  a {
+    font-size: 14px;
+    @apply font-semibold cursor-pointer underline p-1;
+  }
+
+  input:not([type="radio"], [type="checkbox"]), 
+  select, 
+  textarea {
+    @apply border border-gray-300 bg-gray-50 p-3 rounded-lg block w-full transition-all mt-1 placeholder:text-gray-400 resize-none;
+  }
+  
+  select {
+    @apply pr-10 appearance-none;
+    background-image: url('/select-arrow.png');
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 6px);
+    background-position-y: 50%;
+    background-size: 29px;
+  }
+
+  input[type="radio"], input[type="checkbox"]:not(.sr-only) {
+    @apply size-5 cursor-pointer appearance-none border border-gray-300 bg-gray-100 transition-colors relative disabled:cursor-default;
+  }
+
+  input[type="radio"] { @apply rounded-full; }
+  input[type="checkbox"] { @apply rounded; }
+
+  input[type="radio"]:checked, 
+  input[type="checkbox"]:checked {
+    @apply bg-blue-600 border-blue-600;
+  }
+
+  input[type="radio"]:checked {
+    background-image: url("/radio-icon.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 10px;
+  }
+
+  input[type="checkbox"]:checked {
+    background-image: url("/checkbox-icon.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    @apply border-blue-600;
+  }
+
+  input:disabled, select:disabled, textarea:disabled {
+    @apply bg-gray-200
+  }
+
+  input, button, a, textarea {
+    outline: 0 solid transparent;
+    transition-property: outline-width;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    @apply transition-all;
+  }
+  
+  input:focus, button:focus, a:focus, select:focus, textarea:focus {
+    outline: 5px solid #2563EB50;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+}
+
+@layer components {
+  .form-group {
+    @apply mt-5;
+  }
+
+  .form-group > p.error {
+    font-size: 14px;
+    @apply text-red-600 hidden;
+  }
+
+  .form-group.invalid > p.error {
+    @apply flex justify-end mt-1;
+  }
+
+  .form-group.invalid > input,
+  .form-group.invalid > textarea, 
+  .form-group.invalid > select, 
+  .form-group.invalid .autocomplete-container input {
+    @apply border-red-600;
+  }
+
+  .form-group.invalid .password-container > input {
+    @apply border-red-600;
+  }  
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
