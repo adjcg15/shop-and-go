@@ -126,7 +126,7 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
         >
           Descartar
         </TernaryButton>
-        <p className="sr-only" id="discardChangesButtonDescription">Descartar la creación de la tienda y regresar a la pantalla previa</p>
+        <p className="sr-only" id="discardChangesButtonDescription">Descartar la creación de la tienda</p>
         <SecondaryButton 
           className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0"
           disabled={isSavingChanges}
@@ -134,7 +134,7 @@ export const StoreForm: FC<StoreFormProps> = ({ initialStoreValue, onDiscard, on
         >
           Guardar cambios
         </SecondaryButton>
-        <p className="sr-only" id="saveStoreButtonDescription">Crear una nueva tienda con todos los datos ingresados</p>
+        <p className="sr-only" id="saveStoreButtonDescription">Guardar todos los datos ingresados sobre la sucursal</p>
       </div>
     </form>
   );

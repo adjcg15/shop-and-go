@@ -12,7 +12,8 @@ export default function AdminStoresPage() {
         <main className="px-3 md:px-12 max-w-screen-2xl mx-auto pt-8 pb-16">
             <section className="flex justify-end">
                 <Link href="/empleados/sucursales/nueva" className="p-0 m-0">
-                <PrimaryButton>Registrar sucursal</PrimaryButton>
+                <PrimaryButton aria-describedby="registerNewStoreButtonDescription">Registrar sucursal</PrimaryButton>
+                <p className="sr-only" id="registerNewStoreButtonDescription">Mostrar la ventana para registrar una nueva sucursal en el sistema</p>
                 </Link>
             </section>
             
