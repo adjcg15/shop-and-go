@@ -2,13 +2,17 @@ const EMAIL_PATTERN = new RegExp(
     "^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"
 );
 
-const USERNAME_PATTERN = new RegExp("^[a-zA-Z0-9]+$");
+const USERNAME_PATTERN = new RegExp("^[a-zA-Z0-9]{1,50}$");
 
 const ONLY_POSITIVE_INTEGERS = new RegExp("^\\d+$");
 
 const ONLY_LETTERS_PATTERN = new RegExp("^[A-Za-zÁ-ÿ\\s]+$");
 
 const PHONE_NUMBER_PATTERN = new RegExp("^[0-9]{10}$");
+
+const CARD_IS_VISA_OR_MASTERCARD = new RegExp(
+    "^(4[0-9]{15}|5[1-5][0-9]{14}|22[2-9][0-9]{13}|2[3-7][0-9]{13})$"
+);
 
 const MONTH_PATTERN = new RegExp("^(0[1-9]|1[0-2])$");
 
@@ -31,6 +35,7 @@ export {
     PHONE_NUMBER_PATTERN,
     SECURE_PASSWORD_PATTERN,
     ONLY_LETTERS_PATTERN,
+    CARD_IS_VISA_OR_MASTERCARD,
     ONLY_POSITIVE_INTEGERS,
     MONTH_PATTERN,
     YEAR_PATTERN,

@@ -12,6 +12,21 @@ function getDefaultPageForRole(userRole: UserRoles): string {
   return DEFAULT_ROUTES_MAP[userRole];
 }
 
+function isRouteInRoutesArray(pathName: string, routesArray: (string | RegExp)[]) {
+  return routesArray.some(route => {
+    let isMatch = false;
+
+    if(typeof route === "string") {
+      isMatch = route === pathName;
+    } else if(route instanceof RegExp) {
+      isMatch = route.test(pathName);
+    } 
+
+    return isMatch;
+  })
+}
+
 export {
-  getDefaultPageForRole
+  getDefaultPageForRole,
+  isRouteInRoutesArray
 };

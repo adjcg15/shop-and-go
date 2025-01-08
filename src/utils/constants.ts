@@ -1,47 +1,55 @@
 import { ProductCategory } from "@/types/types/model/products";
 
-const GUEST_ROUTES: string[] = [
+const GUEST_ROUTES: (string | RegExp)[] = [
     "/",
     "/iniciar-sesion",
     "/crear-cuenta",
     "/recuperar-contrasenia",
     "/catalogo",
-    "/productos/[barCode]",
+    new RegExp("^/productos/[^/]+$"),
     "/carrito",
 ];
 
-const CLIENT_ROUTES: string[] = [
+const CLIENT_ROUTES: (string | RegExp)[] = [
     "/",
     "/metodos-pago",
     "/metodos-pago/nuevo",
     "/clientes/pedidos",
+    "/confirmar-pedido",
     "/catalogo",
-    "/productos/[barCode]",
+    new RegExp("^/productos/[^/]+$"),
     "/carrito",
     "/direcciones-entrega",
     "/direcciones-entrega/nueva",
     "/mi-perfil",
 ];
 
-const ADMIN_ROUTES: string[] = [
+const ADMIN_ROUTES: (string | RegExp)[] = [
     "/empleados/productos",
-    "/empleados/productos/[barCode]",
+    new RegExp("^/empleados/productos/[^/]+$"),
     "/empleados/productos/nuevo",
     "/empleados/sucursales",
     "/empleados/sucursales/nueva",
     "/empleados/categorias",
     "/empleados/personal",
+    "/empleados/personal/nuevo",
     "/empleados/incidencias",
 ];
 
-const SALES_EXECUTIVE_ROUTES: string[] = [
+const SALES_EXECUTIVE_ROUTES: (string | RegExp)[] = [
     "/empleados/pedidos",
+    new RegExp("^\/empleados\/pedidos\/[^\/]+$"),
     "/empleados/productos-en-tienda",
+    new RegExp("^/empleados/productos-en-tienda/[^/]+$"),
+    "/empleados/productos-en-tienda/nuevo",
 ];
 
 const DELIVERY_MAN_ROUTES: string[] = ["/empleados/pedidos-asignados"];
 
-const NEAREST_STORE_CHECK_ROUTES: string[] = ["/catalogo"];
+const NEAREST_STORE_CHECK_ROUTES: (string | RegExp)[] = [
+    "/catalogo",
+    new RegExp("^/productos/[^/]+$"),
+];
 
 const DEFAULT_PRODUCT_CATEGORY: ProductCategory = {
     id: 0,

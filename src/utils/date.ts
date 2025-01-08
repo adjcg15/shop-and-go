@@ -27,6 +27,17 @@ function validateBirthdate(value: string): string | true {
   return true;
 }
 
+function validateRegistrationDate(value: string): string | true {
+  const registrationDate = new Date(value);
+  const today = new Date();
+
+  if (registrationDate > today) {
+    return "La fecha de ingreso no puede ser futura";
+  }
+
+  return true;
+}
+
 function formatDate(dateString: string | undefined): string {
   const [year, month, day] = dateString!.split("-").map(Number);
   const date = new Date(year, month - 1, day);
@@ -54,9 +65,18 @@ function formatDDMMYYY(date: Date) {
   return `${day.toString().padStart(2, "0")}/${month.toString().padStart(2, "0")}/${year}`
 }
 
+function formatCommonTime(date: Date) {
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${hour.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`
+}
+
 export {
   validateBirthdate,
+  validateRegistrationDate,
   formatDate,
   parseToCommonTime,
-  formatDDMMYYY
+  formatDDMMYYY,
+  formatCommonTime,
 };

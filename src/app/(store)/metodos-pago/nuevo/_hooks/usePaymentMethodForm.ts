@@ -133,7 +133,7 @@ export function usePaymentMethodForm() {
             notify(notificationInfo);
             setIsLoadingRegister(false);
 
-            router.push("/metodos-pago");
+            router.back();
         } catch (error) {
             const notificationInfo: NotificationInfo = {
                 title: "Servicio no disponible",
@@ -187,11 +187,32 @@ export function usePaymentMethodForm() {
         setIssuerColor(selectedValue ? "text-gray-800" : "text-gray-400");
     };
 
+    const validateLuhn = useCallback((cardNumber: string) => {
+        let sum = 0;
+        let shouldDouble = false;
+        for (let i = cardNumber.length - 1; i >= 0; i--) {
+            let digit = parseInt(cardNumber[i], 10);
+
+            if (shouldDouble) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+
+            sum += digit;
+            shouldDouble = !shouldDouble;
+        }
+
+        return sum % 10 === 0;
+    }, []);
+
     return {
         register,
         errors,
         handleSubmit,
         isLoadingRegister,
+        validateLuhn,
         handleIssuerChange,
         issuingBanks,
         issuerColor,

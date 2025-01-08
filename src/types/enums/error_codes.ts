@@ -76,6 +76,19 @@ enum CreateStoreErrorCodes {
     STORE_LOCATION_DUPLICATED = EndpointContexts.CREATE_STORE + "-400002",
 }
 
+enum CreateOrderToDeliverErrorCodes {
+    ORDER_NOT_FOUND = EndpointContexts.CREATE_ORDER_TO_DELIVER + "-400001",
+    EMPLOYEE_NOT_FOUND = EndpointContexts.CREATE_ORDER_TO_DELIVER + "-400002",
+    EMPLOYEE_FULL_OF_WORK = EndpointContexts.CREATE_ORDER_TO_DELIVER + "-400003"
+}
+
+enum CreateEmployeeErrorCodes {
+    STORE_NOT_FOUND = EndpointContexts.CREATE_EMPLOYEE + "-400001",
+    EMPLOYEE_POSITION_NOT_FOUND = EndpointContexts.CREATE_EMPLOYEE + "-400002",
+    EMPLOYEE_ALREADY_EXISTS = EndpointContexts.CREATE_EMPLOYEE + "-400003",
+}
+
+
 enum CreateAddressMethodErrorCodes {
     CLIENT_NOT_FOUND = EndpointContexts.CREATE_ADDRESS + "-400001",
     ADDRESS_ALREADY_EXISTS = EndpointContexts.CREATE_ADDRESS + "-400002",
@@ -94,5 +107,7 @@ export {
     CreateClientErrorCodes,
     UpdateStoreErrorCodes,
     CreateStoreErrorCodes,
+    CreateOrderToDeliverErrorCodes,
+    CreateEmployeeErrorCodes,
     CreateAddressMethodErrorCodes,
 };

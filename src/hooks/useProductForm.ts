@@ -1,4 +1,3 @@
-"use client";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -95,22 +94,6 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
     });
 
     const router = useRouter();
-
-    const handleInventoryChange = (
-        idStore: number,
-        field: InventoryField,
-        value: string | number
-    ) => {
-        setInventoriesOnForm((prevInventories) => {
-            const updatedInventories = prevInventories.map((inventory) =>
-                inventory.idStore === idStore
-                    ? { ...inventory, [field]: value }
-                    : inventory
-            );
-
-            return updatedInventories;
-        });
-    };
 
     const loadProductCategories = useCallback(async () => {
         setProductCategories(() => ({
@@ -291,7 +274,6 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                         requestBody
                     );
                 } else {
-                    console.log(requestBody);
                     await shopAndGoAPI.post(`/products`, requestBody);
                 }
                 const notificationInfo: NotificationInfo = {
@@ -397,6 +379,22 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         setSelectedOptionProductState(event.target.value);
+    };
+
+    const handleInventoryChange = (
+        idStore: number,
+        field: InventoryField,
+        value: string | number | undefined
+    ) => {
+        setInventoriesOnForm((prevInventories) => {
+            const updatedInventories = prevInventories.map((inventory) =>
+                inventory.idStore === idStore
+                    ? { ...inventory, [field]: value }
+                    : inventory
+            );
+
+            return updatedInventories;
+        });
     };
 
     const getGenerateCode = useCallback(() => {

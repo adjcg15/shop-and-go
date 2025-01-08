@@ -9,7 +9,7 @@ import {
 } from "./utils/constants";
 import { CustomPayload } from "./types/types/api/jwt";
 import UserRoles from "./types/enums/user_roles";
-import { getDefaultPageForRole } from "./utils/routing";
+import { getDefaultPageForRole, isRouteInRoutesArray } from "./utils/routing";
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value ?? "";
@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
 
     const userRole = jwtPayload?.userRole || UserRoles.GUEST;
     const allowedRoutes = ROUTE_ROLE_MAP[userRole] || [];
-    const isAllowedRoute = allowedRoutes.includes(requestedPage);
+    const isAllowedRoute = isRouteInRoutesArray(requestedPage, allowedRoutes);
     if (!isAllowedRoute) {
         if (userRole === UserRoles.GUEST) {
             const login = new URL(
@@ -57,7 +57,7 @@ export const config = {
         // Shared routes (client and guest)
         "/",
         "/catalogo",
-        "/productos/[barCode]",
+        "/productos/:path",
         "/carrito",
         // Guest routes
         "/iniciar-sesion",
@@ -66,23 +66,28 @@ export const config = {
         //Client routes
         "/direcciones-entrega",
         "/direcciones-entrega/nueva",
+        "/confirmar-pedido",
         "/clientes/pedidos",
         "/metodos-pago",
         "/metodos-pago/nuevo",
         "/mi-perfil",
         // Admin routes
         "/empleados/productos",
-        "/empleados/productos/[barCode]",
+        "/empleados/productos/:path",
         "/empleados/productos/nuevo",
         "/empleados/sucursales",
         "/empleados/sucursales/nueva",
         "/empleados/categorias",
         "/empleados/personal",
+        "/empleados/personal/nuevo",
         "/empleados/incidencias",
         // Delivery man routes
         "/empleados/pedidos-asignados",
         // Sales executive routes
         "/empleados/pedidos",
+        "/empleados/pedidos/:path",
         "/empleados/productos-en-tienda",
+        "/empleados/productos-en-tienda/:path",
+        "/empleados/productos-en-tienda/nuevo",
     ],
 };
