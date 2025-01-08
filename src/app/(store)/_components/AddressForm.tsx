@@ -20,8 +20,17 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmitComplete }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={`mx-auto max-w-lg px-5 pt-8 pb-16 form-group ${errors.street ? "invalid" : ""} mt-0`}>
-        <label htmlFor="street">Dirección</label>
+      <div
+        className={`mx-auto max-w-lg px-5 pt-8 pb-16 form-group ${
+          errors.street ? "invalid" : ""
+        } mt-0`}
+      >
+        <label htmlFor="street">
+          Dirección
+          <abbr className="text-orange-600 no-underline" title="Requerido">
+            *
+          </abbr>
+        </label>
         <PlaceAutocomplete
           id="street"
           onPlaceSelect={handleNewPlaceSelected}
@@ -62,9 +71,13 @@ export const AddressForm: FC<AddressFormProps> = ({ onSubmitComplete }) => {
           <SecondaryButton
             className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0"
             disabled={isSavingChanges}
+            aria-describedby="addAddressButtonDescription"
           >
             Agregar dirección
           </SecondaryButton>
+          <p className="sr-only" id="addAddressButtonDescription">
+            Agrega la dirección a tu lista de direcciones de entrega
+          </p>
         </div>
       </div>
     </form>

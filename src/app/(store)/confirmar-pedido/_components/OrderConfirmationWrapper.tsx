@@ -65,6 +65,7 @@ export const OrderConfirmationWrapper = () => {
                                 id="paymentMethod"
                                 className="text-xs sm:text-sm lg:text-base"
                                 defaultValue={paymentMethods.value[0].id}
+                                aria-labelledby="paymentMethodSelect"
                                 onChange={handlePaymentMethodChange}
                             >
                                 {paymentMethods.value.map((method) => (
@@ -77,11 +78,20 @@ export const OrderConfirmationWrapper = () => {
                                     </option>
                                 ))}
                             </select>
-                            <Link href="/metodos-pago/nuevo">
+                            <p
+                                id="paymentMethodSelect"
+                                className="sr-only"
+                            >
+                                Selección de un método de pago registrado en la cuenta del cliente actual
+                            </p>
+                            <Link href="/metodos-pago/nuevo" aria-labelledby="addPaymentMethodButton">
                                 <SecondaryButton className="w-min sm:w-fit">
                                     Registrar otro
                                 </SecondaryButton>
                             </Link>
+                            <p id="addPaymentMethodButton" className="sr-only">
+                                Ir a la página de registro de nuevo método de pago
+                            </p>
                         </div>
                     ) : (
                         <>
@@ -90,11 +100,14 @@ export const OrderConfirmationWrapper = () => {
                                 registrar uno nuevo para poder realizar el
                                 pedido
                             </p>
-                            <Link href="/metodos-pago/nuevo">
+                            <Link href="/metodos-pago/nuevo" aria-labelledby="addPaymentMethodButton">
                                 <SecondaryButton className="w-min sm:w-fit">
                                     Registrar otro
                                 </SecondaryButton>
                             </Link>
+                            <p id="addPaymentMethodButton" className="sr-only">
+                                Ir a la página de registro de nuevo método de pago
+                            </p>
                         </>
                     )}
                     <h2 className="mt-12">Datos del envío</h2>
@@ -112,6 +125,7 @@ export const OrderConfirmationWrapper = () => {
                     <DeliveryTimeMessage />
                     <PrimaryButton
                         className="mt-5 ml-auto"
+                        aria-labelledby="createOrderButton"
                         disabled={
                             paymentMethods.value.length === 0 ||
                             isLoadingCreateOrder
@@ -124,6 +138,9 @@ export const OrderConfirmationWrapper = () => {
                             ? "Realizando pedido..."
                             : "Realizar pedidio"}
                     </PrimaryButton>
+                    <p id="createOrderButton" className="sr-only">
+                        Realizar pedido con los productos en el carrito
+                    </p>
                 </div>
             ) : (
                 <div className="flex flex-col items-center mt-2">
@@ -135,9 +152,12 @@ export const OrderConfirmationWrapper = () => {
                         title={"¡Error al cargar los métodos de pago!"}
                         message={paymentMethods.error}
                     />
-                    <Link href="/catalogo">
+                    <Link href="/catalogo" aria-labelledby="continueShoppingButton">
                         <PrimaryButton>Continuar comprando</PrimaryButton>
                     </Link>
+                    <p id="continueShoppingButton" className="sr-only">
+                        Ir a la página de catálogo de productos
+                    </p>
                 </div>
             )
         ) : (
@@ -157,11 +177,14 @@ export const OrderConfirmationWrapper = () => {
                 title={"¡No tienes productos en pedido por confirmar!"}
                 message="Aún no has agregado productos a tu carrito, no hay pedido por confirmar"
             />
-            <Link href="/catalogo">
+            <Link href="/catalogo" aria-labelledby="continueShoppingButton">
                 <PrimaryButton className="m-3">
                     Continuar comprando
                 </PrimaryButton>
             </Link>
+            <p id="continueShoppingButton" className="sr-only">
+                Ir a la página de catálogo de productos
+            </p>
         </div>
     );
 };

@@ -30,7 +30,10 @@ export const Addresses: FC<AddressesProps> = ({
   };
 
   const sortedAddresses = selectedAddress
-    ? [selectedAddress, ...addresses.filter(addr => addr.id !== selectedAddress.id)]
+    ? [
+        selectedAddress,
+        ...addresses.filter((addr) => addr.id !== selectedAddress.id),
+      ]
     : addresses;
 
   return (
@@ -57,24 +60,40 @@ export const Addresses: FC<AddressesProps> = ({
                 {address.neighborhood}, {address.municipality}, {address.state}
               </p>
               {selectedAddress?.id === address.id && (
-                <span className="text-orange-500 font-bold">Dirección actual</span>
+                <span className="text-orange-500 font-bold">
+                  Dirección actual
+                </span>
               )}
             </div>
             {showDelete && (
-              <button
-                onClick={() => onDelete && onDelete(address)}
-                className="ml-auto p-2"
-              >
-                <FaTrashAlt
-                  className="flex items-center justify-center text-xs sm:text-sm lg:text-base text-gray-800 hover:text-red-500 transition-opacity"
-                  size={24}
-                />
-              </button>
+              <>
+                <button
+                  onClick={() => onDelete && onDelete(address)}
+                  className="ml-auto p-2"
+                  aria-describedby="deleteAddressButtonDescription"
+                >
+                  <FaTrashAlt
+                    className="flex items-center justify-center text-xs sm:text-sm lg:text-base text-gray-800 hover:text-red-500 transition-opacity"
+                    size={24}
+                  />
+                </button>
+                <p className="sr-only" id="discardChangesButtonDescription">
+                  Muestra modal de confirmación para eliminar dirección
+                </p>
+              </>
             )}
             {onSelect && (
-              <SecondaryButton onClick={() => handleSelect(address)}>
-                Seleccionar
-              </SecondaryButton>
+              <>
+                <SecondaryButton
+                  onClick={() => handleSelect(address)}
+                  aria-describedby="selectAddressButtonDescription"
+                >
+                  Seleccionar
+                </SecondaryButton>
+                <p className="sr-only" id="selectAddressButtonDescription">
+                  Selecciona la dirección de entrega y redirige a la página de catalogo con la dirección seleccionada
+                </p>
+              </>
             )}
           </li>
         </ul>

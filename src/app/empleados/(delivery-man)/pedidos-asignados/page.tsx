@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import { OrdersList } from "./_components/OrdersList";
+
+export const metadata: Metadata = {
+  title: "Pedidos pendientes por entregar",
+};
 
 export default function AssignedOrdersPage() {
   return (

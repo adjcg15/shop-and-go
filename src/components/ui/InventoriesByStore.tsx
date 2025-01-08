@@ -44,6 +44,7 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                 <input
                     id="expirationDate"
                     type="date"
+                    aria-labelledby="expirationDate"
                     defaultValue={inventory ? inventory.expirationDate : ""}
                     onChange={(e) =>
                         onInventoryChange(
@@ -53,11 +54,15 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                         )
                     }
                 />
+                <p id="expirationDate" className="sr-only">
+                    Fecha de expiración
+                </p>
             </li>
             <li className="flex justify-center items-center col-span-1 col-start-3">
                 <input
                     id="stock"
                     type="number"
+                    aria-labelledby="stockInput"
                     min={isEdition ? "0" : "1"}
                     defaultValue={inventory ? inventory.stock : ""}
                     onChange={(e) => {
@@ -69,6 +74,9 @@ export const InventoriesByStore: FC<InventoriesByStoreProps> = ({
                         );
                     }}
                 />
+                <p id="stockInput" className="sr-only">
+                    Existencias
+                </p>
             </li>
         </ul>
     );
