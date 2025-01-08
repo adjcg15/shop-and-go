@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useContext, useEffect, useState } from "react";
 import StoreContext from "@/contexts/store/context";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 type DeliveryTimeState = {
     loading: boolean;
@@ -15,6 +16,9 @@ const INITIA_DELIVERY_TIME_STATE = {
 };
 
 export const DeliveryTimeMessage = () => {
+    const { isLoaded, loadError } = useJsApiLoader({
+        googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY || "",
+    });
     const { nearestStore, deliveryAddress } = useContext(StoreContext);
     const [deliveryTime, setDeliveryTime] = useState<DeliveryTimeState>(
         INITIA_DELIVERY_TIME_STATE
@@ -80,13 +84,15 @@ export const DeliveryTimeMessage = () => {
     }, [deliveryAddress, nearestStore.value]);
 
     useEffect(() => {
-        calculateDistanceBetweenAddresses();
-    }, [calculateDistanceBetweenAddresses]);
+        if (isLoaded) {
+            calculateDistanceBetweenAddresses();
+        }
+    }, [calculateDistanceBetweenAddresses, isLoaded]);
 
     return (
         <div className="mt-2 flex items-center justify-center text-center">
-            {!deliveryTime.loading ? (
-                !deliveryTime.error ? (
+            {isLoaded && !deliveryTime.loading ? (
+                !loadError && !deliveryTime.error ? (
                     <p className="text-xs sm:text-sm lg:text-base">
                         El tiempo estimado de entrega es de{" "}
                         <span>{deliveryTime.value}</span> después de que el

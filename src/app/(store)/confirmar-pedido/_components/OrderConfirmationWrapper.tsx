@@ -5,14 +5,14 @@ import StoreContext from "@/contexts/store/context";
 import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { ProductOnCart } from "./ProductOnCart";
-import { usePaymentMethods } from "../../metodos-pago/_hooks/usePaymentMethods";
+import { usePaymentMethods } from "../../../../hooks/usePaymentMethods";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { formatMXNCurrency } from "@/utils/currency";
 import { FaArrowDown } from "react-icons/fa";
 import { DeliveryTimeMessage } from "./DeliveryTimeMessage";
 import { useOrderConfirmation } from "../_hooks/useOrderConfirmation";
 
-export const OrderConfirmationWrapperPage = () => {
+export const OrderConfirmationWrapper = () => {
     const {
         handleCreateOrderClick,
         handlePaymentMethodChange,

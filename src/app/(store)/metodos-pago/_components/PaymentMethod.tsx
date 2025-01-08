@@ -42,7 +42,7 @@ export const PaymentMethods: FC<PaymentMethodsProps> = ({
                     </li>
                     <li className="flex justify-center items-center">
                         <button
-                            className="flex items-center justify-center text-xs sm:text-sm lg:text-base text-gray-800 hover:text-red-500"
+                            className="flex items-center justify-center text-gray-800 hover:text-red-500"
                             onClick={() => onDelete(method)}
                         >
                             <FaTrashAlt />

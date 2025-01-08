@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.20.5",
     "@vis.gl/react-google-maps": "^1.4.2",
     "axios": "^1.7.9",
     "cloudinary": "^2.5.1",
