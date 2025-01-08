@@ -80,7 +80,7 @@ export const ClientForm = () => {
                         ...register(
                             "birthdate", 
                             { 
-                                required: true,
+                                required: "Este campo es obligatorio.",
                                 validate: validateBirthdate,
                             }
                         ) 
