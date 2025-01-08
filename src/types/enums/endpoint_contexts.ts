@@ -12,6 +12,7 @@ enum EndpointContexts {
     CREATE_CLIENT = "CRCL",
     UPDATE_STORE = "USTR",
     CREATE_STORE = "CSTR",
+    CREATE_ADDRESS = "CRAD",
 }
 
 export { EndpointContexts };

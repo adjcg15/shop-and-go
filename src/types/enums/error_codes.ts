@@ -76,6 +76,11 @@ enum CreateStoreErrorCodes {
     STORE_LOCATION_DUPLICATED = EndpointContexts.CREATE_STORE + "-400002",
 }
 
+enum CreateAddressMethodErrorCodes {
+    CLIENT_NOT_FOUND = EndpointContexts.CREATE_ADDRESS + "-400001",
+    ADDRESS_ALREADY_EXISTS = EndpointContexts.CREATE_ADDRESS + "-400002",
+}
+
 export {
     CreatePaymentMethodErrorCodes,
     DeletePaymentMethodErrorCodes,
@@ -89,4 +94,5 @@ export {
     CreateClientErrorCodes,
     UpdateStoreErrorCodes,
     CreateStoreErrorCodes,
+    CreateAddressMethodErrorCodes,
 };
