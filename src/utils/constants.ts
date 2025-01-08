@@ -19,6 +19,7 @@ const CLIENT_ROUTES: string[] = [
     "/productos/[barCode]",
     "/carrito",
     "/direcciones-entrega",
+    "/direcciones-entrega/nueva",
     "/mi-perfil",
 ];
 
