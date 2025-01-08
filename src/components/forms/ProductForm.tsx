@@ -164,7 +164,8 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     }`}
                 >
                     <label htmlFor="image">
-                        Fotografía del producto (.png, .jpeg, .jpg, .webp)
+                        Fotografía del producto (.png, .jpeg, .jpg, .webp) (max.
+                        100 kB)
                     </label>
                     <input
                         id="image"
