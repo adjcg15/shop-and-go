@@ -49,7 +49,7 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
     async (address: Address) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id, isActive, ...addressBody } = address;
-      
+
       const { data: newAddress } = await shopAndGoAPI.post<Address>(
         `/clients/${clientProfile?.id}/addresses`,
         addressBody
@@ -66,19 +66,11 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
 
   const saveChanges = useCallback(
     async (address: Address) => {
-      if (address.streetNumber === "") {
-        setValue("streetNumber", "S/N", { shouldValidate: true });
-      }
-
-      if (address.municipality === "")
-        setValue("municipality", address.city, { shouldValidate: true });
       setIsSavingChanges(true);
 
       try {
-        if (clientProfile) 
-          await createAddress(address);
-        else
-            onSubmitComplete(address);
+        if (clientProfile) await createAddress(address);
+        else onSubmitComplete(address);
       } catch (error) {
         const notificationInfo: NotificationInfo = {
           title: "Error al guardar la dirección",
@@ -110,15 +102,15 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
                   "Lo sentimos, no contamos con una sucursal cercana a la dirección ingresada. Por favor, verifica los datos o ingresa una dirección diferente.";
               }
               break;
-            }
+          }
         }
-        
+
         notify(notificationInfo);
       } finally {
         setIsSavingChanges(false);
       }
     },
-    [createAddress, setValue, clientProfile, onSubmitComplete]
+    [createAddress, clientProfile, onSubmitComplete]
   );
 
   const onSubmit: SubmitHandler<Address> = async (address) => {
@@ -146,14 +138,19 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
         addressComponents.forEach((component) => {
           if (component.types.includes("route"))
             setValue("street", component.long_name, { shouldValidate: true });
-          if (component.types.includes("street_number"))
+
+          if (component.types.includes("street_number")) {
             setValue("streetNumber", component.long_name, {
               shouldValidate: true,
             });
+            streetNumberFound = true;
+          }
+
           if (component.types.includes("subpremise"))
             setValue("apartmentNumber", component.long_name, {
               shouldValidate: true,
             });
+
           if (
             component.types.includes("sublocality") ||
             component.types.includes("neighborhood") ||
@@ -162,19 +159,29 @@ export function useAddressForm(onSubmitComplete: (address: Address) => void) {
             setValue("neighborhood", component.long_name, {
               shouldValidate: true,
             });
-          if (component.types.includes("administrative_area_level_2"))
+
+          if (component.types.includes("locality")) {
+            setValue("city", component.long_name, { shouldValidate: true });
             setValue("municipality", component.long_name, {
               shouldValidate: true,
             });
-          if (component.types.includes("locality"))
-            setValue("city", component.long_name, { shouldValidate: true });
+          }
+
           if (component.types.includes("postal_code"))
             setValue("postalCode", component.long_name, {
               shouldValidate: true,
             });
+
           if (component.types.includes("administrative_area_level_1"))
             setValue("state", component.long_name, { shouldValidate: true });
         });
+
+        if (!streetNumberFound) {
+          setValue("streetNumber", "S/N", {
+            shouldValidate: true,
+          });
+        }
+
         setValue("latitude", place.geometry.location.lat(), {
           shouldValidate: true,
         });
