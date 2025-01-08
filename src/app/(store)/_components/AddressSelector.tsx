@@ -2,7 +2,7 @@
 
 import { useAddresses } from "../_hooks/useAddressList";
 import { Addresses } from "./Addresses";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "@/contexts/auth/context";
 import StoreContext from "@/contexts/store/context";
 import { Address } from "@/types/types/model/deliveries";
@@ -12,10 +12,13 @@ import { notify } from "@/utils/notifications";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import { AddressForm } from "./AddressForm";
 
 export function AddressSelector() {
   const { clientProfile } = useContext(AuthContext);
-  const { deliveryAddress, setDeliveryAddress, clearCart } = useContext(StoreContext);
+  const { deliveryAddress, setDeliveryAddress, clearCart } =
+    useContext(StoreContext);
   const { addresses } = useAddresses();
   const router = useRouter();
   const { nearestStore } = useContext(StoreContext);
@@ -27,7 +30,8 @@ export function AddressSelector() {
     if (redirigidoDesde === "/catalogo") {
       notify({
         title: "Error",
-        message: nearestStore.error || "Debe seleccionar una dirección de entrega",
+        message:
+          nearestStore.error || "Debe seleccionar una dirección de entrega",
         type: NotificationTypes.ERROR,
       });
     }
@@ -52,9 +56,20 @@ export function AddressSelector() {
     setIsModalOpen(false);
   };
 
+  const handleSelectionCompleted = useCallback(
+    (newAddress: Address) => {
+      setDeliveryAddress(newAddress);
+      router.push("/catalogo");
+    },
+    [router, setDeliveryAddress]
+  );
+
   if (!clientProfile) {
-    //TODO: register new delivery address for guest user and client user when registering a new one from this point
-    return <h2>Elección de dirección de entrega: Próximamente</h2>;
+    return (
+      <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY!}>
+        <AddressForm onSubmitComplete={handleSelectionCompleted} />
+      </APIProvider>
+    );
   }
 
   return !addresses.error ? (
@@ -96,12 +111,12 @@ export function AddressSelector() {
     )
   ) : (
     <ErrorBanner
-          image={{
-            src: "/illustrations/server-error.svg",
-            alt: "Imagen representativa de un servidor no disponible",
-          }}
-          title={"¡Problemas técnicos!"}
-          message={"Ocurrió un error al cargar las direcciones de entrega"}
-        />
+      image={{
+        src: "/illustrations/server-error.svg",
+        alt: "Imagen representativa de un servidor no disponible",
+      }}
+      title={"¡Problemas técnicos!"}
+      message={"Ocurrió un error al cargar las direcciones de entrega"}
+    />
   );
 }
