@@ -65,6 +65,7 @@ export const config = {
         "/recuperar-contrasenia",
         //Client routes
         "/direcciones-entrega",
+        "/direcciones-entrega/nueva",
         "/confirmar-pedido",
         "/clientes/pedidos",
         "/metodos-pago",
