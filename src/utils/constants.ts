@@ -20,6 +20,7 @@ const CLIENT_ROUTES: (string | RegExp)[] = [
     new RegExp("^/productos/[^/]+$"),
     "/carrito",
     "/direcciones-entrega",
+    "/direcciones-entrega/nueva",
     "/mi-perfil",
 ];
 
