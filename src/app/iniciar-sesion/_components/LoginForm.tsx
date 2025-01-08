@@ -14,7 +14,7 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className={`form-group ${errors.credentials ? "invalid" : ""}`}>
-        <label htmlFor="credentials">{!isUserEmployee ? "Número de teléfono" : "Usuario"}</label>
+        <label htmlFor="credentials">{!isUserEmployee ? "Número de teléfono" : "Usuario"} <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
         <input 
           {
             ...register(
@@ -28,7 +28,11 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
           }
           id="credentials" 
           type={!isUserEmployee ? "number" : "text"}
+          aria-describedby="credentialsInputDescription"
         />
+        <p className="sr-only" id="credentialsInputDescription">
+          { isUserEmployee ? "Número de teléfono a 10 dígitos" : "Usuario que le asignaron cuando lo registraron en el sistema" }
+        </p>
         <p className="error">
           {
             !isUserEmployee
@@ -39,11 +43,13 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
       </div>
 
       <div className={`form-group ${errors.password ? "invalid" : ""}`}>
-        <label htmlFor="password">Contraseña</label>
+        <label htmlFor="password">Contraseña <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr></label>
         <input
           {...register("password", { required: true, validate: (value) => value.trim() !== "" })}
           id="password" type="password"
+          aria-describedby="passwordInputDescription"
         />
+        <p className="sr-only" id="passwordInputDescription">Contraseña de su cuenta</p>
         <p className="error">Ingrese su contraseña para continuar</p>
         <div className="mt-1 flex justify-end">
           <Link href="/recuperar-contrasenia">¿Olvidaste tu contraseña?</Link>
@@ -51,9 +57,10 @@ export const LoginForm: FC<LoginFormProps> = ({ isUserEmployee }) => {
       </div>
 
       <div className="mt-5 flex justify-end">
-        <PrimaryButton disabled={isLoadingLogin}>
+        <PrimaryButton disabled={isLoadingLogin} aria-describedby="loginButtonDescription">
           {isLoadingLogin ? "Cargando..." : "Ingresar"}
         </PrimaryButton>
+        <p className="sr-only" id="loginButtonDescription">Verificar información ingresada para acceder al sistema</p>
       </div>
     </form>
   );

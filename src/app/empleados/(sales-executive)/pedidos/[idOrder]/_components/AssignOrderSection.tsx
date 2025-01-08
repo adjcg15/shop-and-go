@@ -50,6 +50,7 @@ export const AssignOrderSection: FC<AssignOrderSectionProps> = ({ idOrder }) => 
               }
               id="idDeliveryMan"
               disabled={orderAssignationForm.isProcessingAssignation || deliveryMenList.error !== null}
+              aria-describedby="deliveryManInputDescription"
             >
               <option value={0} disabled>
                 {
@@ -64,15 +65,18 @@ export const AssignOrderSection: FC<AssignOrderSectionProps> = ({ idOrder }) => 
                 ))
               }
             </select>
+            <p className="sr-only" id="deliveryManInputDescription">Nombre del repartidor que entregará el pedido</p>
             <p className="error">Debe seleccionar un repartidor</p>
           </div>
 
           <div className="mt-5 flex justify-end">
             <PrimaryButton 
               disabled={orderAssignationForm.isProcessingAssignation || deliveryMenList.error !== null || idOrder === 0}
+              aria-describedby="assignOrderButtonDescription"
             >
               Enviar pedido
             </PrimaryButton>
+            <p className="sr-only" id="assignOrderButtonDescription">Mostrar ventana de confirmación de asignación de pedido</p>
           </div>
         </form>
       </section>

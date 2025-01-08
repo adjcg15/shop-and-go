@@ -37,7 +37,8 @@ export const PlaceAutocomplete:FC<PlaceAutocompleteProps> = ({ id, value, onPlac
   return (
     <div className="autocomplete-container">
       {value && <p><small>Dirección actual: {value}</small></p>}
-      <input id={id} ref={inputRef} disabled={disabled} placeholder={placeholder} /> {/* Añadir placeholder */}
+      <input id={id} ref={inputRef} disabled={disabled} placeholder={placeholder} aria-describedby="autocompleteInputDescription"/>
+      <p className="sr-only" id="autocompleteInputDescription">La dirección completa, con la ayuda del autocompletado de Google</p>
     </div>
   );
 }
