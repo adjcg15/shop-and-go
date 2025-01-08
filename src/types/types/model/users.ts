@@ -18,7 +18,13 @@ type Employee = {
   registrationDate: string;
 };
 
+type EmployeePosition = {
+  id: number;
+  title: string;
+}
+
 export type {
   Client,
-  Employee
+  Employee,
+  EmployeePosition
 };

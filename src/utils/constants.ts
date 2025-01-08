@@ -31,6 +31,7 @@ const ADMIN_ROUTES: (string | RegExp)[] = [
     "/empleados/sucursales/nueva",
     "/empleados/categorias",
     "/empleados/personal",
+    "/empleados/personal/nuevo",
     "/empleados/incidencias",
 ];
 
