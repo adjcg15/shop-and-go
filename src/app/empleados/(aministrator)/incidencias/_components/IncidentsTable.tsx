@@ -34,7 +34,12 @@ export const IncidentsTable: FC<IncidentsTableProps> = ({
                     onChange={toggleAllIncidentsToExport}
                     disabled={exportingIncidents}
                     className="peer"
+                    aria-describedby="selectAllIncidentsInputDescription"
                   />
+                  <p className="sr-only" id="selectAllIncidentsInputDescription">
+                    {incidents.length === incidentsToExport.length ? "Quitar la selección de " : "Seleccionar " } 
+                    todas las incidencias en la tabla
+                  </p>
               </label>
               </th>
               <th className="uppercase py-3 px-1 md:px-5">Creación</th>
@@ -54,7 +59,12 @@ export const IncidentsTable: FC<IncidentsTableProps> = ({
                       onChange={() => toggleIncidentToExport(incident.id)}
                       disabled={exportingIncidents}
                       className="peer"
+                      aria-describedby={`markIncidentInputDescription${incident.id}`}
                     />
+                    <p className="sr-only" id={`markIncidentInputDescription${incident.id}`}>
+                      {incidentsToExport.includes(incident.id) ? "Quitar la selección de " : "Seleccionar " } 
+                      la incidencia
+                    </p>
                   </label>
                 </td>
                 <td className="py-3 px-1 md:px-5">{ formatDDMMYYY(new Date(incident.creationDate)) }</td>

@@ -22,9 +22,11 @@ export const IncidentsTableControl: FC<IncidentsTableControlProps> = ({
         <PrimaryButton
           onClick={exportIncidentsToCSV}
           disabled={exportingIncidents || incidentsToExport.length === 0}
+          aria-describedby="exportIncidentsButtonDescription"
         >
           Exportar incidencias
         </PrimaryButton>
+        <p className="sr-only" id="exportIncidentsButtonDescription">Exportar la lista de incidencias seleccionada a un archivo CSV</p>
         <p className="mt-1 lg:mt-0  lg:ml-3">
           {
             incidentsToExport.length === incidentsLoaded
