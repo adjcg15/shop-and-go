@@ -14,7 +14,7 @@ const INITIAL_ORDERS_LIST_STATE = { loading: true, value: [], error: null };
 export function useOrdersToDeliverList() {
   const [ordersToDeliver, setOrdersToDeliver] = useState<OrdersToDeliverListState>(INITIAL_ORDERS_LIST_STATE);
 
-  const onOrderCanceled = useCallback((idOrder: number) => {
+  const onOrderRemoved = useCallback((idOrder: number) => {
     setOrdersToDeliver(previousOrders => ({
       ...previousOrders,
       value: previousOrders.value.filter(order => order.id !== idOrder)
@@ -42,6 +42,6 @@ export function useOrdersToDeliverList() {
   return {
     ordersToDeliver,
     recoverOrdersToDeliver,
-    onOrderCanceled
+    onOrderRemoved
   };
 }

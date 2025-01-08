@@ -12,7 +12,9 @@ enum EndpointContexts {
     CREATE_CLIENT = "CRCL",
     UPDATE_STORE = "USTR",
     CREATE_STORE = "CSTR",
-    CREATE_ORDER_TO_DELIVER = "COTD"
+    CREATE_ADDRESS = "CRAD",
+    CREATE_ORDER_TO_DELIVER = "COTD",
+    CREATE_EMPLOYEE = "CREM",
 }
 
 export { EndpointContexts };

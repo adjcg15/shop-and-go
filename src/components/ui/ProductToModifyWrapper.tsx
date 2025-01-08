@@ -1,5 +1,5 @@
 "use client";
-import { ProductForm } from "./ProductForm";
+import { ProductForm } from "../forms/ProductForm";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { useProductToModify } from "../../hooks/useProductToModify";
 

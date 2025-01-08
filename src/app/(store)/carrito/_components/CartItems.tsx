@@ -58,7 +58,7 @@ export const CartItems = ({ items }: CartItemsProps) => {
                   }
                   className="p-2 border border-gray-300 rounded-md w-48"
                   defaultValue={item.totalProducts}
-                  aria-describedby="quantity-selector-description"
+                  aria-describedby="quantitySelectorDescription"
                 >
                   {Array.from(
                     {
@@ -74,15 +74,22 @@ export const CartItems = ({ items }: CartItemsProps) => {
                     </option>
                   ))}
                 </select>
+                <p id="quantitySelectorDescription" className="sr-only">
+                  Seleccionar una de las opciones de cantidad deseada de ${item.product.name}
+                </p>
                 <button
                   onClick={() => onDelete(item.product.id)}
                   className="ml-auto p-2"
+                  aria-labelledby="deleteItemButtonDescription"
                 >
                   <FaTrashAlt
                     className="flex items-center justify-center text-xs sm:text-sm lg:text-base text-gray-800 hover:text-red-500 transition-opacity"
                     size={24}
                   />
                 </button>
+                <p id="deleteItemButtonDescription" className="sr-only">
+                  Eliminar producto del carrito de compras
+                </p>
               </div>
             </li>
           ))}

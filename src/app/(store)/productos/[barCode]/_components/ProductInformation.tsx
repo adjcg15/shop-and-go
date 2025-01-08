@@ -176,7 +176,7 @@ export const ProductInformation = () => {
                                 ref={quantityRef}
                                 className="p-2 border border-gray-300 rounded-md w-48"
                                 defaultValue={1}
-                                aria-describedby="quantity-selector-description"
+                                aria-describedby="quantitySelect"
                             >
                                 {Array.from(
                                     {
@@ -193,10 +193,15 @@ export const ProductInformation = () => {
                                     </option>
                                 ))}
                             </select>
+                            <p id="quantitySelect" className="sr-only">
+                                Selecciona la cantidad de productos {productWithStock.value.name} a agregar al
+                                carrito
+                            </p>
                         </section>
                         <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
                             <PrimaryButton
                                 onClick={handleAddToCart}
+                                aria-labelledby="addToCartButton"
                                 disabled={
                                     productWithStock.value.stock > 0
                                         ? false
@@ -208,6 +213,9 @@ export const ProductInformation = () => {
                                     <FaCartShopping className="ml-2" />
                                 </div>
                             </PrimaryButton>
+                            <p id="addToCartButton" className="sr-only">
+                                Agregar producto al carrito, si el producto ya está en carrito se reemplazarán las unidades con las seleccionadas
+                            </p>
                         </section>
                     </div>
                 </>

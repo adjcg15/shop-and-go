@@ -2,12 +2,12 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { usePaymentMethodForm } from "../_hooks/usePaymentMethodForm";
 import {
+    CARD_IS_VISA_OR_MASTERCARD,
     CVV_PATTERN,
     MONTH_PATTERN,
     ONLY_LETTERS_PATTERN,
     YEAR_PATTERN,
 } from "@/utils/regexp";
-import { useCallback } from "react";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export const PaymentMethodForm = () => {
@@ -16,30 +16,11 @@ export const PaymentMethodForm = () => {
         errors,
         handleSubmit,
         isLoadingRegister,
+        validateLuhn,
         handleIssuerChange,
         issuingBanks,
         issuerColor,
     } = usePaymentMethodForm();
-
-    const validateLuhn = useCallback((cardNumber: string) => {
-        let sum = 0;
-        let shouldDouble = false;
-        for (let i = cardNumber.length - 1; i >= 0; i--) {
-            let digit = parseInt(cardNumber[i], 10);
-
-            if (shouldDouble) {
-                digit *= 2;
-                if (digit > 9) {
-                    digit -= 9;
-                }
-            }
-
-            sum += digit;
-            shouldDouble = !shouldDouble;
-        }
-
-        return sum % 10 === 0;
-    }, []);
 
     return !issuingBanks.loading ? (
         !issuingBanks.error ? (
@@ -50,10 +31,14 @@ export const PaymentMethodForm = () => {
                             errors.cardholderName ? "invalid" : ""
                         }`}
                     >
-                        <label>Titular de la tarjeta</label>
+                        <label htmlFor="carholderName">
+                            Titular de la tarjeta
+                            <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                        </label>
                         <input
                             id="carholderName"
                             type="text"
+                            aria-labelledby="carholderNameInput"
                             placeholder="Ej. Rodrigo Aguilar López"
                             {...register("cardholderName", {
                                 required: true,
@@ -61,6 +46,9 @@ export const PaymentMethodForm = () => {
                                 pattern: ONLY_LETTERS_PATTERN,
                             })}
                         />
+                        <p className="sr-only" id="carholderNameInput">
+                            Nombre del titular de la tarjeta
+                        </p>
                         <p className="error">
                             Debe ingresar el nombre del titular
                         </p>
@@ -70,21 +58,27 @@ export const PaymentMethodForm = () => {
                             errors.cardNumber ? "invalid" : ""
                         }`}
                     >
-                        <label>Número de tarjeta</label>
+                        <label htmlFor="cardNumber">
+                            Número de tarjeta (Visa o Mastercard)
+                            <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                        </label>
                         <input
                             id="cardNumber"
                             type="text"
                             placeholder="Ej. 5474925432670366"
+                            aria-labelledby="cardNumberInput"
                             {...register("cardNumber", {
                                 required: true,
-                                minLength: 16,
-                                maxLength: 16,
+                                pattern: CARD_IS_VISA_OR_MASTERCARD,
                                 validate: (value) => validateLuhn(value),
                             })}
                         />
+                        <p className="sr-only" id="cardNumberInput">
+                            Número de tarjeta
+                        </p>
                         <p className="error">
                             Debe ingresar un número de tarjeta válido a 16
-                            dígitos
+                            dígitos (Visa o Mastercard)
                         </p>
                     </div>
                     <div
@@ -92,9 +86,13 @@ export const PaymentMethodForm = () => {
                             errors.bankIssuer ? "invalid" : ""
                         }`}
                     >
-                        <label>Banco emisor</label>
+                        <label htmlFor="bankIssuer">
+                            Banco emisor
+                            <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                        </label>
                         <select
                             id="bankIssuer"
+                            aria-labelledby="bankIssuerSelect"
                             defaultValue=""
                             className={`${
                                 errors.bankIssuer ? "border-red-600" : ""
@@ -117,6 +115,9 @@ export const PaymentMethodForm = () => {
                                 </option>
                             ))}
                         </select>
+                        <p className="sr-only" id="bankIssuerSelect">
+                            Seleccionar el Banco emisor del método de pago
+                        </p>
                         <p className="error">
                             Debe seleccionar un banco emisor
                         </p>
@@ -127,10 +128,14 @@ export const PaymentMethodForm = () => {
                                 errors.expirationMonth ? "invalid" : ""
                             }`}
                         >
-                            <label>Mes de vencimiento</label>
+                            <label htmlFor="expirationMonth">
+                                Mes de vencimiento
+                                <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                            </label>
                             <input
                                 id="expirationMonth"
                                 type="text"
+                                aria-labelledby="expirationMonthInput"
                                 placeholder="Ej. 06"
                                 className="w-full col-span-1"
                                 {...register("expirationMonth", {
@@ -140,17 +145,24 @@ export const PaymentMethodForm = () => {
                                     pattern: MONTH_PATTERN,
                                 })}
                             />
-                            <p className="error">Debe ingresar el mes</p>
+                            <p className="sr-only" id="expirationMonthInput">
+                                Mes de vencimiento del método de pago
+                            </p>
+                            <p className="error">Debe ingresar un mes válido</p>
                         </div>
                         <div
                             className={`col-span-1 form-group ${
                                 errors.expirationYear ? "invalid" : ""
                             }`}
                         >
-                            <label>Año de vencimiento</label>
+                            <label htmlFor="expirationYear">
+                                Año de vencimiento
+                                <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                            </label>
                             <input
                                 id="expirationYear"
                                 type="text"
+                                aria-labelledby="expirationYearInput"
                                 placeholder="Ej. 28"
                                 className="w-full col-span-1"
                                 {...register("expirationYear", {
@@ -160,14 +172,20 @@ export const PaymentMethodForm = () => {
                                     pattern: YEAR_PATTERN,
                                 })}
                             />
-                            <p className="error">Debe ingresar el año</p>
+                            <p className="sr-only" id="expirationYearInput">
+                                Año de vencimiento del método de pago
+                            </p>
+                            <p className="error">Debe ingresar un año válido</p>
                         </div>
                         <div
                             className={`form-group col-start-3 ${
                                 errors.cvv ? "invalid" : ""
                             }`}
                         >
-                            <label>CVV / CVC</label>
+                            <label htmlFor="cvv">
+                                CVV / CVC
+                                <abbr className="text-orange-600 no-underline" title="Requerido">*</abbr>
+                            </label>
                             <input
                                 id="cvv"
                                 type="text"
@@ -180,17 +198,23 @@ export const PaymentMethodForm = () => {
                                     pattern: CVV_PATTERN,
                                 })}
                             />
+                            <p className="sr-only" id="cvvInput">
+                                Código de seguridad (CVV) del método de pago
+                            </p>
                             <p className="error">
                                 Debe ingresar el CVV a 3 dígitos
                             </p>
                         </div>
                     </div>
                     <div className="flex justify-end mt-6">
-                        <PrimaryButton disabled={isLoadingRegister}>
+                        <PrimaryButton aria-describedby="registerCardButton" disabled={isLoadingRegister}>
                             {isLoadingRegister
                                 ? "Registrando..."
                                 : "Registrar tarjeta"}
                         </PrimaryButton>
+                        <p className="sr-only" id="registerCardButton">
+                            Registrar la tarjeta de crédito y esperar la respuesta del servidor
+                        </p>
                     </div>
                 </form>
             )

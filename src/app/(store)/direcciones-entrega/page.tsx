@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { AddressesListWrapper } from "./_components/AddressListWrapper";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Mis direcciones de entrega",
@@ -15,7 +16,12 @@ export default function AddressesPage() {
         </h1>
       </header>
       <div className="mt-6 w-full flex justify-end mb-8">
-        <PrimaryButton>Agregar dirección</PrimaryButton>
+        <Link href="/direcciones-entrega/nueva" aria-describedby="addNewAddressButton">
+          <PrimaryButton>Agregar dirección</PrimaryButton>
+        </Link>
+        <p id="addNewAddressButton" className="sr-only">
+          Redirige a página para agregar una nueva dirección de envío
+        </p>
       </div>
       <AddressesListWrapper />
     </div>

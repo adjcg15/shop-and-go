@@ -41,8 +41,11 @@ export const ProductsSearchbar = () => {
         className="mr-5"
         value={searchQuery}
         onChange={handleSearchQueryChange}
+        aria-describedby="searchbarInputDescription"
       />
-      <IconButton type="submit" title="Buscar productos">
+      <p className="sr-only" id="searchbarInputDescription">El nombre del producto que desea buscar, para así filtrarlos</p>
+      <p className="sr-only" id="searchbarButtonDescription">Aplicar el filtro de nombre de producto a la lista de productos</p>
+      <IconButton aria-labelledby="searchbarButtonDescription" type="submit" title="Buscar productos">
         <IoSearch />
       </IconButton>
     </form>

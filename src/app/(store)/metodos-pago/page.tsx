@@ -16,9 +16,12 @@ export default function PaymentMethodsPage() {
                 </h1>
             </header>
             <section className="col-start-4 mt-4 col-span-1 flex justify-end md:col-span-4">
-                <Link href="metodos-pago/nuevo">
+                <Link href="metodos-pago/nuevo" aria-labelledby="addPaymentMethodButton">
                     <PrimaryButton>Registrar otra tarjeta</PrimaryButton>
                 </Link>
+                <p className="sr-only" id="addPaymentMethodButton">
+                    Ir a la página de registro de nuevo método de pago
+                </p>
             </section>
             <section className="col-start-1 col-span-4 mt-2">
                 <PaymentMethodListWrapper />

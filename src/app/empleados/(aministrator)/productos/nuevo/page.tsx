@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { ProductForm } from "../../../../../components/ui/ProductForm";
+import { ProductForm } from "@/components/forms/ProductForm";
 
 export const metadata: Metadata = {
     title: "Registro de un nuevo producto",

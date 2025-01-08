@@ -1,4 +1,3 @@
-"use client";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -236,8 +235,9 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                     );
                     errorImage = dataResult.errorUploadImage;
                     imageUrl = dataResult.imageUrl;
+                } else {
+                    errorImage = errorDeleteImage;
                 }
-                errorImage = errorDeleteImage;
             } else {
                 const dataResult = await uploadImageToCloudinary(selectedFile);
                 errorImage = dataResult.errorUploadImage;
@@ -323,7 +323,7 @@ export function useProductForm(product?: Product, inventories?: Inventory[]) {
                         notificationInfo.title = "Categoría no encontrada";
                         notificationInfo.message =
                             "La categoría seleccionada no existe actualmente en el sistema";
-                        notificationInfo.type = NotificationTypes.WARNING;
+                        notificationInfo.type = NotificationTypes.ERROR;
                     }
                 }
 

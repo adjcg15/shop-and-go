@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useState } from "react";
-import { usePaymentMethods } from "../_hooks/usePaymentMethods";
+import { usePaymentMethods } from "../../../../hooks/usePaymentMethods";
 import { PaymentMethods } from "./PaymentMethod";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { PaymentMethod } from "@/types/types/model/payment_methods";

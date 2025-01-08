@@ -9,9 +9,10 @@ import { FC } from "react";
 type OrderToDeliverCardProps = {
   order: Order;
   startIncidentCreation: (idOrder: number) => void;
+  startDeliveryConfirmation: (idOrder: number) => void;
 };
 
-export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startIncidentCreation }) => {
+export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startIncidentCreation, startDeliveryConfirmation }) => {
   const purchaseDate = new Date(order.dateOfPurchase);
 
   return (
@@ -20,10 +21,19 @@ export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startInc
         <TernaryButton 
           onClick={() => startIncidentCreation(order.id)}
           className="w-full sm:w-auto text-red-600 hover:text-red-700 mt-3 sm:mt-0"
+          aria-describedby={`reportIncidentBtnDescription${order.id}`}
         >
           Reportar incidencia
         </TernaryButton>
-        <PrimaryButton className="w-full sm:w-auto lg:ml-3">Entregar</PrimaryButton>
+        <p className="sr-only" id={`reportIncidentBtnDescription${order.id}`}>Abrir la ventana para registrar un nuevo reporte de la incidencia</p>
+        <PrimaryButton 
+          aria-describedby="deliverOrderBtnDescription" 
+          className="w-full sm:w-auto lg:ml-3"
+          onClick={() => startDeliveryConfirmation(order.id)}
+        >
+          Entregar
+        </PrimaryButton>
+        <p className="sr-only" id="deliverOrderBtnDescription">Abrir la ventana de confirmación para marcar el pedido como entregado</p>
       </header>
 
       <main className="mt-5 lg:grid lg:grid-cols-2 lg:gap-10">

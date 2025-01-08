@@ -20,6 +20,7 @@ const CLIENT_ROUTES: (string | RegExp)[] = [
     new RegExp("^/productos/[^/]+$"),
     "/carrito",
     "/direcciones-entrega",
+    "/direcciones-entrega/nueva",
     "/mi-perfil",
 ];
 
@@ -31,6 +32,7 @@ const ADMIN_ROUTES: (string | RegExp)[] = [
     "/empleados/sucursales/nueva",
     "/empleados/categorias",
     "/empleados/personal",
+    "/empleados/personal/nuevo",
     "/empleados/incidencias",
 ];
 
