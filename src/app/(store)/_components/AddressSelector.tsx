@@ -14,6 +14,8 @@ import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { AddressForm } from "./AddressForm";
+import Link from "next/link";
+import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 
 export function AddressSelector() {
   const { clientProfile } = useContext(AuthContext);
@@ -91,6 +93,11 @@ export function AddressSelector() {
             primaryButtonText="Confirmar"
             secondaryButtonText="Cancelar"
           />
+          <div className="mt-5 sm:flex justify-end">
+            <Link href="/direcciones-entrega/nueva">
+              <PrimaryButton className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0">Agregar nueva dirección</PrimaryButton>
+            </Link>
+          </div>
         </>
       ) : (
         <ErrorBanner
