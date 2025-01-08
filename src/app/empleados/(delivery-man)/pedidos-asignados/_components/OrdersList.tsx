@@ -7,12 +7,14 @@ import { OrderToDeliverCard } from "./OrderToDeliverCard";
 import { OrderToDeliverCardSkeleton } from "./OrderToDeliverCardSkeleton";
 import { CreateIncidentModal } from "./CreateIncidentModal";
 import { useCreateIncident } from "../_hooks/useCreateIncident";
+import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
+import { useConfirmDelivery } from "../_hooks/useConfirmDelivery";
 
 export const OrdersList = () => {
   const {
     ordersToDeliver,
     recoverOrdersToDeliver,
-    onOrderCanceled
+    onOrderRemoved
   } = useOrdersToDeliverList();
 
   const {
@@ -20,7 +22,14 @@ export const OrdersList = () => {
     discardIncidentCreation,
     startIncidentCreation,
     incidentForm
-  } = useCreateIncident(onOrderCanceled);
+  } = useCreateIncident(onOrderRemoved);
+
+  const {
+    isConfirmingDelivery,
+    discardDeliveryConfirmation,
+    startDeliveryConfirmation,
+    deliverOrder
+  } = useConfirmDelivery(onOrderRemoved);
 
   useEffect(() => {
     recoverOrdersToDeliver();
@@ -58,6 +67,7 @@ export const OrdersList = () => {
                     ordersToDeliver.value.map(order => (
                       <li className="mb-4 lg:mb-0" key={order.id}>
                         <OrderToDeliverCard 
+                          startDeliveryConfirmation={startDeliveryConfirmation}
                           startIncidentCreation={startIncidentCreation}
                           order={order}
                         />
@@ -86,6 +96,15 @@ export const OrdersList = () => {
         isOpen={isCreatingIncident}
         handleCloseModal={discardIncidentCreation}
         formState={incidentForm}
+      />
+      <ConfirmationModal
+        isOpen={isConfirmingDelivery}
+        onClose={discardDeliveryConfirmation}
+        onConfirm={deliverOrder}
+        primaryButtonText="Confirmar entrega"
+        secondaryButtonText="Descartar"
+        title="Confirmar entrega"
+        message="¿Esta seguro que desea confirmar la entrega del pedido? Una vez entregado, este dejará de mostrarse en la lista"
       />
     </>
   );

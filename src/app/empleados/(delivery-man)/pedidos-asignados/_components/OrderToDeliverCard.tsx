@@ -9,9 +9,10 @@ import { FC } from "react";
 type OrderToDeliverCardProps = {
   order: Order;
   startIncidentCreation: (idOrder: number) => void;
+  startDeliveryConfirmation: (idOrder: number) => void;
 };
 
-export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startIncidentCreation }) => {
+export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startIncidentCreation, startDeliveryConfirmation }) => {
   const purchaseDate = new Date(order.dateOfPurchase);
 
   return (
@@ -25,7 +26,13 @@ export const OrderToDeliverCard:FC<OrderToDeliverCardProps> = ({ order, startInc
           Reportar incidencia
         </TernaryButton>
         <p className="sr-only" id={`reportIncidentBtnDescription${order.id}`}>Abrir la ventana para registrar un nuevo reporte de la incidencia</p>
-        <PrimaryButton aria-describedby="deliverOrderBtnDescription" className="w-full sm:w-auto lg:ml-3">Entregar</PrimaryButton>
+        <PrimaryButton 
+          aria-describedby="deliverOrderBtnDescription" 
+          className="w-full sm:w-auto lg:ml-3"
+          onClick={() => startDeliveryConfirmation(order.id)}
+        >
+          Entregar
+        </PrimaryButton>
         <p className="sr-only" id="deliverOrderBtnDescription">Abrir la ventana de confirmación para marcar el pedido como entregado</p>
       </header>
 
