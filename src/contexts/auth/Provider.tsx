@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactNode, useCallback, useEffect, useReducer, useState } from "react";
+import { FC, ReactNode, useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import Cookies from "js-cookie";
 import AuthContext from "./context";
 import UserRoles from "@/types/enums/user_roles";
@@ -10,9 +10,9 @@ import { AuthActionTypes } from "@/types/types/contexts/actions";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import shopAndGoAPI from "@/utils/axios";
 import { GetProfileResponse } from "@/types/types/api/auth";
-import { ADMIN_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, SALES_EXECUTIVE_ROUTES } from "@/utils/constants";
+import { ADMIN_ROUTES, CLIENT_ROUTES, DELIVERY_MAN_ROUTES, GUEST_ROUTES, SALES_EXECUTIVE_ROUTES } from "@/utils/constants";
 import { FullScreenLoader } from "@/components/ui/FullScreenLoader";
-import { getDefaultPageForRole } from "@/utils/routing";
+import { getDefaultPageForRole, isRouteInRoutesArray } from "@/utils/routing";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -30,7 +30,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  
+
+  const ROUTE_ROLE_MAP = useMemo(() => ({
+    [UserRoles.ADMINISTRATOR]: ADMIN_ROUTES,
+    [UserRoles.CLIENT]: CLIENT_ROUTES,
+    [UserRoles.SALES_EXECUTIVE]: SALES_EXECUTIVE_ROUTES,
+    [UserRoles.DELIVERY_MAN]: DELIVERY_MAN_ROUTES,
+    [UserRoles.GUEST]: GUEST_ROUTES,
+  }), []);
+
   const startSession= useCallback((profile: Client | Employee) => {
     if("position" in profile) {
       dispatch({ type: AuthActionTypes.START_EMPLOYEE_SESSION, payload: profile });
@@ -72,7 +80,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const isProtectedPage = 
       ADMIN_ROUTES.includes(pathname) || 
-      SALES_EXECUTIVE_ROUTES.includes(pathname) ||
+      isRouteInRoutesArray(pathname, SALES_EXECUTIVE_ROUTES) ||
       DELIVERY_MAN_ROUTES.includes(pathname) ||
       (CLIENT_ROUTES.includes(pathname) && Cookies.get("token"));
 
@@ -86,6 +94,21 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setIsLoadingProfile(false);
     }
   }, [pathname, state.clientProfile, state.employeeProfile, refreshSession]);
+
+  useEffect(() => {
+    const userRole = state.employeeProfile?.position || (state.clientProfile && UserRoles.CLIENT) || UserRoles.GUEST;
+    const allowedRoutes = ROUTE_ROLE_MAP[userRole] || [];
+    const isAllowedRoute = isRouteInRoutesArray(pathname, allowedRoutes);
+
+    if(!isAllowedRoute && !isLoadingProfile) {
+      if(userRole === UserRoles.GUEST) {
+        const login = `/iniciar-sesion?p=${pathname}`;
+        router.replace(login);
+      }
+
+      router.replace(getDefaultPageForRole(userRole));
+    }
+  }, [state.employeeProfile, state.clientProfile, pathname, ROUTE_ROLE_MAP, router, isLoadingProfile]);
 
   const updateClientProfile = useCallback((profile: Client) => {
     dispatch({ type: AuthActionTypes.UPDATE_CLIENT_PROFILE, payload: profile });
