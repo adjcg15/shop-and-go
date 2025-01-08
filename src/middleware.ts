@@ -9,7 +9,7 @@ import {
 } from "./utils/constants";
 import { CustomPayload } from "./types/types/api/jwt";
 import UserRoles from "./types/enums/user_roles";
-import { getDefaultPageForRole } from "./utils/routing";
+import { getDefaultPageForRole, isRouteInRoutesArray } from "./utils/routing";
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value ?? "";
@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
 
     const userRole = jwtPayload?.userRole || UserRoles.GUEST;
     const allowedRoutes = ROUTE_ROLE_MAP[userRole] || [];
-    const isAllowedRoute = allowedRoutes.includes(requestedPage);
+    const isAllowedRoute = isRouteInRoutesArray(requestedPage, allowedRoutes);
     if (!isAllowedRoute) {
         if (userRole === UserRoles.GUEST) {
             const login = new URL(
@@ -82,6 +82,7 @@ export const config = {
         "/empleados/pedidos-asignados",
         // Sales executive routes
         "/empleados/pedidos",
+        "/empleados/pedidos/:path",
         "/empleados/productos-en-tienda",
     ],
 };
