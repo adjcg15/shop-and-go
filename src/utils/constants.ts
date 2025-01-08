@@ -6,7 +6,7 @@ const GUEST_ROUTES: (string | RegExp)[] = [
     "/crear-cuenta",
     "/recuperar-contrasenia",
     "/catalogo",
-    new RegExp("^\/productos\/[^\/]+$"),
+    new RegExp("^/productos/[^/]+$"),
     "/carrito",
 ];
 
@@ -17,7 +17,7 @@ const CLIENT_ROUTES: (string | RegExp)[] = [
     "/clientes/pedidos",
     "/confirmar-pedido",
     "/catalogo",
-    new RegExp("^\/productos\/[^\/]+$"),
+    new RegExp("^/productos/[^/]+$"),
     "/carrito",
     "/direcciones-entrega",
     "/mi-perfil",
@@ -25,7 +25,7 @@ const CLIENT_ROUTES: (string | RegExp)[] = [
 
 const ADMIN_ROUTES: (string | RegExp)[] = [
     "/empleados/productos",
-    new RegExp("^\/empleados\/productos\/[^\/]+$"),
+    new RegExp("^/empleados/productos/[^/]+$"),
     "/empleados/productos/nuevo",
     "/empleados/sucursales",
     "/empleados/sucursales/nueva",
@@ -34,14 +34,19 @@ const ADMIN_ROUTES: (string | RegExp)[] = [
     "/empleados/incidencias",
 ];
 
-const SALES_EXECUTIVE_ROUTES: string[] = [
+const SALES_EXECUTIVE_ROUTES: (string | RegExp)[] = [
     "/empleados/pedidos",
     "/empleados/productos-en-tienda",
+    new RegExp("^/empleados/productos-en-tienda/[^/]+$"),
+    "/empleados/productos-en-tienda/nuevo",
 ];
 
 const DELIVERY_MAN_ROUTES: string[] = ["/empleados/pedidos-asignados"];
 
-const NEAREST_STORE_CHECK_ROUTES: string[] = ["/catalogo"];
+const NEAREST_STORE_CHECK_ROUTES: (string | RegExp)[] = [
+    "/catalogo",
+    new RegExp("^/productos/[^/]+$"),
+];
 
 const DEFAULT_PRODUCT_CATEGORY: ProductCategory = {
     id: 0,

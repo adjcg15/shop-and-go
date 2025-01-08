@@ -85,5 +85,7 @@ export const config = {
         "/empleados/pedidos",
         "/empleados/pedidos/:path",
         "/empleados/productos-en-tienda",
+        "/empleados/productos-en-tienda/:path",
+        "/empleados/productos-en-tienda/nuevo",
     ],
 };
