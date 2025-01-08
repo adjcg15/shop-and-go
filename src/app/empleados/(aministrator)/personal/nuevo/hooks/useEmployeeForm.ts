@@ -1,5 +1,5 @@
 "use client";
-import { CreateClientErrorCodes, CreateEmployeeErrorCodes } from "@/types/enums/error_codes";
+import { CreateEmployeeErrorCodes } from "@/types/enums/error_codes";
 import { HttpStatusCodes } from "@/types/enums/http";
 import { NotificationTypes } from "@/types/enums/notifications";
 import { NotificationInfo } from "@/types/types/components/notifications";
