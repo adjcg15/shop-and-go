@@ -94,9 +94,12 @@ export function AddressSelector() {
             secondaryButtonText="Cancelar"
           />
           <div className="mt-5 sm:flex justify-end">
-            <Link href="/direcciones-entrega/nueva">
+            <Link href="/direcciones-entrega/nueva" aria-describedby="addAddressButtonDescription">
               <PrimaryButton className="block sm:inline-block w-full sm:w-auto mt-3 sm:mt-0">Agregar nueva dirección</PrimaryButton>
             </Link>
+            <p className="sr-only" id="addAddressButtonDescription">
+              Redirige a la página de registro de una nueva dirección de entrega
+            </p>
           </div>
         </>
       ) : (

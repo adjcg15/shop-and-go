@@ -51,7 +51,11 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
         !productCategories.error && !stores.error ? (
             <form onSubmit={handleSubmit} className="w-full">
                 <div className="mt-5 ">
-                    <label htmlFor="barCode">Código de barras</label>
+                    <label htmlFor="barCode">Código de barras
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
+                    </label>
                     <div
                         className={`form-group mt-0 grid grid-cols-[1fr_auto] gap-x-2 ${
                             errors.barCode ? "invalid" : ""
@@ -63,6 +67,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             defaultValue={product ? product.barCode : ""}
                             disabled={product ? true : false}
                             placeholder="Ej. 1234567890123"
+                            aria-labelledby="barCodeInput"
                             {...register("barCode", {
                                 required: true,
                                 maxLength: 13,
@@ -73,14 +78,24 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                 product ? "text-gray-400" : ""
                             }`}
                         />
+                        <p id="barCodeInput" className="sr-only">
+                            Nuevo código de barras del producto
+                        </p>
                         <SecondaryButton
                             className="w-min sm:w-fit"
                             type="button"
+                            aria-labelledby="generateBarCodeButton"
                             disabled={product ? true : false}
                             onClick={getGenerateCode}
                         >
                             Generar código
                         </SecondaryButton>
+                        <p
+                            id="generateBarCodeButton"
+                            className="sr-only"
+                        >
+                            Generar un código de barras aleatorio para el producto
+                        </p>
                         <p className="error col-span-1">
                             Debe ingresar el código de barras a 13 dígitos
                             (número entero)
@@ -89,7 +104,11 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                 </div>
                 {product && (
                     <div className="form-group">
-                        <label htmlFor="active">Estado del producto</label>
+                        <label htmlFor="active">Estado del producto
+                            <abbr className="text-orange-600 no-underline" title="Requerido">
+                                *
+                            </abbr>
+                        </label>
                         <br />
                         <div className="mt-1 space-x-6">
                             <label>
@@ -97,11 +116,13 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                     id="active"
                                     type="radio"
                                     value="activo"
+                                    aria-labelledby="activeRadioButton"
                                     checked={
                                         selectedOptionProductState === "activo"
                                     }
                                     onChange={handleProductStateChange}
                                 />
+                                <p id="activeRadioButton">Desactivar producto</p>
                                 Activo
                             </label>
                             <label htmlFor="inactive">
@@ -109,22 +130,29 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                                     id="inactive"
                                     type="radio"
                                     value="inactivo"
+                                    aria-labelledby="inactive"
                                     checked={
                                         selectedOptionProductState ===
                                         "inactivo"
                                     }
                                     onChange={handleProductStateChange}
                                 />
+                                <p id="activeRadioButton">Activar producto</p>
                                 Inactivo
                             </label>
                         </div>
                     </div>
                 )}
                 <div className={`form-group ${errors.name ? "invalid" : ""}`}>
-                    <label htmlFor="name">Nombre del producto</label>
+                    <label htmlFor="name">Nombre del producto
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
+                    </label>
                     <input
                         id="name"
                         type="text"
+                        aria-labelledby="nameInput"
                         placeholder="Ej. Leche deslactosada 1L"
                         defaultValue={product ? product.name : ""}
                         {...register("name", {
@@ -132,6 +160,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             maxLength: 255,
                         })}
                     />
+                    <p id="nameInput" className="sr-only">
+                        Nuevo nombre del producto
+                    </p>
                     <p className="error">
                         Debe ingresar el nombre del producto
                     </p>
@@ -141,7 +172,11 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         errors.description ? "invalid" : ""
                     }`}
                 >
-                    <label htmlFor="description">Descripción</label>
+                    <label htmlFor="description">Descripción
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
+                    </label>
                     <textarea
                         id="description"
                         placeholder="Ej. Producto 100% de vaca, obtenida de manera artesanal..."
@@ -150,10 +185,14 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             errors.description ? "border-red-600" : ""
                         }`}
                         rows={5}
+                        aria-labelledby="descriptionInput"
                         {...register("description", {
                             required: true,
                         })}
                     />
+                    <p id="descriptionInput" className="sr-only">
+                        Nueva descripción del producto
+                    </p>
                     <p className="error">
                         Debe ingresar la descripción del producto
                     </p>
@@ -165,16 +204,23 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                 >
                     <label htmlFor="image">
                         Fotografía del producto (.png, .jpeg, .jpg, .webp)
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
                     </label>
                     <input
                         id="image"
                         type="file"
+                        aria-labelledby="imageInput"
                         accept="image/*"
                         {...register("image", {
                             required: !product,
                             onChange: (e) => handleImageChange(e),
                         })}
                     />
+                    <p id="imageInput" className="sr-only">
+                        Nueva fotografía del producto
+                    </p>
                     {product && (
                         <p>
                             **Seleccione una imagen si desea cambiarla, caso
@@ -186,7 +232,11 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     )}
                 </div>
                 <div className="mt-5">
-                    <label htmlFor="salePrice">Precio de venta</label>
+                    <label htmlFor="salePrice">Precio de venta
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
+                    </label>
                     <div
                         className={`mt-0 form-group grid grid-cols-[auto_1fr] ${
                             errors.salePrice ? "invalid" : ""
@@ -196,6 +246,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                         <input
                             id="salePrice"
                             type="number"
+                            aria-labelledby="salePriceInput"
                             step="any"
                             placeholder="Ej. 74.5"
                             defaultValue={product ? product.salePrice : ""}
@@ -204,6 +255,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             })}
                             className="w-max"
                         />
+                        <p id="salePriceInput" className="sr-only">
+                            Nuevo precio de venta del producto
+                        </p>
                         <p className="error col-start-2 col-span-1">
                             Debe ingresar el precio de venta
                         </p>
@@ -216,16 +270,23 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                 >
                     <label htmlFor="maximumAmount">
                         Cantidad máxima en compra
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
                     </label>
                     <input
                         id="maximumAmount"
                         type="number"
+                        aria-labelledby="maximumAmountInput"
                         placeholder="Ej. 20"
                         defaultValue={product ? product.maximumAmount : ""}
                         {...register("maximumAmount", {
                             required: true,
                         })}
                     />
+                    <p id="maximumAmountInput" className="sr-only">
+                        Nueva cantidad máxima de compra del producto
+                    </p>
                     <p className="error">
                         Debe ingresar la cantidad máxima de compra
                     </p>
@@ -237,9 +298,13 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                 >
                     <label htmlFor="productCategory">
                         Categoría del producto
+                        <abbr className="text-orange-600 no-underline" title="Requerido">
+                            *
+                        </abbr>
                     </label>
                     <select
                         id="productCategory"
+                        aria-labelledby="productCategoryInput"
                         defaultValue={product ? product.idCategory : ""}
                         className={`${
                             errors.productCategory ? "border-red-600" : ""
@@ -262,6 +327,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             </option>
                         ))}
                     </select>
+                    <p id="productCategoryInput" className="sr-only">
+                        Nueva categoría del producto
+                    </p>
                     <p className="error">
                         Debe seleccionar una categoría de producto
                     </p>
@@ -312,7 +380,7 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                     ))}
                 </div>
                 <div className="flex justify-end mt-6">
-                    <PrimaryButton disabled={isLoadingRegister}>
+                    <PrimaryButton disabled={isLoadingRegister} aria-labelledby="registerProductButton">
                         {isLoadingRegister
                             ? product
                                 ? "Actualizando..."
@@ -321,6 +389,9 @@ export const ProductForm: FC<ProductProps> = ({ product, inventories }) => {
                             ? "Actualizar Producto"
                             : "Registrar producto"}
                     </PrimaryButton>
+                    <p id="registerProductButton" className="sr-only">
+                        Guardar información del producto
+                    </p>
                 </div>
             </form>
         ) : (

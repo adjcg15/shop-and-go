@@ -44,9 +44,13 @@ export const PaymentMethods: FC<PaymentMethodsProps> = ({
                         <button
                             className="flex items-center justify-center text-gray-800 hover:text-red-500"
                             onClick={() => onDelete(method)}
+                            aria-describedby="deletePaymentMethodButton"
                         >
                             <FaTrashAlt />
                         </button>
+                        <p className="sr-only" id="deletePaymentMethodButton">
+                            Mostrar modal de confirmación para eliminar método de pago con terminación {method.endCardNumber}
+                        </p>
                     </li>
                 </ul>
             ))}

@@ -16,9 +16,12 @@ export default function AddressesPage() {
         </h1>
       </header>
       <div className="mt-6 w-full flex justify-end mb-8">
-        <Link href="/direcciones-entrega/nueva">
+        <Link href="/direcciones-entrega/nueva" aria-describedby="addNewAddressButton">
           <PrimaryButton>Agregar dirección</PrimaryButton>
         </Link>
+        <p id="addNewAddressButton" className="sr-only">
+          Redirige a página para agregar una nueva dirección de envío
+        </p>
       </div>
       <AddressesListWrapper />
     </div>
