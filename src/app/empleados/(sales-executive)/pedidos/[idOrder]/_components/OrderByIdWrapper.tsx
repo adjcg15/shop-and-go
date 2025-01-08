@@ -67,7 +67,7 @@ export const OrderByIdWrapper: FC<OrderByIdWrapperProps> = ({ idOrder }) => {
           ? <OrderInformationSkeleton/>
           : <OrderInformation order={order.value!}/>
         }
-        <AssignOrderSection/>
+        <AssignOrderSection idOrder={order.value?.id || 0}/>
       </div>
     )
   );
