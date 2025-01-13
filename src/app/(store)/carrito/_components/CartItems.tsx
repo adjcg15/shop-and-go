@@ -31,32 +31,33 @@ export const CartItems = ({ items }: CartItemsProps) => {
           {items.map((item) => (
             <li
               key={item.product.id}
-              className="flex items-center justify-between pb-2"
+              className="flex flex-col sm:flex-row items-center justify-between pb-2"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
                 <Image
                   src={item.product.imageUrl}
                   alt={`Imagen del producto ${item.product.name}`}
-                  width={200}
-                  height={200}
-                  className="object-contain"
+                  width={100}
+                  height={100}
+                  className="object-contain w-full sm:w-auto"
+                  sizes="(max-width: 640px) 100vw, 100px"
                 />
-                <div>
-                  <h2>{item.product.name}</h2>
-                  <p className="font-bold text-orange-500 mt-6">
+                <div className="text-center sm:text-left">
+                  <h2 className="text-sm sm:text-base">{item.product.name}</h2>
+                  <p className="font-bold text-orange-500 mt-2 sm:mt-6">
                     {formatMXNCurrency(
                       item.product.salePrice * item.totalProducts
                     )}
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mt-4 sm:mt-0">
                 <select
                   id={`quantity-selector-${item.product.id}`}
                   onChange={(event) =>
                     handleQuantityChange(item, parseInt(event.target.value))
                   }
-                  className="p-2 border border-gray-300 rounded-md w-48"
+                  className="p-2 border border-gray-300 rounded-md w-full sm:w-24 md:w-32 lg:w-48"
                   defaultValue={item.totalProducts}
                   aria-describedby="quantitySelectorDescription"
                 >
